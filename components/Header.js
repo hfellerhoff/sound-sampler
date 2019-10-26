@@ -22,7 +22,6 @@ export default Header;
 
 const baseHeaderHeight = 60;
 const statusBarHeight = STATUS_BAR_HEIGHT;
-const settingsSize = baseHeaderHeight / 2;
 const styles = StyleSheet.create({
 	statusBar: {
 		marginTop: -statusBarHeight,

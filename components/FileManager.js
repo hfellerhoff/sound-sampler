@@ -50,7 +50,7 @@ const FileManager = (props) => {
 	useEffect(() => {
 		const newFiles = makeFileList(FileSystem.documentDirectory);
 		console.log(newFiles);
-		setFiles(newFiles);
+		setFiles(DUMMY_FILES);
 	}, []);
 
 	// useEffect(() =>

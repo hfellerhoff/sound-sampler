@@ -2,9 +2,7 @@ import React from 'react';
 
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { SCREEN_WIDTH } from '../constants/Sizes';
-
-const audio = require('../assets/ios-icons/audio-wave.png');
-const folder = require('../assets/ios-icons/folder.png');
+import { folder, audio } from '../constants/Icons';
 
 const FileCard = ({ file }) => {
 	const { uri, name, isDirectory } = file;

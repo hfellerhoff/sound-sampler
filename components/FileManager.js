@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Platform } from "react-native";
 import FileDisplay from "./FileDisplay";
 import { DUMMY_FILES } from "../constants/Dummy";
 import * as FileSystem from "expo-file-system";
@@ -23,6 +24,7 @@ const FileManager = props => {
   const makeFileList = async (
     uri //Default uri is 'FileSystem.documentDirectory'
   ) => {
+    //TEST DATA, DELETE
     await FileSystem.downloadAsync(
       "http://techslides.com/demos/sample-videos/small.mp4",
       FileSystem.documentDirectory + "small.mp4"
@@ -61,13 +63,31 @@ const FileManager = props => {
     updateFiles();
   }, []);
 
-  // useEffect(() =>
-  // {
-  // 	if(!isRecording)
-  // 	{
-  // 		pullCache();
-  // 	}
-  // }, [props.isRecording]);
+  const pullCache = async () => {
+    //DELETE TEST DATA
+
+    await FileSystem.downloadAsync(
+      "http://techslides.com/demos/sample-videos/small.mp4",
+      FileSystem.cacheDirectory + "testCache.mp4"
+    );
+
+    // FileSystem.deleteAsync(FileSystem.documentDirectory + "testCache.mp4");
+
+    const audioDirectoryName = Platform.OS === "ios" ? "AV" : "Audio";
+    const directoryName = FileSystem.cacheDirectory + audioDirectoryName;
+
+    await FileSystem.readDirectoryAsync(directoryName).then(data => {
+      data.forEach(file => {
+        moveFile(directoryName + file, FileSystem.documentDirectory);
+      });
+    });
+  };
+
+  useEffect(() => {
+    if (!props.isRecording) {
+      pullCache();
+    }
+  }, [props.isRecording]);
 
   return (
     <FileDisplay files={files} getDirectory={getDirectory} getFile={getFile} />

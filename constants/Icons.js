@@ -8,3 +8,10 @@ export const folder =
 	Platform.OS === 'ios'
 		? require('../assets/ios-icons/folder-ios.png')
 		: require('../assets/android-icons/folder-android.png');
+
+const Icons = {
+	audio: audio,
+	folder: folder
+};
+
+export default Icons;

@@ -5,14 +5,14 @@ import { SCREEN_WIDTH } from '../constants/Sizes';
 import Icons from '../constants/Icons';
 import Colors from '../constants/Colors';
 
-const FileCard = ({ file }) => {
+const FileCard = ({ file, style }) => {
 	const { uri, name, isDirectory } = file;
 
 	const borderColor = isDirectory ? Colors.primary : Colors.gray;
 	const image = isDirectory ? Icons.folder : Icons.audio;
 
 	return (
-		<View>
+		<View style={style}>
 			<TouchableOpacity
 				onPress={() => alert(`File Name: ${name}, File URI: ${uri}, isDirectory: ${isDirectory}`)}
 			>

@@ -7,13 +7,23 @@ import FileCard from './FileCard';
 const FileDisplay = (props) => {
 	const { files } = props;
 
-	const getPageContent = () => {
+	const getCard = (item, index) => {
+		let bottomStyle = {};
+		if (files.length - 1 === index) {
+			if (isiPhoneX()) bottomStyle = { marginBottom: 204 };
+			else if (Platform.OS === 'ios') bottomStyle = { marginBottom: 180 };
+			else bottomStyle = { marginBottom: 190 };
+		}
+		return <FileCard style={bottomStyle} file={item} />;
+	};
+
+	const getPageContent = (item, index) => {
 		if (files.length > 0) {
 			return (
 				<FlatList
 					style={styles.list}
 					data={files}
-					renderItem={({ item }) => <FileCard file={item} />}
+					renderItem={({ item, index }) => getCard(item, index)}
 					keyExtractor={(file) => file.uri}
 				/>
 			);

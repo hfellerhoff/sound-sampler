@@ -17,8 +17,27 @@ export default function App() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: '#ddd',
 		alignItems: 'center',
 		justifyContent: 'center'
+	},
+	border: {
+		position: 'absolute',
+		bottom: 20,
+		width: 75,
+		height: 75,
+		borderColor: 'gray',
+		borderWidth: 3,
+		borderRadius: 40,
+		alignItems: 'center',
+		justifyContent: 'center',
+		transform: [ { translateX: -(75 / 2) } ]
+	},
+
+	button: {
+		width: 60,
+		height: 60,
+		backgroundColor: 'red',
+		borderRadius: 30
 	}
 });

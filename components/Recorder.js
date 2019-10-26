@@ -5,7 +5,7 @@ const Recorder = (props) => {
 	const { isRecording, setIsRecording } = props;
 	const onStartRecord = () => setIsRecording(!isRecording);
 
-	return <RecorderDisplay onPress={onStartRecord} />;
+	return <RecorderDisplay isRecording={isRecording} onPress={onStartRecord} />;
 };
 
 export default Recorder;

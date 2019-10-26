@@ -6,11 +6,13 @@ import { DUMMY_FILES } from '../constants/Dummy';
 import FileCard from './FileCard';
 
 const FileDisplay = (props) => {
+	const { files } = props;
+
 	return (
 		<View styles={styles.container}>
 			<FlatList
 				style={styles.list}
-				data={DUMMY_FILES}
+				data={files}
 				renderItem={({ item }) => <FileCard file={item} />}
 				keyExtractor={(file) => file.uri}
 			/>

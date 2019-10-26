@@ -20,13 +20,12 @@ const FileDisplay = (props) => {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		backgroundColor: 'blue'
+		flex: 1
 	},
 	list: {
-		marginTop: getStatusBarHeight() + 10,
 		flex: 1,
-		width: SCREEN_WIDTH
+		width: SCREEN_WIDTH,
+		marginTop: 0
 	}
 });
 

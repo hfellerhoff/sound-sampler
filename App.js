@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import FileManager from './components/FileManager';
 import Recorder from './components/Recorder';
+import Header from './components/Header';
 
 export default function App() {
 	const [ isRecording, setIsRecording ] = useState(false);
 
 	return (
 		<View style={styles.container}>
+			<Header title="Files" />
 			<FileManager isRecording={isRecording} />
 			<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
 		</View>
@@ -17,7 +19,8 @@ export default function App() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#ddd',
+		flexDirection: 'column',
+		backgroundColor: '#eee',
 		alignItems: 'center',
 		justifyContent: 'center'
 	},

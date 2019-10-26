@@ -39,7 +39,7 @@ const RecordingButton = (props) => {
 const styles = StyleSheet.create({
 	border: {
 		position: 'absolute',
-		bottom: BOTTOM_BAR_HEIGHT * 2 + 80 + (Platform.OS === 'android' ? 10 : 0),
+		bottom: BOTTOM_BAR_HEIGHT * 2 + 90 + (Platform.OS === 'android' ? 10 : 0),
 		width: 75,
 		height: 75,
 		borderColor: 'gray',

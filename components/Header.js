@@ -26,7 +26,7 @@ const settingsSize = baseHeaderHeight / 2;
 const styles = StyleSheet.create({
 	statusBar: {
 		marginTop: -statusBarHeight,
-		height: statusBarHeight + 70
+		height: statusBarHeight + 70 + (Platform.OS === 'android' ? 10 : 0)
 	},
 	container: {
 		marginTop: Platform.OS === 'android' ? 24 : 0,

@@ -15,10 +15,7 @@ const FileCard = ({ file }) => {
 	return (
 		<View>
 			<TouchableOpacity
-				onPress={() =>
-					alert(
-						`File Name: ${name}, File URI: ${uri}, isDirectory: ${isDirectory}, borderColor: ${borderColor} `
-					)}
+				onPress={() => alert(`File Name: ${name}, File URI: ${uri}, isDirectory: ${isDirectory}`)}
 			>
 				<View style={[ styles.item, { borderColor: borderColor } ]}>
 					<Image source={image} style={styles.image} />

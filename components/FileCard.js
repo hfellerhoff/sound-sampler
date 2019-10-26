@@ -2,15 +2,14 @@ import React from 'react';
 
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { SCREEN_WIDTH } from '../constants/Sizes';
-
-const audio = require('../assets/ios-icons/audio-wave.png');
-const folder = require('../assets/ios-icons/folder.png');
+import Icons from '../constants/Icons';
+import Colors from '../constants/Colors';
 
 const FileCard = ({ file }) => {
 	const { uri, name, isDirectory } = file;
 
-	const borderColor = isDirectory ? 'blue' : 'gray';
-	const image = isDirectory ? folder : audio;
+	const borderColor = isDirectory ? Colors.primary : Colors.gray;
+	const image = isDirectory ? Icons.folder : Icons.audio;
 
 	return (
 		<View>

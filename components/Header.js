@@ -2,12 +2,13 @@ import React from 'react';
 
 import { View, Text, StyleSheet, SafeAreaView, Platform } from 'react-native';
 import { STATUS_BAR_HEIGHT, SCREEN_WIDTH } from '../constants/Sizes';
+import Colors from '../constants/Colors';
 
 const Header = ({ title }) => {
 	return (
 		<SafeAreaView style={styles.container}>
-			<View style={{ ...styles.statusBar, backgroundColor: 'blue' }} />
-			<View style={{ backgroundColor: 'blue' }}>
+			<View style={styles.statusBar} />
+			<View style={{ backgroundColor: Colors.primary }}>
 				<View style={styles.header}>
 					<View style={styles.titleContainer}>
 						<Text style={styles.title}>{title}</Text>
@@ -22,11 +23,11 @@ export default Header;
 
 const baseHeaderHeight = 60;
 const statusBarHeight = STATUS_BAR_HEIGHT;
-const settingsSize = baseHeaderHeight / 2;
 const styles = StyleSheet.create({
 	statusBar: {
 		marginTop: -statusBarHeight,
-		height: statusBarHeight + 70
+		height: statusBarHeight + 70 + (Platform.OS === 'android' ? 10 : 0),
+		backgroundColor: Colors.primary
 	},
 	container: {
 		marginTop: Platform.OS === 'android' ? 24 : 0,

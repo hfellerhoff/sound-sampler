@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import FileDisplay from "./FileDisplay";
 import { DUMMY_FILES } from "../constants/Dummy";
+import * as FileSystem from "expo-file-system";
 
 const FileManager = props => {
-  const [files, setFiles] = useState(DUMMY_FILES);
+  const [files, setFiles] = useState([]);
 
   const getDirectory = uri => {
     //Need to check to make sure URI is a valid directory
@@ -22,12 +23,19 @@ const FileManager = props => {
   const makeFileList = async (
     uri //Default uri is 'FileSystem.documentDirectory'
   ) => {
+    await FileSystem.downloadAsync(
+      "http://techslides.com/demos/sample-videos/small.mp4",
+      FileSystem.documentDirectory + "small.mp4"
+    );
+
     let tempData = [];
     await FileSystem.readDirectoryAsync(uri).then(data => {
       data.forEach(file => {
         tempData.push({
           name: file,
-          uri: FileSystem.documentDirectory + file
+          uri: FileSystem.documentDirectory + file,
+          isDirectory: false,
+          children: []
           //Eventually add isDirectory
         });
       });
@@ -43,8 +51,14 @@ const FileManager = props => {
     await FileSystem.moveAsync(options);
   };
 
+  const updateFiles = async () => {
+    await makeFileList(FileSystem.documentDirectory)
+      .then(newFiles => setFiles(newFiles))
+      .catch(error => alert(error));
+  };
+
   useEffect(() => {
-    setFiles(makeFileList(FileSystem.documentDirectory));
+    updateFiles();
   }, []);
 
   // useEffect(() =>

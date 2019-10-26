@@ -3,7 +3,7 @@ import RecorderDisplay from './RecorderDisplay';
 
 const Recorder = (props) => {
 	const { isRecording, setIsRecording } = props;
-	const onStartRecord = setIsRecording(!isRecording);
+	const onStartRecord = () => setIsRecording(!isRecording);
 
 	return <RecorderDisplay onPress={onStartRecord} />;
 };

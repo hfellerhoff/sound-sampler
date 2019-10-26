@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { SCREEN_WIDTH } from '../constants/Sizes';
 
 const audio = require('../assets/ios-icons/audio-wave.png');
 const folder = require('../assets/ios-icons/folder.png');
@@ -14,10 +15,7 @@ const FileCard = ({ file }) => {
 	return (
 		<View>
 			<TouchableOpacity
-				onPress={() =>
-					alert(
-						`File Name: ${name}, File URI: ${uri}, isDirectory: ${isDirectory}, borderColor: ${borderColor} `
-					)}
+				onPress={() => alert(`File Name: ${name}, File URI: ${uri}, isDirectory: ${isDirectory}`)}
 			>
 				<View style={[ styles.item, { borderColor: borderColor } ]}>
 					<Image source={image} style={styles.image} />
@@ -32,8 +30,8 @@ const styles = StyleSheet.create({
 	item: {
 		height: 'auto',
 		padding: 10,
-		marginBottom: 10,
-		width: '90%',
+		marginTop: 10,
+		width: SCREEN_WIDTH - 20,
 		backgroundColor: '#fff',
 		elevation: 3,
 		shadowColor: 'black',
@@ -47,7 +45,9 @@ const styles = StyleSheet.create({
 		flexDirection: 'row'
 	},
 	itemText: {
-		marginLeft: 10
+		marginLeft: 10,
+		flex: 1,
+		alignSelf: 'center'
 	},
 	image: {
 		height: 20,

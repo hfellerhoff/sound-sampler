@@ -6,11 +6,13 @@ import { DUMMY_FILES } from '../constants/Dummy';
 import FileCard from './FileCard';
 
 const FileDisplay = (props) => {
+	const { files } = props;
+
 	return (
 		<View styles={styles.container}>
 			<FlatList
 				style={styles.list}
-				data={DUMMY_FILES}
+				data={files}
 				renderItem={({ item }) => <FileCard file={item} />}
 				keyExtractor={(file) => file.uri}
 			/>
@@ -20,13 +22,12 @@ const FileDisplay = (props) => {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		backgroundColor: 'blue'
+		flex: 1
 	},
 	list: {
-		marginTop: getStatusBarHeight() + 10,
 		flex: 1,
-		width: SCREEN_WIDTH
+		width: SCREEN_WIDTH,
+		marginTop: 0
 	}
 });
 

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import FileDisplay from './FileDisplay';
+import { DUMMY_FILES } from '../constants/Dummy';
 
 const FileManager = (props) => {
-	const [ files, setFiles ] = useState([]);
+	const [ files, setFiles ] = useState(DUMMY_FILES);
 
 	const getDirectory = (uri) => {
 		//Need to check to make sure URI is a valid directory

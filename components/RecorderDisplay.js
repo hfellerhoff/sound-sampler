@@ -2,7 +2,7 @@ import React from 'react';
 import Animated, { Easing } from 'react-native-reanimated';
 import { bInterpolate, useTransition } from 'react-native-redash';
 
-import { View, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import { View, TouchableWithoutFeedback, StyleSheet, Platform } from 'react-native';
 import { BOTTOM_BAR_HEIGHT } from '../constants/Sizes';
 
 const RecordingButton = (props) => {
@@ -39,7 +39,7 @@ const RecordingButton = (props) => {
 const styles = StyleSheet.create({
 	border: {
 		position: 'absolute',
-		bottom: BOTTOM_BAR_HEIGHT + 20,
+		bottom: BOTTOM_BAR_HEIGHT * 2 + 80 + (Platform.OS === 'android' ? 10 : 0),
 		width: 75,
 		height: 75,
 		borderColor: 'gray',

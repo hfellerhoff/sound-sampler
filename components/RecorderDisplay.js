@@ -4,6 +4,7 @@ import { bInterpolate, useTransition } from 'react-native-redash';
 
 import { View, TouchableWithoutFeedback, StyleSheet, Platform } from 'react-native';
 import { BOTTOM_BAR_HEIGHT } from '../constants/Sizes';
+import Colors from '../constants/Colors';
 
 const RecordingButton = (props) => {
 	const { isRecording, onPress } = props;
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
 		bottom: BOTTOM_BAR_HEIGHT * 2 + 90 + (Platform.OS === 'android' ? 10 : 0),
 		width: 75,
 		height: 75,
-		borderColor: 'gray',
+		borderColor: Colors.recordingButtonBorder,
 		borderWidth: 3,
 		borderRadius: 40,
 		alignItems: 'center',
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
 	button: {
 		width: 60,
 		height: 60,
-		backgroundColor: 'red',
+		backgroundColor: Colors.recordingButton,
 		borderRadius: 30
 	}
 });

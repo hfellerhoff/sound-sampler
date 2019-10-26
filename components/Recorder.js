@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import {Audio} from 'expo-av';
+import { Audio } from 'expo-av';
 import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
-//import Sample from './Sample';
-import RecorderDisplay from "./RecorderDisplay";
+import RecorderDisplay from './RecorderDisplay';
+
 const Recorder = (props) => {
-	// const [ isRecording, setIsRecording ] = useState(false);
 	const { isRecording, setIsRecording } = props;
 	const [ recording, setRecording ] = useState(null);
 
 	const [ hasRecordingPermissions, setHasRecordingPermissions ] = useState(false);
 
-	const handleRecordPress = () => {
+	const onRecordPress = () => {
 		if (isRecording) stopRecording();
 		else beginRecording();
 	};
@@ -41,7 +40,7 @@ const Recorder = (props) => {
 				await localRecording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
 				setRecording(localRecording);
 				await localRecording.startAsync();
-				// alert('Recording!');
+				setRecording(localRecording);
 			} catch (error) {
 				alert(error);
 			}
@@ -51,14 +50,10 @@ const Recorder = (props) => {
 	};
 
 	const stopRecording = async () => {
-		try {
-			await localRecording.stopAndUnloadAsync();
-			setIsRecording(false);
-
-		} catch (error) {
+		await recording.stopAndUnloadAsync().then(setIsRecording(false)).catch(() => {
 			alert(error);
 			setIsRecording(false);
-		}
+		});
 		const info = await FileSystem.getInfoAsync(recording.getURI());
 		alert(`FILE INFO: ${JSON.stringify(info)}`);
 	};
@@ -67,10 +62,7 @@ const Recorder = (props) => {
 		askForPermissions();
 	}, []);
 
-	return <RecorderDisplay isRecording={isRecording} onPress={handleRecordPress} />;
-	// const newSample = localRecording.createNewLoadedSoundAsync();
-	// const playBackStatus = newSample.playBackStatus;
-	// return <Sample sound={newSample} status={playBackStatus}/>
+	return <RecorderDisplay isRecording={isRecording} onPress={onRecordPress} />;
 };
 
 export default Recorder;

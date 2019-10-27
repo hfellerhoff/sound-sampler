@@ -17,6 +17,7 @@ const FileDisplay = (props) => {
 		currentDirectory,
 		setCurrentDirectory,
 		moveFile,
+		exportData,
 		getFile,
 		movingOptions,
 		setMovingOptions
@@ -45,13 +46,14 @@ const FileDisplay = (props) => {
 
 	const onRequestMoveFile = async (uri) => {
 		console.log(uri);
-		setMovingOptions({
-			areMoving: true,
-			fromUri: uri,
-			toUri: null
-		});
-		setCurrentDirectory(FileSystem.documentDirectory);
-		alert('Transitioning into moving mode');
+		exportData(uri);
+		// setMovingOptions({
+		// 	areMoving: true,
+		// 	fromUri: uri,
+		// 	toUri: null
+		// });
+		// setCurrentDirectory(FileSystem.documentDirectory);
+		// alert('Transitioning into moving mode');
 	};
 
 	const getCard = (item, index) => {

@@ -1,14 +1,14 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { View, StyleSheet, Image, Text, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, Image, Text, TouchableWithoutFeedback, StatusBar } from 'react-native';
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../constants/Sizes';
-import Animated, { Easing } from 'react-native-reanimated'
-import { useTransition, bInterpolate } from "react-native-redash";
-// atan2(<Image style={styles.image} source={require('../assets/Innerpulse.jpg')} />, 
+import Animated, { Easing } from 'react-native-reanimated';
+import { useTransition, bInterpolate } from 'react-native-redash';
+// atan2(<Image style={styles.image} source={require('../assets/Innerpulse.jpg')} />,
 //  		<Image style={styles.image} source={require('../assets/outerPulse.jpg')} />);
 
 const LoadingScreen = ({ onPress }) => {
-	const [changeLoop, setChangeLoop] = useState(false);
+	const [ changeLoop, setChangeLoop ] = useState(false);
 
 	const keyboardTransition = useTransition(
 		changeLoop,
@@ -18,11 +18,15 @@ const LoadingScreen = ({ onPress }) => {
 		Easing.inOut(Easing.ease)
 	);
 	const innerImageWidth = bInterpolate(keyboardTransition, 1.1 * SCREEN_WIDTH / 1.25, SCREEN_WIDTH / 1.25);
-	const innerImageHeight = bInterpolate(keyboardTransition, 1.1 * 1.5 * SCREEN_WIDTH / 1.25, 1.5 * SCREEN_WIDTH / 1.25);
+	const innerImageHeight = bInterpolate(
+		keyboardTransition,
+		1.1 * 1.5 * SCREEN_WIDTH / 1.25,
+		1.5 * SCREEN_WIDTH / 1.25
+	);
 	const innerTransitionStyle = {
 		width: innerImageWidth,
-		height: innerImageHeight,
-	}
+		height: innerImageHeight
+	};
 
 	// const outerImageScale = bInterpolate(keyboardTransition, SCREEN_WIDTH / 1.25, 1.1 * SCREEN_WIDTH / 1.25);
 	// const outerTransitionStyle = {
@@ -30,18 +34,25 @@ const LoadingScreen = ({ onPress }) => {
 	// 	height: outerImageScale,
 	// }
 
-	useEffect(() => {
-		setTimeout(() => {
-			setChangeLoop(!changeLoop)
-		}, 1000);
-	}, [changeLoop])
+	useEffect(
+		() => {
+			setTimeout(() => {
+				setChangeLoop(!changeLoop);
+			}, 1000);
+		},
+		[ changeLoop ]
+	);
 
 	return (
 		<TouchableWithoutFeedback onPress={onPress}>
 			<View style={styles.background}>
-					<Animated.Image style={[styles.image, innerTransitionStyle]} source={require('../assets/EmptyLogo.jpg')} />
-					{/* <Animated.Image style={[styles.image, outerTransitionStyle]} source={require('../assets/outerpulse.jpg')} /> */}
-				
+				<StatusBar barStyle="light-content" />
+				<Animated.Image
+					style={[ styles.image, innerTransitionStyle ]}
+					source={require('../assets/EmptyLogo.jpg')}
+				/>
+				{/* <Animated.Image style={[styles.image, outerTransitionStyle]} source={require('../assets/outerpulse.jpg')} /> */}
+
 				<Text style={styles.text}>EARWORM</Text>
 			</View>
 		</TouchableWithoutFeedback>
@@ -54,8 +65,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#000000',
 		alignItems: 'center',
-		justifyContent: 'center',
-		marginTop: 20
+		justifyContent: 'center'
 	},
 	image: {
 		// position: "absolute",

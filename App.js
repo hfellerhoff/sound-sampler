@@ -4,7 +4,7 @@ import FileManager from './components/FileManager';
 import Recorder from './components/Recorder';
 import Header from './components/Header';
 
-export default function App() {
+const App = () => {
 	const [ isRecording, setIsRecording ] = useState(false);
 
 	return (
@@ -15,7 +15,7 @@ export default function App() {
 			<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
 		</View>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -45,3 +45,5 @@ const styles = StyleSheet.create({
 		borderRadius: 30
 	}
 });
+
+export default App;

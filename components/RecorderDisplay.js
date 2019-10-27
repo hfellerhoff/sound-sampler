@@ -48,7 +48,8 @@ const styles = StyleSheet.create({
 		borderRadius: 40,
 		alignItems: 'center',
 		justifyContent: 'center',
-		transform: [ { translateX: -(75 / 2) } ]
+		transform: [ { translateX: -(75 / 2) } ],
+		backgroundColor: Colors.recordingButtonBackground
 	},
 
 	button: {

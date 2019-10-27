@@ -3,16 +3,32 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import FileManager from './components/FileManager';
 import Recorder from './components/Recorder';
 import Header from './components/Header';
+import NewDirectoryModal from './components/NewDirectoryModal';
+import * as FileSystem from 'expo-file-system';
 
 const App = () => {
 	const [ isRecording, setIsRecording ] = useState(false);
 
+	const [ showNewDirectoryModal, setShowNewDirectoryModal ] = useState(false);
+	const [ shouldCreateNewDirectory, setShouldCreateNewDirectory ] = useState(false);
+	const [ newDirectoryUri, setNewDirectoryUri ] = useState('');
+
+	const [ currentParentDirectory, setCurrentParentDirectory ] = useState('');
+
+	const onCreateDirectoryAttempt = (uri) => {
+		setShowNewDirectoryModal(false);
+		alert(`Desired Directory Location: ${FileSystem.documentDirectory + currentParentDirectory + uri}`);
+		// setNewDirectoryUri(uri);
+		// setShouldCreateNewDirectory(true);
+	};
+
 	return (
 		<View style={styles.container}>
 			<StatusBar barStyle="light-content" />
-			<Header title="Files" />
+			<Header title="Files" onPress={() => setShowNewDirectoryModal(true)} />
 			<FileManager isRecording={isRecording} />
 			<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
+			<NewDirectoryModal isVisible={showNewDirectoryModal} dismiss={onCreateDirectoryAttempt} />
 		</View>
 	);
 };

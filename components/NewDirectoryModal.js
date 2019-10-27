@@ -77,6 +77,7 @@ const NewDirectoryModal = (props) => {
 				// alert('Keyboard listeners removed.');
 				setTimeout(() => {
 					setIsAnimating(false);
+					setIsKeyboardShown(false);
 				}, 150);
 			}
 		},

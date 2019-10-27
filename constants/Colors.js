@@ -5,7 +5,9 @@ const Colors = {
 	recordingButton: '#EE1717',
 	recordingButtonBorder: 'gray',
 	recordingButtonBackground: '#eee',
-	white: '#eee'
+	white: '#eee',
+	fileLeftAction: '#FFB81A',
+	fileRightAction: '#EE1717'
 };
 
 export default Colors;

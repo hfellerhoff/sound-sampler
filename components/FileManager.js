@@ -62,6 +62,7 @@ const FileManager = props => {
   };
 
   const createDirectory = async (uri, name) => {
+    console.log(uri + name);
     await FileSystem.makeDirectoryAsync(uri + name);
   };
 
@@ -112,18 +113,17 @@ const FileManager = props => {
     );
   };
 
-  const pullCache = async () => {
+  const pullCache = async currentParentDirectory => {
     const audioDirectoryName = Platform.OS === "ios" ? "AV/" : "Audio/";
     const directoryName = FileSystem.cacheDirectory + audioDirectoryName;
 
     await FileSystem.readDirectoryAsync(directoryName).then(data => {
       for (const file of data) {
-        moveFile(
-          directoryName + file,
-          FileSystem.documentDirectory + file
-        ).then(() => {
-          updateFiles();
-        });
+        moveFile(directoryName + file, currentParentDirectory + file).then(
+          () => {
+            updateFiles();
+          }
+        );
       }
     });
   };
@@ -147,7 +147,7 @@ const FileManager = props => {
 
   useEffect(() => {
     if (!props.isRecording) {
-      pullCache();
+      pullCache(props.currentParentDirectory);
     }
   }, [props.isRecording]);
 

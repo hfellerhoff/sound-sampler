@@ -14,7 +14,7 @@ const LoadingScreen = ({ onPress }) => {
 		changeLoop,
 		changeLoop ? 0 : 1,
 		changeLoop ? 1 : 0,
-		1250,
+		1000,
 		Easing.inOut(Easing.ease)
 	);
 	const innerImageWidth = bInterpolate(keyboardTransition, 1.1 * SCREEN_WIDTH / 1.25, SCREEN_WIDTH / 1.25);

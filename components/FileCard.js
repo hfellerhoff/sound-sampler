@@ -27,7 +27,6 @@ const FileCard = ({
 		if (isDirectory) {
 			requestDirectory(uri);
 		} else {
-			alert('Attempting to play file');
 			getFile(uri);
 		}
 	};

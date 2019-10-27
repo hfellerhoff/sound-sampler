@@ -36,12 +36,15 @@ const FileManager = (props) => {
 	};
 
 	const getFile = async (soundUri) => {
-		const soundObject = new Audio.soundO();
+		console.log('Creating new sound object...');
+		const soundObject = new Audio.Sound();
+		console.log('Loading...');
 		await soundObject.loadAsync({
 			uri: soundUri
 		});
-
+		console.log('Loaded!');
 		await soundObject.playAsync();
+		console.log(soundObject);
 	};
 
 	const createDirectory = async (uri, name) => {

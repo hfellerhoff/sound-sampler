@@ -43,7 +43,6 @@ const FileManager = props => {
   };
 
   const createDirectory = async (uri, name) => {
-    console.log("Making directory:" + uri + name);
     await FileSystem.makeDirectoryAsync(uri + name);
   };
 
@@ -130,23 +129,6 @@ const FileManager = props => {
     }
   }, [props.isRecording]);
 
-  useEffect(() => {
-    // console.log('checking...');
-    console.log(movingOptions);
-    if (movingOptions.toUri) {
-      console.log("Moving...");
-      moveFile(movingOptions.fromUri, movingOptions.toUri);
-      console.log("Moved.");
-      setMovingOptions({
-        areMoving: false,
-        fromUri: null,
-        toUri: null
-      });
-      console.log(movingOptions);
-      setTimeout(() => updateFiles(), 250);
-    }
-  }, [movingOptions]);
-
   return (
     <FileDisplay
       files={files}
@@ -160,6 +142,8 @@ const FileManager = props => {
       setMovingOptions={setMovingOptions}
       exportData={exportData}
       changeName={changeName}
+      selectedUri={selectedUri}
+      setSelectedUri={setSelectedUri}
     />
   );
 };

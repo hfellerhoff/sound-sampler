@@ -24,7 +24,9 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.earwormsounds.earworm",
       "supportsTablet": true
-    }
+    },
+    "description": ""
   }
 }

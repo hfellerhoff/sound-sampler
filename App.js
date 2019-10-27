@@ -31,6 +31,7 @@ const App = () => {
 		setShowNewDirectoryModal(false);
 		// alert(`Desired Directory Location: ${FileSystem.documentDirectory + currentParentDirectory + name}`);
 		if (name && name !== '') {
+			name = name.split(' ').join('-');
 			setNewDirectoryInformation({
 				name: name,
 				uri: currentDirectory

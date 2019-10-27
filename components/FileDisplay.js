@@ -17,6 +17,7 @@ const FileDisplay = (props) => {
 		currentDirectory,
 		setCurrentDirectory,
 		moveFile,
+		getFile,
 		movingOptions,
 		setMovingOptions
 	} = props;
@@ -113,10 +114,15 @@ const FileDisplay = (props) => {
 		[ selectedUri ]
 	);
 
+	const getSound = async () => {
+		if (selectedUri) return getFile(selectedUri);
+		else return null;
+	};
+
 	return (
 		<View styles={styles.container}>
 			{getPageContent()}
-			<Sample uri />
+			<Sample sound={getSound()} />
 		</View>
 	);
 };

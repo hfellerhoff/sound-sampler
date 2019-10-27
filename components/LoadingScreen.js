@@ -1,8 +1,7 @@
 import React from 'react'
 
 import { View, StyleSheet, Image, Text } from 'react-native';
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../constants/Sizes';
-import 
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../constants/Sizes'; 
 
 const LoadingScreen = (props) => {
     return (
@@ -12,7 +11,7 @@ const LoadingScreen = (props) => {
         </View>
         
     )
-}
+};
 
 const imageSize = SCREEN_WIDTH / 1.25;
 const styles = StyleSheet.create({
@@ -47,7 +46,7 @@ const styles = StyleSheet.create({
         <LoadingScreen>
             {/* <View>
                 <Header style={styles.text}>[Earworm]</Header>
-            </View> */}
+            </View> */
         /* </LoadingScreen>
     );
 }

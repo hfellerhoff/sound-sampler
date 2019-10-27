@@ -11,12 +11,15 @@ const FileManager = props => {
   const testFunction = async () => {
     //TEST FUNCTIONS
     // deleteAllFiles();
-    // await FileSystem.downloadAsync(
-    //   "http://techslides.com/demos/sample-videos/small.mp4",
-    //   FileSystem.documentDirectory + "small.mp4"
-    // );
+    await FileSystem.downloadAsync(
+      "http://techslides.com/demos/sample-videos/small.mp4",
+      FileSystem.documentDirectory + "small.mp4"
+    );
 
-    // directoryStatus = await createDirectory(FileSystem.documentDirectory, 'oogabooga');
+    directoryStatus = await createDirectory(
+      FileSystem.documentDirectory,
+      "oogabooga"
+    );
 
     // updateFiles();
 
@@ -24,10 +27,10 @@ const FileManager = props => {
 
     // updateFiles();
 
-    // await moveFile(
-    //   FileSystem.documentDirectory + "small.mp4",
-    //   FileSystem.documentDirectory + "oogabooga" + "/small.mp4"
-    // );
+    await moveFile(
+      FileSystem.documentDirectory + "small.mp4",
+      FileSystem.documentDirectory + "oogabooga" + "/small.mp4"
+    );
 
     // console.log(
     //   await FileSystem.readDirectoryAsync(
@@ -132,11 +135,9 @@ const FileManager = props => {
   };
 
   useEffect(() => {
-    deleteAllFiles();
     updateFiles();
     props.setIsLoading();
-    console.log("Use Effect Startup");
-    // testFunction();
+    testFunction();
   }, []);
 
   useEffect(() => {

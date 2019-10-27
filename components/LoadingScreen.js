@@ -17,10 +17,11 @@ const LoadingScreen = ({ onPress }) => {
 		1000,
 		Easing.inOut(Easing.ease)
 	);
-	const innerImageScale = bInterpolate(keyboardTransition, 1.1 * SCREEN_WIDTH / 1.25, SCREEN_WIDTH / 1.25);
+	const innerImageWidth = bInterpolate(keyboardTransition, 1.1 * SCREEN_WIDTH / 1.25, SCREEN_WIDTH / 1.25);
+	const innerImageHeight = bInterpolate(keyboardTransition, 1.1 * 1.5 * SCREEN_WIDTH / 1.25, 1.5 * SCREEN_WIDTH / 1.25);
 	const innerTransitionStyle = {
-		width: innerImageScale,
-		height: innerImageScale,
+		width: innerImageWidth,
+		height: innerImageHeight,
 	}
 
 	// const outerImageScale = bInterpolate(keyboardTransition, SCREEN_WIDTH / 1.25, 1.1 * SCREEN_WIDTH / 1.25);

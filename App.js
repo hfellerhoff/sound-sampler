@@ -15,7 +15,7 @@ const App = () => {
 	const [ shouldCreateNewDirectory, setShouldCreateNewDirectory ] = useState(false);
 	const [ newDirectoryInformation, setNewDirectoryInformation ] = useState({});
 
-	const [ currentParentDirectory, setCurrentParentDirectory ] = useState('');
+	const [ currentDirectory, setCurrentDirectory ] = useState(FileSystem.documentDirectory);
 
 	const onCreateDirectoryAttempt = (name) => {
 		setShowNewDirectoryModal(false);
@@ -23,8 +23,9 @@ const App = () => {
 		if (name && name !== '') {
 			setNewDirectoryInformation({
 				name: name,
-				uri: FileSystem.documentDirectory + currentParentDirectory
+				uri: currentParentDirectory
 			});
+			console.log(currentParentDirectory);
 			setShouldCreateNewDirectory(true);
 		}
 	};
@@ -46,6 +47,8 @@ const App = () => {
 					newDirectoryInformation={newDirectoryInformation}
 					onDirectoryCreate={onDirectoryCreate}
 					setIsLoading={() => setIsLoading(false)}
+					currentDirectory={currentDirectory}
+					setCurrentDirectory={setCurrentDirectory}
 				/>
 				<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
 				<NewDirectoryModal isVisible={showNewDirectoryModal} dismiss={onCreateDirectoryAttempt} />

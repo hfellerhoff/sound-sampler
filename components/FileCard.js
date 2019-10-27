@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Image } from 'react-native';
 import { SCREEN_WIDTH } from '../constants/Sizes';
@@ -21,6 +21,11 @@ const FileCard = ({ file, bottomStyle, requestDirectory, moveFile, deleteFile, c
 			setSelectedUri(uri);
 			// alert(`uri: ${uri}, name: ${name}, isDirectory: ${isDirectory}`);
 		}
+	};
+
+	const onLongPress = () => {
+		alert('long press');
+		setSelectedUri(uri);
 	};
 
 	const LeftActions = (progress, dragX) => {
@@ -54,7 +59,7 @@ const FileCard = ({ file, bottomStyle, requestDirectory, moveFile, deleteFile, c
 				onSwipeableRightWillOpen={() => deleteFile(uri)}
 			>
 				<View>
-					<TouchableWithoutFeedback onPressIn={onFileClick} delayPressIn={100}>
+					<TouchableWithoutFeedback onPressIn={onFileClick} delayPressIn={100} onLongPress={onLongPress}>
 						<View style={[ styles.item, { borderColor: borderColor } ]}>
 							<Image source={image} style={styles.image} />
 							<Text style={styles.itemText}>{file.name}</Text>

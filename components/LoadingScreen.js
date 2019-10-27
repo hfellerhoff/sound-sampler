@@ -14,7 +14,7 @@ const LoadingScreen = ({ onPress }) => {
 		changeLoop,
 		changeLoop ? 0 : 1,
 		changeLoop ? 1 : 0,
-		1000,
+		1250,
 		Easing.inOut(Easing.ease)
 	);
 	const innerImageWidth = bInterpolate(keyboardTransition, 1.1 * SCREEN_WIDTH / 1.25, SCREEN_WIDTH / 1.25);
@@ -77,8 +77,8 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		position: 'absolute',
-		top: SCREEN_HEIGHT / 2 - 48,
-		left: 0,
+		top: SCREEN_HEIGHT / 2 - 35,
+		left: 10,
 		right: 0,
 		color: '#02fffe',
 		fontSize: 18,

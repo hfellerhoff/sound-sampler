@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { View, Text, StyleSheet, SafeAreaView, Platform } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Platform, TouchableOpacity, Image } from 'react-native';
 import { STATUS_BAR_HEIGHT, SCREEN_WIDTH } from '../constants/Sizes';
 import Colors from '../constants/Colors';
+import Icons from '../constants/Icons';
 
-const Header = ({ title }) => {
+const Header = ({ title, onPress }) => {
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.statusBar} />
@@ -13,6 +14,9 @@ const Header = ({ title }) => {
 					<View style={styles.titleContainer}>
 						<Text style={styles.title}>{title}</Text>
 					</View>
+					<TouchableOpacity style={styles.imageButton} onPress={onPress}>
+						<Image source={Icons.addFolder} style={styles.image} />
+					</TouchableOpacity>
 				</View>
 			</View>
 		</SafeAreaView>
@@ -46,8 +50,8 @@ const styles = StyleSheet.create({
 	},
 
 	titleContainer: {
-		marginHorizontal: 20,
-		marginVertical: 10,
+		marginLeft: 15,
+		marginBottom: 5,
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center'
@@ -58,6 +62,18 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		fontSize: 36,
 		flex: 1
+	},
+
+	imageButton: {
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+
+	image: {
+		height: 30,
+		width: 30,
+		marginRight: 15,
+		marginTop: 3
 	}
 });
 

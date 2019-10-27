@@ -3,6 +3,7 @@ import { Audio } from 'expo-av';
 import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
 import RecorderDisplay from './RecorderDisplay';
+import Sample from "./Sample";
 
 const Recorder = (props) => {
 	const { isRecording, setIsRecording } = props;
@@ -54,8 +55,9 @@ const Recorder = (props) => {
 			alert(error);
 			setIsRecording(false);
 		});
-		const info = await FileSystem.getInfoAsync(recording.getURI());
-		alert(`FILE INFO: ${JSON.stringify(info)}`);
+		// const newSample = setRecording.createNewLoadedSoundAsync();
+		// const playBackStatus = (await newSample.getStatusAsync());
+		// return <Sample sound={newSample} status={playBackStatus}/>;
 	};
 
 	useEffect(() => {

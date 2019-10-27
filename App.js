@@ -13,15 +13,23 @@ const App = () => {
 
 	const [ showNewDirectoryModal, setShowNewDirectoryModal ] = useState(false);
 	const [ shouldCreateNewDirectory, setShouldCreateNewDirectory ] = useState(false);
-	const [ newDirectoryUri, setNewDirectoryUri ] = useState('');
+	const [ newDirectoryInformation, setNewDirectoryInformation ] = useState({});
 
 	const [ currentParentDirectory, setCurrentParentDirectory ] = useState('');
 
-	const onCreateDirectoryAttempt = (uri) => {
+	const onCreateDirectoryAttempt = (name) => {
 		setShowNewDirectoryModal(false);
-		alert(`Desired Directory Location: ${FileSystem.documentDirectory + currentParentDirectory + uri}`);
-		// setNewDirectoryUri(uri);
-		// setShouldCreateNewDirectory(true);
+		// alert(`Desired Directory Location: ${FileSystem.documentDirectory + currentParentDirectory + uri}`);
+		setNewDirectoryInformation({
+			name: name,
+			uri: FileSystem.documentDirectory + currentParentDirectory + name
+		});
+		setShouldCreateNewDirectory(true);
+	};
+
+	const onDirectoryCreate = () => {
+		setNewDirectoryUri({});
+		setShouldCreateNewDirectory(false);
 	};
 
 	if (isLoading) return <LoadingScreen onPress={() => setIsLoading(false)} />;
@@ -30,7 +38,12 @@ const App = () => {
 			<View style={styles.container}>
 				<StatusBar barStyle="light-content" />
 				<Header title="Files" onPress={() => setShowNewDirectoryModal(true)} />
-				<FileManager isRecording={isRecording} />
+				<FileManager
+					isRecording={isRecording}
+					shouldCreateNewDirectory={shouldCreateNewDirectory}
+					newDirectoryInformation={newDirectoryInformation}
+					onDirectoryCreate={onDirectoryCreate}
+				/>
 				<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
 				<NewDirectoryModal isVisible={showNewDirectoryModal} dismiss={onCreateDirectoryAttempt} />
 			</View>

@@ -6,6 +6,7 @@ import Header from './components/Header';
 import NewDirectoryModal from './components/NewDirectoryModal';
 import * as FileSystem from 'expo-file-system';
 import LoadingScreen from './components/LoadingScreen';
+import { getNameFromUri } from './util/Parser';
 
 const App = () => {
 	const [ isRecording, setIsRecording ] = useState(false);
@@ -35,10 +36,15 @@ const App = () => {
 		setShouldCreateNewDirectory(false);
 	};
 
+	const getHeaderTitle = () => {
+		if (currentDirectory === FileSystem.documentDirectory) return 'Files';
+		else return getNameFromUri(currentDirectory);
+	};
+
 	return (
 		<View style={styles.container}>
 			<StatusBar barStyle="light-content" />
-			<Header title="Files" onPress={() => setShowNewDirectoryModal(true)} />
+			<Header title={getHeaderTitle()} onPress={() => setShowNewDirectoryModal(true)} />
 			<FileManager
 				isRecording={isRecording}
 				shouldCreateNewDirectory={shouldCreateNewDirectory}

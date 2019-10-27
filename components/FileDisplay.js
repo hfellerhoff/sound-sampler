@@ -36,7 +36,6 @@ const FileDisplay = (props) => {
 				requestDirectory={onRequestDirectory}
 				deleteFile={onRequestDeleteFile}
 				moveFile={() => alert('Move file!')}
-				deleteFile={() => alert('Delete file!')}
 			/>
 		);
 	};

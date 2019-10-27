@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
 		height: 30,
 		width: 30,
 		marginRight: 15,
-		marginTop: 3
+		marginTop: Platform.OS === 'android' ? 12 : 3
 	},
 
 	caret: {

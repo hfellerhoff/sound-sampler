@@ -20,6 +20,38 @@ const FileManager = (props) => {
 		return soundObject;
 	};
 
+<<<<<<< HEAD
+  const createDirectory = async (uri, name) => {
+    await FileSystem.makeDirectoryAsync(uri + name);
+  };
+
+  const makeFileList = async (
+    uri //Default uri is 'FileSystem.documentDirectory'
+  ) => {
+    deleteAllFiles();
+    directoryStatus = createDirectory(
+      FileSystem.documentDirectory,
+      "oogabooga"
+    );
+    let tempData = [];
+
+    await FileSystem.readDirectoryAsync(uri).then(async data => {
+      for (const file of data) {
+        await FileSystem.getInfoAsync(FileSystem.documentDirectory + file).then(
+          fileInfo => {
+            tempData.push({
+              name: file,
+              uri: FileSystem.documentDirectory + file,
+              isDirectory: fileInfo.isDirectory,
+              children: []
+            });
+          }
+        );
+      }
+    });
+    return tempData;
+  };
+=======
 	const makeFileList = async (
 		uri //Default uri is 'FileSystem.documentDirectory'
 	) => {
@@ -36,6 +68,7 @@ const FileManager = (props) => {
 		});
 		return tempData;
 	};
+>>>>>>> c3e462d7a7a7366806f0782daa5377b921dac2df
 
 	const deleteAllFiles = async () => {
 		FileSystem.readDirectoryAsync(FileSystem.documentDirectory).then((data) => {
@@ -49,6 +82,47 @@ const FileManager = (props) => {
 		FileSystem.deleteAsync(uri);
 	};
 
+<<<<<<< HEAD
+  const moveFile = async (oldUri, newUri) => {
+    const options = {
+      from: oldUri,
+      to: newUri
+    };
+    await FileSystem.moveAsync(options);
+  };
+
+  const updateFiles = async () => {
+    await makeFileList(FileSystem.documentDirectory).then(newFiles =>
+      setFiles(newFiles)
+    );
+  };
+
+  const pullCache = async () => {
+    const audioDirectoryName = Platform.OS === "ios" ? "AV/" : "Audio/";
+    const directoryName = FileSystem.cacheDirectory + audioDirectoryName;
+
+    await FileSystem.readDirectoryAsync(directoryName).then(data => {
+      data.forEach(file => {
+        moveFile(
+          directoryName + file,
+          FileSystem.documentDirectory + file
+        ).then(() => {
+          updateFiles();
+        });
+      });
+    });
+  };
+
+  useEffect(() => {
+    updateFiles();
+  }, []);
+
+  useEffect(() => {
+    if (!props.isRecording) {
+      pullCache();
+    }
+  }, [props.isRecording]);
+=======
 	const moveFile = async (oldUri, newUri) => {
 		const options = {
 			from: oldUri,
@@ -89,6 +163,7 @@ const FileManager = (props) => {
 		},
 		[ props.isRecording ]
 	);
+>>>>>>> c3e462d7a7a7366806f0782daa5377b921dac2df
 
 	return <FileDisplay files={files} getDirectory={getDirectory} getFile={getFile} />;
 };

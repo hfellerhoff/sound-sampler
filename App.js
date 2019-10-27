@@ -5,9 +5,11 @@ import Recorder from './components/Recorder';
 import Header from './components/Header';
 import NewDirectoryModal from './components/NewDirectoryModal';
 import * as FileSystem from 'expo-file-system';
+import LoadingScreen from './components/LoadingScreen';
 
 const App = () => {
 	const [ isRecording, setIsRecording ] = useState(false);
+	const [ isLoading, setIsLoading ] = useState(true);
 
 	const [ showNewDirectoryModal, setShowNewDirectoryModal ] = useState(false);
 	const [ shouldCreateNewDirectory, setShouldCreateNewDirectory ] = useState(false);
@@ -22,15 +24,17 @@ const App = () => {
 		// setShouldCreateNewDirectory(true);
 	};
 
-	return (
-		<View style={styles.container}>
-			<StatusBar barStyle="light-content" />
-			<Header title="Files" onPress={() => setShowNewDirectoryModal(true)} />
-			<FileManager isRecording={isRecording} />
-			<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
-			<NewDirectoryModal isVisible={showNewDirectoryModal} dismiss={onCreateDirectoryAttempt} />
-		</View>
-	);
+	if (isLoading) return <LoadingScreen onPress={() => setIsLoading(false)} />;
+	else
+		return (
+			<View style={styles.container}>
+				<StatusBar barStyle="light-content" />
+				<Header title="Files" onPress={() => setShowNewDirectoryModal(true)} />
+				<FileManager isRecording={isRecording} />
+				<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
+				<NewDirectoryModal isVisible={showNewDirectoryModal} dismiss={onCreateDirectoryAttempt} />
+			</View>
+		);
 };
 
 const styles = StyleSheet.create({

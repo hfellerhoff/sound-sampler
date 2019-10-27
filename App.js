@@ -3,18 +3,26 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import FileManager from './components/FileManager';
 import Recorder from './components/Recorder';
 import Header from './components/Header';
+import LoadingScreen from './components/LoadingScreen';
 
 const App = () => {
 	const [ isRecording, setIsRecording ] = useState(false);
+	//const [ isLoading, setIsLoading ] = useState(true); Will need to make true to 
+		//see if loading the files is done.
 
-	return (
+	//if (isLoading) {
+	//	return <LoadingScreen></LoadingScreen>
+	//}
+	//else {
+		return (
 		<View style={styles.container}>
 			<StatusBar barStyle="light-content" />
 			<Header title="Files" />
 			<FileManager isRecording={isRecording} />
 			<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
 		</View>
-	);
+		);
+	//}
 };
 
 const styles = StyleSheet.create({

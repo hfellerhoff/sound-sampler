@@ -3,26 +3,51 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import FileManager from './components/FileManager';
 import Recorder from './components/Recorder';
 import Header from './components/Header';
+import NewDirectoryModal from './components/NewDirectoryModal';
+import * as FileSystem from 'expo-file-system';
 import LoadingScreen from './components/LoadingScreen';
 
 const App = () => {
 	const [ isRecording, setIsRecording ] = useState(false);
-	//const [ isLoading, setIsLoading ] = useState(true); Will need to make true to 
-		//see if loading the files is done.
+	const [ isLoading, setIsLoading ] = useState(true);
 
-	//if (isLoading) {
-	//	return <LoadingScreen></LoadingScreen>
-	//}
-	//else {
+	const [ showNewDirectoryModal, setShowNewDirectoryModal ] = useState(false);
+	const [ shouldCreateNewDirectory, setShouldCreateNewDirectory ] = useState(false);
+	const [ newDirectoryInformation, setNewDirectoryInformation ] = useState({});
+
+	const [ currentParentDirectory, setCurrentParentDirectory ] = useState('');
+
+	const onCreateDirectoryAttempt = (name) => {
+		setShowNewDirectoryModal(false);
+		// alert(`Desired Directory Location: ${FileSystem.documentDirectory + currentParentDirectory + uri}`);
+		setNewDirectoryInformation({
+			name: name,
+			uri: FileSystem.documentDirectory + currentParentDirectory + name
+		});
+		setShouldCreateNewDirectory(true);
+	};
+
+	const onDirectoryCreate = () => {
+		setNewDirectoryUri({});
+		setShouldCreateNewDirectory(false);
+	};
+
+	if (isLoading) return <LoadingScreen onPress={() => setIsLoading(false)} />;
+	else
 		return (
-		<View style={styles.container}>
-			<StatusBar barStyle="light-content" />
-			<Header title="Files" />
-			<FileManager isRecording={isRecording} />
-			<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
-		</View>
+			<View style={styles.container}>
+				<StatusBar barStyle="light-content" />
+				<Header title="Files" onPress={() => setShowNewDirectoryModal(true)} />
+				<FileManager
+					isRecording={isRecording}
+					shouldCreateNewDirectory={shouldCreateNewDirectory}
+					newDirectoryInformation={newDirectoryInformation}
+					onDirectoryCreate={onDirectoryCreate}
+				/>
+				<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
+				<NewDirectoryModal isVisible={showNewDirectoryModal} dismiss={onCreateDirectoryAttempt} />
+			</View>
 		);
-	//}
 };
 
 const styles = StyleSheet.create({

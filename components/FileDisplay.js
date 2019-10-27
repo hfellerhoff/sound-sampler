@@ -6,6 +6,8 @@ import FileCard from './FileCard';
 import * as FileSystem from 'expo-file-system';
 
 import { getParentDirectory, getNameFromUri } from '../util/Parser';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import Sample from './Sample';
 
 const FileDisplay = (props) => {
 	const {
@@ -19,6 +21,8 @@ const FileDisplay = (props) => {
 		setMovingOptions
 	} = props;
 	const [ displayedFiles, setDisplayedFiles ] = useState(props.files);
+	const [ selectedUri, setSelectedUri ] = useState(null);
+	const [ sampleVisible, setSampleVisible ] = useState(false);
 
 	const onRequestDirectory = async (uri) => {
 		const newFiles = [];
@@ -67,6 +71,7 @@ const FileDisplay = (props) => {
 				deleteFile={onRequestDeleteFile}
 				moveFile={onRequestMoveFile}
 				currentDirectory={currentDirectory}
+				setSelectedUri={setSelectedUri}
 			/>
 		);
 	};
@@ -93,7 +98,27 @@ const FileDisplay = (props) => {
 		[ files ]
 	);
 
-	return <View styles={styles.container}>{getPageContent()}</View>;
+	useEffect(
+		() => {
+			if (selectedUri) {
+				alert('Sample visible');
+				console.log(selectedUri);
+				setSampleVisible(true);
+			} else {
+				alert('Sample not visible');
+				console.log(selectedUri);
+				setSampleVisible(false);
+			}
+		},
+		[ selectedUri ]
+	);
+
+	return (
+		<View styles={styles.container}>
+			{getPageContent()}
+			<Sample uri />
+		</View>
+	);
 };
 
 const styles = StyleSheet.create({

@@ -8,7 +8,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Animated, { interpolate } from 'react-native-reanimated';
 // import { getParentDirectory } from '../util/Parser';
 
-const FileCard = ({ file, bottomStyle, requestDirectory, moveFile, deleteFile, currentDirectory }) => {
+const FileCard = ({ file, bottomStyle, requestDirectory, moveFile, deleteFile, currentDirectory, setSelectedUri }) => {
 	const { uri, name, isDirectory } = file;
 
 	const borderColor = isDirectory ? Colors.primary : Colors.gray;
@@ -18,7 +18,8 @@ const FileCard = ({ file, bottomStyle, requestDirectory, moveFile, deleteFile, c
 		if (isDirectory) {
 			requestDirectory(uri);
 		} else {
-			alert(`uri: ${uri}, name: ${name}, isDirectory: ${isDirectory}`);
+			setSelectedUri(uri);
+			// alert(`uri: ${uri}, name: ${name}, isDirectory: ${isDirectory}`);
 		}
 	};
 

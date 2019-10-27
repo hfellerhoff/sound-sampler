@@ -31,7 +31,7 @@ const FileCard = ({ file, bottomStyle, requestDirectory, moveFile, deleteFile, c
 		// });
 		return (
 			<View style={styles.leftAction}>
-				<Animated.Text style={styles.leftActionText}>Move</Animated.Text>
+				<Animated.Text style={styles.leftActionText}>Export</Animated.Text>
 			</View>
 		);
 	};

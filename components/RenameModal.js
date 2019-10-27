@@ -96,7 +96,7 @@ const RenameModal = (props) => {
 							onChangeText={(text) => setInputValue(text)}
 							style={styles.input}
 						/>
-						<Button title="+" style={{ paddingHorizontal: 20 }} onPress={onSubmit} />
+						<Button title="Rename" style={{ paddingHorizontal: 20 }} onPress={onSubmit} />
 					</Animated.View>
 				</View>
 			</TouchableWithoutFeedback>

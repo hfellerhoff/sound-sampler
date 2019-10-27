@@ -41,7 +41,7 @@ const FileManager = props => {
   };
 
   const createDirectory = async (uri, name) => {
-    console.log(uri + name);
+    console.log("Making directory:" + uri + name);
     await FileSystem.makeDirectoryAsync(uri + name);
   };
 
@@ -87,9 +87,9 @@ const FileManager = props => {
   };
 
   const updateFiles = async () => {
-    await makeFileList(props.currentDirectory).then(newFiles =>
-      setFiles(newFiles)
-    );
+    await makeFileList(FileSystem.documentDirectory).then((
+      newFiles //props.currentDirectory
+    ) => setFiles(newFiles));
   };
 
   const pullCache = async currentDirectory => {
@@ -109,7 +109,7 @@ const FileManager = props => {
     updateFiles();
     props.setIsLoading();
     // testFunction();
-  }, [props.currentDirectory]);
+  }, []); //props.currentDirectory
 
   useEffect(() => {
     if (props.shouldCreateNewDirectory) {

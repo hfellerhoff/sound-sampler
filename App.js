@@ -28,7 +28,7 @@ const App = () => {
 	};
 
 	const onDirectoryCreate = () => {
-		setNewDirectoryUri({});
+		setNewDirectoryInformation({});
 		setShouldCreateNewDirectory(false);
 	};
 

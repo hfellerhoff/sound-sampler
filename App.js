@@ -6,7 +6,7 @@ import Header from './components/Header';
 import NewDirectoryModal from './components/NewDirectoryModal';
 import * as FileSystem from 'expo-file-system';
 import LoadingScreen from './components/LoadingScreen';
-import { getNameFromUri } from './util/Parser';
+import { getNameFromUri, getParentDirectory } from './util/Parser';
 
 const App = () => {
 	const [ isRecording, setIsRecording ] = useState(false);
@@ -36,6 +36,14 @@ const App = () => {
 		setShouldCreateNewDirectory(false);
 	};
 
+	const onMoveBackDirectory = () => {
+		if (currentDirectory !== FileSystem.documentDirectory) {
+			setCurrentDirectory(getParentDirectory(currentDirectory) + '/');
+			// alert(FileSystem.documentDirectory);
+			// alert(getParentDirectory(currentDirectory));
+		}
+	};
+
 	const getHeaderTitle = () => {
 		if (currentDirectory === FileSystem.documentDirectory) return 'Files';
 		else return getNameFromUri(currentDirectory);
@@ -44,7 +52,11 @@ const App = () => {
 	return (
 		<View style={styles.container}>
 			<StatusBar barStyle="light-content" />
-			<Header title={getHeaderTitle()} onPress={() => setShowNewDirectoryModal(true)} />
+			<Header
+				title={getHeaderTitle()}
+				onPress={() => setShowNewDirectoryModal(true)}
+				onGoBack={onMoveBackDirectory}
+			/>
 			<FileManager
 				isRecording={isRecording}
 				shouldCreateNewDirectory={shouldCreateNewDirectory}

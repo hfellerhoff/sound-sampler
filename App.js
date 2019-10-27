@@ -45,6 +45,7 @@ const App = () => {
 					shouldCreateNewDirectory={shouldCreateNewDirectory}
 					newDirectoryInformation={newDirectoryInformation}
 					onDirectoryCreate={onDirectoryCreate}
+					setIsLoading={() => setIsLoading(false)}
 				/>
 				<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
 				<NewDirectoryModal isVisible={showNewDirectoryModal} dismiss={onCreateDirectoryAttempt} />

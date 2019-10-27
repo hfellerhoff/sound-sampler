@@ -6,7 +6,7 @@ import FileCard from './FileCard';
 
 const FileDisplay = (props) => {
 	const { files, getDirectory } = props;
-	const [ displayedFiles, setDisplayedFiles ] = useState(files);
+	const [ displayedFiles, setDisplayedFiles ] = useState([]);
 
 	const onRequestDirectory = (uri) => {
 		props.getDirectory(uri).then((newFiles) => setDisplayedFiles(newFiles));
@@ -39,6 +39,10 @@ const FileDisplay = (props) => {
 			return <Text style={[ styles.list, styles.errorText ]}>No files found. Start recording to add some!</Text>;
 		}
 	};
+
+	useEffect(() => {
+		setDisplayedFiles(files);
+	}, []);
 
 	return <View styles={styles.container}>{getPageContent()}</View>;
 };

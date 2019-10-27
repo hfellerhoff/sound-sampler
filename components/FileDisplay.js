@@ -5,7 +5,7 @@ import { SCREEN_WIDTH, getStatusBarHeight, isiPhoneX } from '../constants/Sizes'
 import FileCard from './FileCard';
 
 const FileDisplay = (props) => {
-	const { files, getDirectory } = props;
+	const { files, getDirectory, deleteFile } = props;
 	const [ displayedFiles, setDisplayedFiles ] = useState(props.files);
 
 	const onRequestDirectory = async (uri) => {
@@ -13,23 +13,28 @@ const FileDisplay = (props) => {
 		setDisplayedFiles(newFiles);
 	};
 
+	const onRequestDeleteFile = async (uri) => {
+		deleteFile(uri);
+	};
+
 	const getFiles = () => (displayedFiles.length > 0 ? displayedFiles : files);
 
 	const getCard = (item, index) => {
-		let bottomStyle = {};
+		let marginStyle = {};
 		if (getFiles().length - 1 === index) {
 			if (isiPhoneX())
-				bottomStyle = {
+				marginStyle = {
 					marginBottom: 214
 				};
-			else if (Platform.OS === 'ios') bottomStyle = { marginBottom: 180 };
-			else bottomStyle = { marginBottom: 190 };
+			else if (Platform.OS === 'ios') marginStyle = { marginBottom: 180 };
+			else marginStyle = { marginBottom: 190 };
 		}
 		return (
 			<FileCard
-				style={bottomStyle}
+				bottomStyle={marginStyle}
 				file={item}
 				requestDirectory={onRequestDirectory}
+				deleteFile={onRequestDeleteFile}
 				moveFile={() => alert('Move file!')}
 				deleteFile={() => alert('Delete file!')}
 			/>

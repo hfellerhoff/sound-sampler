@@ -8,7 +8,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { TapGestureHandler } from 'react-native-gesture-handler';
 import Animated, { interpolate } from 'react-native-reanimated';
 
-const FileCard = ({ file, style, requestDirectory, moveFile, deleteFile }) => {
+const FileCard = ({ file, bottomStyle, requestDirectory, moveFile, deleteFile }) => {
 	const { uri, name, isDirectory } = file;
 
 	const borderColor = isDirectory ? Colors.primary : Colors.gray;
@@ -52,7 +52,7 @@ const FileCard = ({ file, style, requestDirectory, moveFile, deleteFile }) => {
 				onSwipeableLeftWillOpen={moveFile}
 				onSwipeableRightWillOpen={deleteFile}
 			>
-				<View style={style}>
+				<View>
 					<TouchableWithoutFeedback onPressIn={onFileClick} delayPressIn={50}>
 						<View style={[ styles.item, { borderColor: borderColor } ]}>
 							<Image source={image} style={styles.image} />
@@ -61,6 +61,7 @@ const FileCard = ({ file, style, requestDirectory, moveFile, deleteFile }) => {
 					</TouchableWithoutFeedback>
 				</View>
 			</Swipeable>
+			<View style={bottomStyle} />
 		</View>
 	);
 };

@@ -12,7 +12,7 @@ const FileDisplay = (props) => {
 		if (files.length - 1 === index) {
 			if (isiPhoneX())
 				bottomStyle = {
-					marginBottom: 204
+					marginBottom: 214
 				};
 			else if (Platform.OS === 'ios') bottomStyle = { marginBottom: 180 };
 			else bottomStyle = { marginBottom: 190 };

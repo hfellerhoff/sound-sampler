@@ -16,10 +16,13 @@ const FileManager = (props) => {
 		//   FileSystem.documentDirectory + "small.mp4"
 		// );
 
-		// directoryStatus = await createDirectory(
-		//   FileSystem.documentDirectory,
-		//   "oogabooga"
-		// );
+		directoryStatus = await createDirectory(FileSystem.documentDirectory, 'oogabooga');
+
+		updateFiles();
+
+		changeName(FileSystem.documentDirectory + 'oogabooga', 'arfarf');
+
+		updateFiles();
 
 		// await moveFile(
 		//   FileSystem.documentDirectory + "small.mp4",
@@ -33,6 +36,21 @@ const FileManager = (props) => {
 		// );
 
 		console.log('TEST FUNCTION RUNNING');
+	};
+
+	const changeName = async (oldUri, newName) => {
+		console.log('CHANGIN NAMES1');
+		for (const info of files) {
+			if (info.uri === oldUri) {
+				console.log('COME HERE!');
+				const options = {
+					from: oldUri,
+					to: oldUri - info.name + newName
+				};
+			}
+		}
+		console.log('DONT COME HERE FIRST!');
+		await FileSystem.copyAsync(options);
 	};
 
 	const getDirectory = (uri) => {
@@ -109,6 +127,7 @@ const FileManager = (props) => {
 
 	useEffect(() => {
 		updateFiles();
+		props.setIsLoading();
 		testFunction();
 	}, []);
 

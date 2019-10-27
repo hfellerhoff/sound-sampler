@@ -16,6 +16,10 @@ const rightCaret =
 	Platform.OS === 'ios'
 		? require('../assets/ios-icons/carrot-ios.png')
 		: require('../assets/android-icons/carrot-android.png');
+const downCaret =
+	Platform.OS === 'ios'
+		? require('../assets/ios-icons/down-caret-ios.png')
+		: require('../assets/android-icons/down-caret-android.png');
 const del =
 	Platform.OS === 'ios'
 		? require('../assets/ios-icons/delete-ios.png')

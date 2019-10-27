@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
 import FileDisplay from './FileDisplay';
-import { DUMMY_FILES } from '../constants/Dummy';
+// import { DUMMY_FILES } from '../constants/Dummy';
 import * as FileSystem from 'expo-file-system';
-import { create } from 'uuid-js';
+// import { create } from 'uuid-js';
 
 const FileManager = (props) => {
 	const [ files, setFiles ] = useState([]);

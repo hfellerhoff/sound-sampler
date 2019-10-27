@@ -12,10 +12,14 @@ const addFolder =
 	Platform.OS === 'ios'
 		? require('../assets/ios-icons/add-folder-ios.png')
 		: require('../assets/android-icons/add-folder-android.png');
-const carrot =
+const rightCaret =
 	Platform.OS === 'ios'
 		? require('../assets/ios-icons/carrot-ios.png')
 		: require('../assets/android-icons/carrot-android.png');
+const downCaret =
+	Platform.OS === 'ios'
+		? require('../assets/ios-icons/down-caret-ios.png')
+		: require('../assets/android-icons/down-caret-android.png');
 const del =
 	Platform.OS === 'ios'
 		? require('../assets/ios-icons/delete-ios.png')
@@ -45,7 +49,7 @@ const Icons = {
 	audio: audio,
 	folder: folder,
 	addFolder: addFolder,
-	carrot: carrot,
+	rightCaret: rightCaret,
 	delete: del,
 	fastForward: fastForward,
 	rewind: rewind,

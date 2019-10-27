@@ -4,6 +4,7 @@ import * as Permissions from "expo-permissions";
 import * as FileSystem from "expo-file-system";
 import RecorderDisplay from "./RecorderDisplay";
 import View from "react-native-web/dist/exports/View";
+import Sample from "./Sample";
 
 const Recorder = props => {
   const {isRecording, setIsRecording} = props;
@@ -37,7 +38,7 @@ const Recorder = props => {
     if (hasRecordingPermissions) {
       try {
         if (recording !== null) setRecording(null);
-        const localRecording = new Audio.Recording();
+        localRecording = new Audio.Recording();
         await localRecording.prepareToRecordAsync(
             Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
         );
@@ -91,6 +92,10 @@ const Recorder = props => {
   useEffect(() => {
     askForPermissions();
   }, []);
-  return <RecorderDisplay isRecording={isRecording} onPress={onRecordPress}/>
+
+  return (
+        <RecorderDisplay isRecording={isRecording} onPress={onRecordPress}/>
+  );
+
 };
 export default Recorder;

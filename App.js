@@ -20,11 +20,11 @@ const App = () => {
 	const [ newDirectoryInformation, setNewDirectoryInformation ] = useState({});
 
 	const [ currentDirectory, setCurrentDirectory ] = useState(FileSystem.documentDirectory);
-	const [ movingOptions, setMovingOptions ] = useState({
-		areMoving: false,
-		fromUri: null,
-		toUri: null
-	});
+	// const [ movingOptions, setMovingOptions ] = useState({
+	// 	areMoving: false,
+	// 	fromUri: null,
+	// 	toUri: null
+	// });
 	const [ selectedUri, setSelectedUri ] = useState(null);
 
 	const onCreateDirectoryAttempt = (name) => {
@@ -67,6 +67,10 @@ const App = () => {
 	// 	});
 	// };
 
+	const onFileManagerFinishedLoading = () => {
+		// () => setIsLoading(false)
+	};
+
 	return (
 		<View style={styles.container}>
 			<StatusBar barStyle="light-content" />
@@ -80,7 +84,7 @@ const App = () => {
 				shouldCreateNewDirectory={shouldCreateNewDirectory}
 				newDirectoryInformation={newDirectoryInformation}
 				onDirectoryCreate={onDirectoryCreate}
-				setIsLoading={() => setIsLoading(false)}
+				setIsLoading={onFileManagerFinishedLoading}
 				currentDirectory={currentDirectory}
 				setCurrentDirectory={setCurrentDirectory}
 				selectedUri={selectedUri}

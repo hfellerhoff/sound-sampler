@@ -25,6 +25,7 @@ const App = () => {
 		fromUri: null,
 		toUri: null
 	});
+	const [ selectedUri, setSelectedUri ] = useState(null);
 
 	const onCreateDirectoryAttempt = (name) => {
 		setShowNewDirectoryModal(false);
@@ -82,8 +83,8 @@ const App = () => {
 				setIsLoading={() => setIsLoading(false)}
 				currentDirectory={currentDirectory}
 				setCurrentDirectory={setCurrentDirectory}
-				movingOptions={movingOptions}
-				setMovingOptions={setMovingOptions}
+				selectedUri={selectedUri}
+				setSelectedUri={setSelectedUri}
 			/>
 			{movingOptions.areMoving ? (
 				<Button

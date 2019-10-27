@@ -8,6 +8,7 @@ import * as FileSystem from 'expo-file-system';
 import { getParentDirectory, getNameFromUri } from '../util/Parser';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Sample from './Sample';
+import RenameModal from './RenameModal';
 
 const FileDisplay = (props) => {
 	const {
@@ -23,7 +24,6 @@ const FileDisplay = (props) => {
 		setMovingOptions
 	} = props;
 	const [ displayedFiles, setDisplayedFiles ] = useState(props.files);
-	const [ selectedUri, setSelectedUri ] = useState(null);
 	const [ sampleVisible, setSampleVisible ] = useState(false);
 
 	const onRequestDirectory = async (uri) => {
@@ -54,6 +54,10 @@ const FileDisplay = (props) => {
 		// });
 		// setCurrentDirectory(FileSystem.documentDirectory);
 		// alert('Transitioning into moving mode');
+	};
+
+	const onDismiss = () => {
+		setSelectedUri(null);
 	};
 
 	const getCard = (item, index) => {
@@ -124,6 +128,7 @@ const FileDisplay = (props) => {
 	return (
 		<View styles={styles.container}>
 			{getPageContent()}
+			<RenameModal isVisible={selectedUri ? true : false} dismiss={onDismiss} />
 			{/* <Sample sound={getSound()} /> */}
 		</View>
 	);

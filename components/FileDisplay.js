@@ -7,20 +7,12 @@ import FileCard from './FileCard';
 import { getParentDirectory, getNameFromUri } from '../util/Parser';
 
 const FileDisplay = (props) => {
-	const { files, getDirectory, deleteFile, currentDirectory, setCurrentDirectory } = props;
+	const { files, deleteFile, currentDirectory, setCurrentDirectory } = props;
 	const [ displayedFiles, setDisplayedFiles ] = useState(props.files);
 
 	const onRequestDirectory = async (uri) => {
-		const newFiles = [];
-		await getDirectory(uri).then((directoryFiles) => {
-			for (const file of directoryFiles) {
-				newFiles.push(file);
-			}
-		});
-		console.log(newFiles);
 		setCurrentDirectory(uri + '/');
 		console.log('Requested Directory: ' + uri);
-		setDisplayedFiles(newFiles);
 	};
 
 	const onRequestDeleteFile = async (uri) => {

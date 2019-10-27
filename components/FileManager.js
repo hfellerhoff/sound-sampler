@@ -11,10 +11,7 @@ const FileManager = props => {
   const testFunction = async () => {
     //TEST FUNCTIONS
     // deleteAllFiles();
-    await FileSystem.downloadAsync(
-      "http://techslides.com/demos/sample-videos/small.mp4",
-      FileSystem.documentDirectory + "small.mp4"
-    );
+    2;
     // directoryStatus = await createDirectory(
     //   FileSystem.documentDirectory,
     //   "barkbark"

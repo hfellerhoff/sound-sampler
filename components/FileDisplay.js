@@ -18,7 +18,7 @@ const FileDisplay = (props) => {
 			}
 		});
 		console.log(newFiles);
-		setCurrentDirectory(uri);
+		setCurrentDirectory(uri + '/');
 		console.log('Requested Directory: ' + uri);
 		setDisplayedFiles(newFiles);
 	};

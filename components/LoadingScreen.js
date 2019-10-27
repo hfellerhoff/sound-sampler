@@ -2,7 +2,6 @@ import React from 'react'
 
 import { View, StyleSheet, Image, Text } from 'react-native';
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../constants/Sizes';
-import 
 
 const LoadingScreen = (props) => {
     return (
@@ -35,20 +34,17 @@ const styles = StyleSheet.create({
         color: '#02fffe',
         fontSize: 18,
         fontWeight: '400',
-        fontFamily: 'Liu Jian Mao Cao', cursive,
+        fontFamily: 'Arial',
         textAlign: 'center',
         letterSpacing: 5
     }
 })
-// const [ isLoading, setIsLoading ] = useState(true);
+/* const [ isLoading, setIsLoading ] = useState(true);
 
-/* if (isLoading) {
+if (isLoading) {
     return (
         <LoadingScreen>
-            {/* <View>
-                <Header style={styles.text}>[Earworm]</Header>
-            </View> */}
-        /* </LoadingScreen>
+        </LoadingScreen>
     );
 }
 else {

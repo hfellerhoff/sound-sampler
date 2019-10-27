@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Audio, Video} from 'expo-av';
 import Recorder from "./Recorder";
 import LoopButton from "./LoopButton";
+import DeleteButton from "./DeleteButton";
 const Sample = (props) => {
     const {sound, status} = props;
      /* required to load for playing */
@@ -87,6 +88,7 @@ const Sample = (props) => {
 
     // return (
     //      <LoopButton sound={sound} onPress={handleLooping}/>
+            //<DeleteButton uri ={sound.uri} onPress={deleteFile} />
     // )
     // );
 

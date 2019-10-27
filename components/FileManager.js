@@ -1,29 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
 import FileDisplay from './FileDisplay';
-// import { DUMMY_FILES } from '../constants/Dummy';
+import { DUMMY_FILES } from '../constants/Dummy';
 import * as FileSystem from 'expo-file-system';
-// import { create } from 'uuid-js';
+import { create } from 'uuid-js';
 
 const FileManager = (props) => {
 	const [ files, setFiles ] = useState([]);
 
 	const testFunction = async () => {
 		//TEST FUNCTIONS
-		// deleteAllFiles();
-		await FileSystem.downloadAsync(
-			'http://techslides.com/demos/sample-videos/small.mp4',
-			FileSystem.documentDirectory + 'small.mp4'
-		);
+		deleteAllFiles();
+		// await FileSystem.downloadAsync(
+		//   "http://techslides.com/demos/sample-videos/small.mp4",
+		//   FileSystem.documentDirectory + "small.mp4"
+		// );
 
-		directoryStatus = await createDirectory(FileSystem.documentDirectory, 'oogabooga');
+		// directoryStatus = await createDirectory(
+		//   FileSystem.documentDirectory,
+		//   "oogabooga"
+		// );
 
-		await moveFile(
-			FileSystem.documentDirectory + 'small.mp4',
-			FileSystem.documentDirectory + 'oogabooga' + '/small.mp4'
-		);
+		// await moveFile(
+		//   FileSystem.documentDirectory + "small.mp4",
+		//   FileSystem.documentDirectory + "oogabooga" + "/small.mp4"
+		// );
 
-		console.log(await FileSystem.readDirectoryAsync(FileSystem.documentDirectory + 'oogabooga'));
+		// console.log(
+		//   await FileSystem.readDirectoryAsync(
+		//     FileSystem.documentDirectory + "oogabooga"
+		//   )
+		// );
 
 		console.log('TEST FUNCTION RUNNING');
 	};
@@ -32,8 +39,6 @@ const FileManager = (props) => {
 		return makeFileList(uri);
 	};
 	const getFile = async (uri) => {
-		//Need to run check to make sure URI is valid
-		//Need to throw exception if invalid
 		const soundObject = new Audio.soundO();
 		await soundObject.loadAsync({
 			uri: FileSystem.documentDirectory + 'small.mp4'
@@ -70,6 +75,7 @@ const FileManager = (props) => {
 				FileSystem.deleteAsync(FileSystem.documentDirectory + file);
 			});
 		});
+		updateFiles();
 	};
 
 	const deleteFile = async (uri) => {
@@ -102,17 +108,17 @@ const FileManager = (props) => {
 	};
 
 	useEffect(() => {
-		// testFunction();
 		updateFiles();
+		testFunction();
 	}, []);
 
 	useEffect(
 		() => {
 			if (props.shouldCreateNewDirectory) {
-				createDirectory(props.newDirectoryInformation.name);
+				createDirectory(props.newDirectoryInformation.uri, props.newDirectoryInformation.name);
+				updateFiles();
 				props.onDirectoryCreate();
 			}
-			//props.newDirectoryInformation
 		},
 		[ props.shouldCreateNewDirectory ]
 	);

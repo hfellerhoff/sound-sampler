@@ -95,14 +95,8 @@ const Sample = (props) => {
         //However, we should probably program logic into a new component for the UI (see RewindButton)
     };
     const handleDeletion = (props) => {
-        const {sound, status} = props;
-        alert("Are you sure you want to delete this sample? You can't get it back if you do!");
-        if (true) {
-            FileManager.deleteFile(sound.uri);
-        }
-        if (false) {
-            //nothing
-        }
+        const {sound} = props;
+        FileManager.deleteFile(sound.uri);
         //Render new html with options to either confirm or cancel the deletion, then program logic with that
     };
     const getPosition = (props) => {
@@ -113,7 +107,7 @@ const Sample = (props) => {
 
     // return (
     //      <LoopButton sound={sound} onPress={handleLooping}/>
-    //      <DeleteButton uri ={sound.uri} onPress={deleteFile} />
+    //      <DeleteButton uri ={sound.uri} onPress={deleteFile(sound.uri)} />
     //      <FastForward sound={sound} onPress={handleFastForward}/>
          //May have to call in the position of the millis, but I don't think so
     //      <RewindButton sound={sound}  onPress={handleRewinding}/>

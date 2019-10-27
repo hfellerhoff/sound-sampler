@@ -7,7 +7,30 @@ import {Image, View} from "react-native-reanimated";
 const TimeStamp = (props) => {
     //const ICON_POSITION = new Icon(require('../assets/ios-icons/'), 20, 14);
     const {sound} = props;
-    /* I will let someone else do the animations because I am a loser
+    const millis = sound.positionMillis
+    const getMMSSFromMillis = (props) => {
+        const {millis} = props;
+        const totalSeconds = millis / 1000;
+        const seconds = Math.floor(totalSeconds % 60);
+        const minutes = Math.floor(totalSeconds / 60);
+
+        const padWithZero = number => {
+            const string = number.toString();
+            if (number < 10) {
+                return '0' + string;
+            }
+            return string;
+        };
+        return padWithZero(minutes) + ':' + padWithZero(seconds);
+    }
+    return (
+        //needs work but hopefully work as a basic concept
+        <View style={styles}>
+            <h3>{getMMSSFromMillis(millis)}</h3>
+        </View>
+    );
+};
+/* I will let someone else do the animations because I am a loser
      const transition = useTransition(
          isRecording,
          isRecording ? 0 : 1,
@@ -25,22 +48,6 @@ const TimeStamp = (props) => {
          borderRadius: borderRadius
      };
  */
-    const setTimeStamp = async(props) => {
-        const {sound} = props;
-        const getPosition = async(props) => {
-            const {sound} = props;
-            return sound.positionMillis
-        };
-        return setInterval(function(){getPosition(sound)},100);
-    };
-    return (
-        //needs work but hopefully work as a basic concept
-        <View style={styles}>
-            <h3>{setTimeStamp(sound)}</h3>
-        </View>
-    );
-};
-
 const styles = StyleSheet.create({
     border: {
         position: 'absolute',

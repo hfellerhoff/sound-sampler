@@ -23,9 +23,9 @@ const App = () => {
 		if (name && name !== '') {
 			setNewDirectoryInformation({
 				name: name,
-				uri: currentParentDirectory
+				uri: currentDirectory
 			});
-			console.log(currentParentDirectory);
+			console.log(currentDirectory);
 			setShouldCreateNewDirectory(true);
 		}
 	};
@@ -35,25 +35,24 @@ const App = () => {
 		setShouldCreateNewDirectory(false);
 	};
 
-	if (isLoading) return <LoadingScreen onPress={() => setIsLoading(false)} />;
-	else
-		return (
-			<View style={styles.container}>
-				<StatusBar barStyle="light-content" />
-				<Header title="Files" onPress={() => setShowNewDirectoryModal(true)} />
-				<FileManager
-					isRecording={isRecording}
-					shouldCreateNewDirectory={shouldCreateNewDirectory}
-					newDirectoryInformation={newDirectoryInformation}
-					onDirectoryCreate={onDirectoryCreate}
-					setIsLoading={() => setIsLoading(false)}
-					currentDirectory={currentDirectory}
-					setCurrentDirectory={setCurrentDirectory}
-				/>
-				<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
-				<NewDirectoryModal isVisible={showNewDirectoryModal} dismiss={onCreateDirectoryAttempt} />
-			</View>
-		);
+	return (
+		<View style={styles.container}>
+			<StatusBar barStyle="light-content" />
+			<Header title="Files" onPress={() => setShowNewDirectoryModal(true)} />
+			<FileManager
+				isRecording={isRecording}
+				shouldCreateNewDirectory={shouldCreateNewDirectory}
+				newDirectoryInformation={newDirectoryInformation}
+				onDirectoryCreate={onDirectoryCreate}
+				setIsLoading={() => setIsLoading(false)}
+				currentDirectory={currentDirectory}
+				setCurrentDirectory={setCurrentDirectory}
+			/>
+			<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
+			<NewDirectoryModal isVisible={showNewDirectoryModal} dismiss={onCreateDirectoryAttempt} />
+			<LoadingScreen isLoading={isLoading} onPress={() => setIsLoading(false)} />
+		</View>
+	);
 };
 
 const styles = StyleSheet.create({

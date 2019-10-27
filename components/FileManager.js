@@ -37,17 +37,14 @@ const FileManager = props => {
   };
 
   const getFile = async soundUri => {
-    console.log("creating sound object");
     const soundObject = new Audio.Sound();
-
-    console.log("don making object");
+    soundObject.setVolumeAsync(1);
 
     await soundObject
       .loadAsync({
         uri: soundUri
       })
       .then(() => {
-        console.log("Playing sound?");
         soundObject.playAsync();
       });
   };
@@ -98,9 +95,9 @@ const FileManager = props => {
   };
 
   const updateFiles = async () => {
-    await makeFileList(props.currentDirectory).then((
-      newFiles //props.currentDirectory
-    ) => setFiles(newFiles));
+    await makeFileList(props.currentDirectory).then(newFiles =>
+      setFiles(newFiles)
+    );
   };
 
   const pullCache = async currentDirectory => {

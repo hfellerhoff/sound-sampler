@@ -20,19 +20,33 @@ const FileManager = props => {
     return soundObject;
   };
 
+  const createDirectory = async (uri, name) => {
+    await FileSystem.makeDirectoryAsync(uri + name);
+  };
+
   const makeFileList = async (
     uri //Default uri is 'FileSystem.documentDirectory'
   ) => {
+    deleteAllFiles();
+    directoryStatus = createDirectory(
+      FileSystem.documentDirectory,
+      "oogabooga"
+    );
     let tempData = [];
-    await FileSystem.readDirectoryAsync(uri).then(data => {
-      data.forEach(file => {
-        tempData.push({
-          name: file,
-          uri: FileSystem.documentDirectory + file,
-          isDirectory: false
-          //Eventually add isDirectory
-        });
-      });
+
+    await FileSystem.readDirectoryAsync(uri).then(async data => {
+      for (const file of data) {
+        await FileSystem.getInfoAsync(FileSystem.documentDirectory + file).then(
+          fileInfo => {
+            tempData.push({
+              name: file,
+              uri: FileSystem.documentDirectory + file,
+              isDirectory: fileInfo.isDirectory,
+              children: []
+            });
+          }
+        );
+      }
     });
     return tempData;
   };
@@ -54,21 +68,14 @@ const FileManager = props => {
       from: oldUri,
       to: newUri
     };
-    console.log(`Moving file at ${oldUri} to ${newUri}`);
     await FileSystem.moveAsync(options);
   };
 
   const updateFiles = async () => {
-    await pullCache().then(() => {
-      makeFileList(FileSystem.documentDirectory)
-        .then(newFiles => setFiles(newFiles))
-        .catch(error => alert(error));
-    });
+    await makeFileList(FileSystem.documentDirectory).then(newFiles =>
+      setFiles(newFiles)
+    );
   };
-
-  useEffect(() => {
-    updateFiles();
-  }, []);
 
   const pullCache = async () => {
     const audioDirectoryName = Platform.OS === "ios" ? "AV/" : "Audio/";
@@ -76,14 +83,23 @@ const FileManager = props => {
 
     await FileSystem.readDirectoryAsync(directoryName).then(data => {
       data.forEach(file => {
-        moveFile(directoryName + file, FileSystem.documentDirectory + file);
+        moveFile(
+          directoryName + file,
+          FileSystem.documentDirectory + file
+        ).then(() => {
+          updateFiles();
+        });
       });
     });
   };
 
   useEffect(() => {
+    updateFiles();
+  }, []);
+
+  useEffect(() => {
     if (!props.isRecording) {
-      updateFiles();
+      pullCache();
     }
   }, [props.isRecording]);
 

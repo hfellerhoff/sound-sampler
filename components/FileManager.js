@@ -8,28 +8,7 @@ import * as Sharing from "expo-sharing";
 const FileManager = props => {
   const [files, setFiles] = useState([]);
 
-  const testFunction = async () => {
-    //TEST FUNCTIONS
-    // deleteAllFiles();
-    2;
-    // directoryStatus = await createDirectory(
-    //   FileSystem.documentDirectory,
-    //   "barkbark"
-    // );
-    // console.log(files);
-    // updateFiles();
-    // updateFiles();
-    // await moveFile(
-    //   FileSystem.documentDirectory + "small.mp4",
-    //   FileSystem.documentDirectory + "oogabooga" + "/small.mp4"
-    // );
-    // console.log(
-    //   await FileSystem.readDirectoryAsync(
-    //     FileSystem.documentDirectory + "oogabooga"
-    //   )
-    // );
-    // changeName(FileSystem.documentDirectory + "barkbark", "arfarf");
-  };
+  const testFunction = async () => {};
 
   const changeName = async (oldUri, newName) => {
     for (const file of files) {
@@ -108,7 +87,7 @@ const FileManager = props => {
   };
 
   const updateFiles = async () => {
-    await makeFileList(FileSystem.documentDirectory).then(newFiles =>
+    await makeFileList(props.currentDirectory).then(newFiles =>
       setFiles(newFiles)
     );
   };
@@ -130,7 +109,7 @@ const FileManager = props => {
     updateFiles();
     props.setIsLoading();
     // testFunction();
-  }, []);
+  }, [props.currentDirectory]);
 
   useEffect(() => {
     if (props.shouldCreateNewDirectory) {

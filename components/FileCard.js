@@ -24,7 +24,6 @@ const FileCard = ({ file, bottomStyle, requestDirectory, moveFile, deleteFile, c
 	};
 
 	const onLongPress = () => {
-		alert('long press');
 		setSelectedUri(uri);
 	};
 
@@ -59,7 +58,7 @@ const FileCard = ({ file, bottomStyle, requestDirectory, moveFile, deleteFile, c
 				onSwipeableRightWillOpen={() => deleteFile(uri)}
 			>
 				<View>
-					<TouchableWithoutFeedback onPressIn={onFileClick} delayPressIn={100} onLongPress={onLongPress}>
+					<TouchableWithoutFeedback onPress={onFileClick} delayPressIn={100} onLongPress={onLongPress}>
 						<View style={[ styles.item, { borderColor: borderColor } ]}>
 							<Image source={image} style={styles.image} />
 							<Text style={styles.itemText}>{file.name}</Text>

@@ -24,15 +24,8 @@ const FileDisplay = (props) => {
 	};
 
 	const onRequestDeleteFile = async (uri) => {
+		console.log(uri);
 		deleteFile(uri);
-	};
-
-	const getAbleToMoveToParentDirectory = (index) => {
-		if (displayedFiles[index] && displayedFiles[index] !== null && displayedFiles[index] !== undefined) {
-			return displayedFiles[index].uri === currentDirectory ? true : false;
-		} else {
-			return false;
-		}
 	};
 
 	const getCard = (item, index) => {
@@ -53,7 +46,6 @@ const FileDisplay = (props) => {
 				deleteFile={onRequestDeleteFile}
 				moveFile={() => alert('Move file!')}
 				currentDirectory={currentDirectory}
-				ableToMoveToParentDirectory={getAbleToMoveToParentDirectory(index)}
 			/>
 		);
 	};

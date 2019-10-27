@@ -42,7 +42,8 @@ const FileDisplay = (props) => {
 		console.log(uri);
 		setMovingOptions({
 			areMoving: true,
-			moveUri: uri
+			fromUri: uri,
+			toUri: null
 		});
 		setCurrentDirectory(FileSystem.documentDirectory);
 		alert('Transitioning into moving mode');

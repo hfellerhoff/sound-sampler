@@ -7,7 +7,7 @@ import NewDirectoryModal from './components/NewDirectoryModal';
 import * as FileSystem from 'expo-file-system';
 import LoadingScreen from './components/LoadingScreen';
 import { getNameFromUri, getParentDirectory } from './util/Parser';
-import Button from './components/basic/CustomButton';
+import Button from './components/basic/AnotherCustomButton';
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from './constants/Sizes';
 import Colors from './constants/Colors';
 
@@ -22,8 +22,8 @@ const App = () => {
 	const [ currentDirectory, setCurrentDirectory ] = useState(FileSystem.documentDirectory);
 	const [ movingOptions, setMovingOptions ] = useState({
 		areMoving: false,
-		fromUri: '',
-		toUri: ''
+		fromUri: null,
+		toUri: null
 	});
 
 	const onCreateDirectoryAttempt = (name) => {
@@ -57,7 +57,14 @@ const App = () => {
 		else return getNameFromUri(currentDirectory);
 	};
 
-	const onFileMove = () => {};
+	const onFileMove = () => {
+		alert('onFileMove');
+		setMovingOptions({
+			areMoving: true,
+			toUri: currentDirectory,
+			fromUri: movingOptions.fromUri
+		});
+	};
 
 	return (
 		<View style={styles.container}>
@@ -81,7 +88,7 @@ const App = () => {
 			{movingOptions.areMoving ? (
 				<Button
 					title="Move Here"
-					onPress={() => alert('move')}
+					onPress={() => onFileMove()}
 					style={{
 						position: 'absolute',
 						bottom: SCREEN_HEIGHT / 8,

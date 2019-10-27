@@ -49,7 +49,7 @@ const FileCard = ({ file, bottomStyle, requestDirectory, moveFile, deleteFile, c
 			<Swipeable
 				renderLeftActions={LeftActions}
 				renderRightActions={RightActions}
-				onSwipeableLeftWillOpen={moveFile}
+				onSwipeableLeftWillOpen={() => moveFile(uri)}
 				onSwipeableRightWillOpen={() => deleteFile(uri)}
 			>
 				<View>

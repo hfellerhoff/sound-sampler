@@ -133,8 +133,19 @@ const FileManager = (props) => {
 
 	useEffect(
 		() => {
-			if (movingOptions.areMoving) {
-				// some code
+			// console.log('checking...');
+			console.log(movingOptions);
+			if (movingOptions.toUri) {
+				console.log('Moving...');
+				moveFile(movingOptions.fromUri, movingOptions.toUri);
+				console.log('Moved.');
+				setMovingOptions({
+					areMoving: false,
+					fromUri: null,
+					toUri: null
+				});
+				console.log(movingOptions);
+				setTimeout(() => updateFiles(), 250);
 			}
 		},
 		[ movingOptions ]

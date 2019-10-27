@@ -11,7 +11,6 @@ const FileManager = props => {
   const exportData = async uri => {
     Sharing.shareAsync(uri);
   };
-
   const changeName = async (oldUri, newName) => {
     for (const file of files) {
       if (oldUri === file.uri) {
@@ -109,8 +108,7 @@ const FileManager = props => {
   useEffect(() => {
     updateFiles();
     props.setIsLoading();
-    // testFunction();
-  }, [props.currentDirectory]); //props.currentDirectory
+  }, [props.currentDirectory]);
 
   useEffect(() => {
     if (props.shouldCreateNewDirectory) {
@@ -142,8 +140,8 @@ const FileManager = props => {
       setMovingOptions={setMovingOptions}
       exportData={exportData}
       changeName={changeName}
-      selectedUri={selectedUri}
-      setSelectedUri={setSelectedUri}
+      selectedUri={props.selectedUri}
+      setSelectedUri={props.setSelectedUri}
     />
   );
 };

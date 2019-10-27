@@ -144,7 +144,6 @@ const FileManager = props => {
 
   useEffect(() => {
     if (!props.isRecording) {
-      alert(props.currentDirectory);
       pullCache(props.currentDirectory);
     }
   }, [props.isRecording]);
@@ -155,8 +154,6 @@ const FileManager = props => {
       getDirectory={getDirectory}
       getFile={getFile}
       deleteFile={deleteFile}
-      currentParentDirectory={props.currentParentDirectory}
-      setCurrentParentDirectory={props.setCurrentParentDirectory}
     />
   );
 };

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Platform } from "react-native";
 import FileDisplay from "./FileDisplay";
-import { DUMMY_FILES } from "../constants/Dummy";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 
@@ -160,6 +159,7 @@ const FileManager = props => {
       movingOptions={movingOptions}
       setMovingOptions={setMovingOptions}
       exportData={exportData}
+      changeName={changeName}
     />
   );
 };

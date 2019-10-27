@@ -32,7 +32,7 @@ const FileDisplay = (props) => {
 	const getFiles = () => (displayedFiles.length > 0 ? displayedFiles : files);
 
 	const getAbleToMoveToParentDirectory = (index) => {
-		if (displayedFiles && displayedFiles !== null && displayedFiles !== undefined) {
+		if (displayedFiles[index] && displayedFiles[index] !== null && displayedFiles[index] !== undefined) {
 			return displayedFiles[index].uri === currentParentDirectory ? true : false;
 		} else {
 			return false;

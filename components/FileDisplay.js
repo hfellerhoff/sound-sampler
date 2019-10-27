@@ -31,6 +31,14 @@ const FileDisplay = (props) => {
 
 	const getFiles = () => (displayedFiles.length > 0 ? displayedFiles : files);
 
+	const getAbleToMoveToParentDirectory = (index) => {
+		if (displayedFiles && displayedFiles !== null && displayedFiles !== undefined) {
+			return displayedFiles[index].uri === currentParentDirectory ? true : false;
+		} else {
+			return false;
+		}
+	};
+
 	const getCard = (item, index) => {
 		let marginStyle = {};
 		if (getFiles().length - 1 === index) {
@@ -49,16 +57,7 @@ const FileDisplay = (props) => {
 				deleteFile={onRequestDeleteFile}
 				moveFile={() => alert('Move file!')}
 				currentParentDirectory={currentParentDirectory}
-				ableToMoveToParentDirectory={
-					displayedFiles !== undefined ? getParentDirectory(displayedFiles[index].uri) ===
-					currentParentDirectory ? (
-						true
-					) : (
-						false
-					) : (
-						false
-					)
-				}
+				ableToMoveToParentDirectory={getAbleToMoveToParentDirectory(index)}
 			/>
 		);
 	};

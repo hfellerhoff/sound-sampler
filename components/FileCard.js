@@ -6,14 +6,22 @@ import Icons from '../constants/Icons';
 import Colors from '../constants/Colors';
 
 const FileCard = ({ file, style }) => {
-	const { uri, name, isDirectory } = file;
+	const { uri, name, isDirectory, requestDirectory } = file;
 
 	const borderColor = isDirectory ? Colors.primary : Colors.gray;
 	const image = isDirectory ? Icons.folder : Icons.audio;
 
+	const onFileClick = () => {
+		if (isDirectory) {
+			requestDirectory(uri);
+		} else {
+			alert(`uri: ${uri}, name: ${name}, isDirectory: ${isDirectory}`);
+		}
+	};
+
 	return (
 		<View style={style}>
-			<TouchableOpacity onPress={() => alert(`uri: ${uri}, name: ${name}, isDirectory: ${isDirectory}`)}>
+			<TouchableOpacity onPress={onFileClick}>
 				<View style={[ styles.item, { borderColor: borderColor } ]}>
 					<Image source={image} style={styles.image} />
 					<Text style={styles.itemText}>{file.name}</Text>

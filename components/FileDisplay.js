@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { StyleSheet, View, FlatList, Platform, Text } from 'react-native';
 import { SCREEN_WIDTH, getStatusBarHeight, isiPhoneX } from '../constants/Sizes';
 import FileCard from './FileCard';
 
 const FileDisplay = (props) => {
-	const { files } = props;
+	const { files, getDirectory } = props;
+	const [ displayedFiles, setDisplayedFiles ] = useState(files);
+
+	const onRequestDirectory = (uri) => {
+		props.getDirectory(uri).then((newFiles) => setDisplayedFiles(newFiles));
+	};
 
 	const getCard = (item, index) => {
 		let bottomStyle = {};
-		if (files.length - 1 === index) {
+		if (displayedFiles.length - 1 === index) {
 			if (isiPhoneX())
 				bottomStyle = {
 					marginBottom: 214
@@ -17,15 +22,15 @@ const FileDisplay = (props) => {
 			else if (Platform.OS === 'ios') bottomStyle = { marginBottom: 180 };
 			else bottomStyle = { marginBottom: 190 };
 		}
-		return <FileCard style={bottomStyle} file={item} />;
+		return <FileCard style={bottomStyle} file={item} requestDirectory={onRequestDirectory} />;
 	};
 
 	const getPageContent = (item, index) => {
-		if (files.length > 0) {
+		if (displayedFiles.length > 0) {
 			return (
 				<FlatList
 					style={styles.list}
-					data={files}
+					data={displayedFiles}
 					renderItem={({ item, index }) => getCard(item, index)}
 					keyExtractor={(file) => file.uri}
 				/>

@@ -5,9 +5,7 @@ import FileManager from "./FileManager";
 const fileSystem = [
     {
         title: "Test",
-        uri:
-            FileManager.getURI
-
+        uri: FileManager.getURI
     }
     ]
 const Sample = async (props)  => {
@@ -24,7 +22,7 @@ const Sample = async (props)  => {
         isLooping: false,
         isPlaying: false
     };
-    await playBackInstance = recording.createNewLoadedSoundAsync();
+    const sound = recording.createNewLoadedSoundAsync();
     const componentDidMount = async () => {
         try {
             await Audio.setAudioModeAsync({
@@ -37,27 +35,27 @@ const Sample = async (props)  => {
                 playThroughEarpieceAndroid: true
             });
 
-            await loadAudio(playBackInstance)
+            await loadAudio(sound)
         } catch (e) {
             console.log(e)
         }
     }
 
     const loadAudio = async (props) => {
-        const {playBackInstance} = props;
+        const {sound} = props;
         try {
-            const playbackInstance = new Audio.Sound();
+            const sound = new Audio.Sound();
             const source = {
                 uri: FileManager.getURI
             };
 
             const status = {
-                shouldPlay: playBackInstance.isPlaying,
-                volume: playBackInstance.volume
+                shouldPlay: sound.isPlaying,
+                volume: sound.volume
             };
 
-            playbackInstance.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
-            await playbackInstance.loadAsync(source, status, false);
+            sound.setOnPlaybackStatusUpdate();
+            await sound.loadAsync(source, status, false);
 
         } catch (error) {
             alert(error);
@@ -65,66 +63,65 @@ const Sample = async (props)  => {
     };
     const handleLooping = async (props) => {
         const {sound} = props;
-        const {playbackInstance, isLoaded} = this.state;
-        if (isLoaded) {
-            if (playbackInstance.isLooping === true) {
-                await playbackInstance.setIsLoopingAsync(true);
+        if (sound.isLoaded) {
+            if (sound.isLooping === true) {
+                await sound.setIsLoopingAsync(true);
             } else if (sound.isLooping === false) {
-                await playbackInstance.setIsLoopingAsync(false);
+                await sound.setIsLoopingAsync(false);
             }
             alert("Loop Button did not work!")
         }
 
         const handleFastForward = async (props) => {
-            const {playbackInstance, isLoaded} = props;
-            const durationMillis = playbackInstance.durationMillis;
-            const positionMillis = playbackInstance.positionMillis;
+            const {sound, isLoaded} = props;
+            const durationMillis = sound.durationMillis;
+            const positionMillis = sound.positionMillis;
             if (isLoaded) {
                 if (durationMillis >= 10000) {
-                    await playbackInstance.playFromPositionAsync(positionMillis + 2000);
+                    await sound.playFromPositionAsync(positionMillis + 2000);
                 } else if (durationMillis < 10000) {
-                    await playbackInstance.playFromPositionAsync(positionMillis + 1000);
+                    await sound.playFromPositionAsync(positionMillis + 1000);
                 } else if (durationMillis < 5000) {
-                    await playbackInstance.playFromPositionAsync(positionMillis + 500);
+                    await sound.playFromPositionAsync(positionMillis + 500);
                 }
             }
         };
         const handleRewinding = async (props) => {
-            const {playbackInstance, isLoaded} = props;
-            const durationMillis = playbackInstance.durationMillis;
-            const positionMillis = playbackInstance.positionMillis;
+            const {sound, isLoaded} = props;
+            const durationMillis = sound.durationMillis;
+            const positionMillis = sound.positionMillis;
             if (isLoaded) {
                 if (durationMillis >= 10000) {
-                    await playbackInstance.playFromPositionAsync(positionMillis - 2000);
+                    await sound.playFromPositionAsync(positionMillis - 2000);
                 } else if (durationMillis < 10000) {
-                    await playbackInstance.playFromPositionAsync(positionMillis - 1000);
+                    await sound.playFromPositionAsync(positionMillis - 1000);
                 } else if (durationMillis < 5000) {
-                    await playbackInstance.playFromPositionAsync(positionMillis - 500);
+                    await sound.playFromPositionAsync(positionMillis - 500);
                 }
             }
         };
         const onPlaybackStatusUpdate = (props) => {
-            const {playbackInstance} = props;
-            return playbackInstance.isBuffer;
+            const {sound} = props;
+            return sound.isBuffering;
         };
 
         const handlePlayPause = async (props) => {
-            const {playbackInstance} = props;
+            const {sound} = props;
             if (getPlayStatus) {
-                await playbackInstance.pauseAsync()
+                await sound.pauseAsync()
             } else {
-                await playbackInstance.playAsync();
+                await sound.playAsync();
             }
 
         };
         const getPlayStatus = async (props) => {
-            const {playbackInstance} = props;
-            return playbackInstance.isPlaying;
+            const {sound} = props;
+            return sound.isPlaying;
         };
 
         const renderFileInfo = (props) => {
-            const {playbackInstance, currentIndex} = props;
-            return playbackInstance ? (
+            const {sound, currentIndex} = props;
+            return sound ? (
                 <View style={styles.trackInfo}>
                     <Text style={[styles.trackInfoText, styles.largeText]}>
                         {fileSystem[currentIndex].title}
@@ -132,6 +129,7 @@ const Sample = async (props)  => {
                 </View>
             ) : null
         }
+        await componentDidMount();
         return (
             <View style={styles.container}>
                 <View style={styles.controls}>
@@ -147,17 +145,18 @@ const Sample = async (props)  => {
                                    style={{width: 50, height: 50}}/>
                         )}
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.control}>
+                    <TouchableOpacity style={styles.control} onPress={handleFastForward}>
                         <Image source={require('../assets/ios-icons/fast-forward-ios.png')}
+                               style={{width: 50, height: 50}}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.control} onPress={handleRewinding}>
+                        <Image source={require('../assets/ios-icons/rewind-ios.png')}
                                style={{width: 50, height: 50}}/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.controls}>
-                    <TouchableOpacity style={styles.control}>
+                    <TouchableOpacity style={styles.control} onPress={handleLooping}>
                         <Image source={require('../assets/ios-icons/loop-ios.png')} style={{width: 50, height: 50}}/>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.control}>
-                        <Image source={require('../assets/ios-icons/delete-ios.png')} style={{width: 50, height: 50}}/>
                     </TouchableOpacity>
                 </View>
                 {renderFileInfo()}

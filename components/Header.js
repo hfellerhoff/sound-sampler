@@ -15,6 +15,7 @@ import Colors from '../constants/Colors';
 import Icons from '../constants/Icons';
 
 const Header = ({ title, onPress, onGoBack }) => {
+	const image = title === 'Files' ? <React.Fragment /> : <Image source={Icons.rightCaret} style={styles.caret} />;
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.statusBar} />
@@ -22,6 +23,7 @@ const Header = ({ title, onPress, onGoBack }) => {
 				<View style={styles.header}>
 					<TouchableWithoutFeedback onPress={onGoBack}>
 						<View style={styles.titleContainer}>
+							{image}
 							<Text style={styles.title}>{title}</Text>
 						</View>
 					</TouchableWithoutFeedback>
@@ -84,6 +86,13 @@ const styles = StyleSheet.create({
 		height: 30,
 		width: 30,
 		marginRight: 15,
+		marginTop: 3
+	},
+
+	caret: {
+		height: 25,
+		width: 25,
+		marginRight: 5,
 		marginTop: 3
 	}
 });

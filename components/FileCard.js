@@ -66,7 +66,7 @@ const FileCard = ({
 				onSwipeableRightWillOpen={() => deleteFile(uri)}
 			>
 				<View>
-					<TouchableWithoutFeedback onPressIn={onFileClick} delayPressIn={50}>
+					<TouchableWithoutFeedback onPressIn={onFileClick} delayPressIn={100}>
 						<View style={[ styles.item, { borderColor: borderColor } ]}>
 							{Caret()}
 							<Image source={image} style={styles.image} />

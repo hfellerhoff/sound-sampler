@@ -14,8 +14,8 @@ const addFolder =
 		: require('../assets/android-icons/add-folder-android.png');
 const rightCaret =
 	Platform.OS === 'ios'
-		? require('../assets/ios-icons/carrot-ios.png')
-		: require('../assets/android-icons/carrot-android.png');
+		? require('../assets/ios-icons/caret-ios.png')
+		: require('../assets/android-icons/caret-android.png');
 const downCaret =
 	Platform.OS === 'ios'
 		? require('../assets/ios-icons/down-caret-ios.png')

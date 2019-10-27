@@ -102,11 +102,11 @@ const FileDisplay = (props) => {
 	useEffect(
 		() => {
 			if (selectedUri) {
-				alert('Sample visible');
+				// alert('Sample visible');
 				console.log(selectedUri);
 				setSampleVisible(true);
 			} else {
-				alert('Sample not visible');
+				// alert('Sample not visible');
 				console.log(selectedUri);
 				setSampleVisible(false);
 			}
@@ -122,7 +122,7 @@ const FileDisplay = (props) => {
 	return (
 		<View styles={styles.container}>
 			{getPageContent()}
-			<Sample sound={getSound()} />
+			{/* <Sample sound={getSound()} /> */}
 		</View>
 	);
 };

@@ -50,7 +50,13 @@ const FileDisplay = (props) => {
 				moveFile={() => alert('Move file!')}
 				currentParentDirectory={currentParentDirectory}
 				ableToMoveToParentDirectory={
-					getParentDirectory(displayedFiles[index].uri) === currentParentDirectory ? true : false
+					displayedFiles ? getParentDirectory(displayedFiles[index].uri) === currentParentDirectory ? (
+						true
+					) : (
+						false
+					) : (
+						false
+					)
 				}
 			/>
 		);

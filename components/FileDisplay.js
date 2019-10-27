@@ -11,21 +11,13 @@ const FileDisplay = (props) => {
 	const [ displayedFiles, setDisplayedFiles ] = useState(props.files);
 
 	const onRequestDirectory = async (uri) => {
-		const newFiles = [
-			{
-				uri: uri,
-				name: getNameFromUri(uri),
-				isDirectory: true
-			}
-		];
+		const newFiles = [];
 		await getDirectory(uri).then((directoryFiles) => {
 			for (const file of directoryFiles) {
 				newFiles.push(file);
 			}
 		});
 		console.log(newFiles);
-		const parentDirectory = getParentDirectory(uri);
-		console.log('Parent Directory: ' + parentDirectory);
 		setCurrentDirectory(uri);
 		console.log('Requested Directory: ' + uri);
 		setDisplayedFiles(newFiles);

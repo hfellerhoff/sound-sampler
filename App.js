@@ -58,14 +58,14 @@ const App = () => {
 		else return getNameFromUri(currentDirectory);
 	};
 
-	const onFileMove = () => {
-		alert('onFileMove');
-		setMovingOptions({
-			areMoving: true,
-			toUri: currentDirectory,
-			fromUri: movingOptions.fromUri
-		});
-	};
+	// const onFileMove = () => {
+	// 	alert('onFileMove');
+	// 	setMovingOptions({
+	// 		areMoving: true,
+	// 		toUri: currentDirectory,
+	// 		fromUri: movingOptions.fromUri
+	// 	});
+	// };
 
 	return (
 		<View style={styles.container}>
@@ -86,20 +86,7 @@ const App = () => {
 				selectedUri={selectedUri}
 				setSelectedUri={setSelectedUri}
 			/>
-			{movingOptions.areMoving ? (
-				<Button
-					title="Move Here"
-					onPress={() => onFileMove()}
-					style={{
-						position: 'absolute',
-						bottom: SCREEN_HEIGHT / 8,
-						left: -SCREEN_WIDTH / 4,
-						backgroundColor: Colors.fileLeftAction
-					}}
-				/>
-			) : (
-				<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
-			)}
+			{selectedUri ? <React.Fragment /> : <Recorder isRecording={isRecording} setIsRecording={setIsRecording} />}
 			<NewDirectoryModal isVisible={showNewDirectoryModal} dismiss={onCreateDirectoryAttempt} />
 			<LoadingScreen isLoading={isLoading} onPress={() => setIsLoading(false)} />
 		</View>

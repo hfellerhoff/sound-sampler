@@ -1,26 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import { Platform } from 'react-native';
-import FileDisplay from './FileDisplay';
-import { DUMMY_FILES } from '../constants/Dummy';
-import * as FileSystem from 'expo-file-system';
+import React, { useState, useEffect } from "react";
+import { Platform } from "react-native";
+import FileDisplay from "./FileDisplay";
+import { DUMMY_FILES } from "../constants/Dummy";
+import * as FileSystem from "expo-file-system";
+import { create } from "uuid-js";
 
-const FileManager = (props) => {
-	const [ files, setFiles ] = useState([]);
+const FileManager = props => {
+  const [files, setFiles] = useState([]);
 
-	const getDirectory = (uri) => {
-		return makeFileList(uri);
-	};
-	const getFile = async (uri) => {
-		//Need to run check to make sure URI is valid
-		//Need to throw exception if invalid
-		const soundObject = new Audio.soundO();
-		await soundObject.loadAsync({
-			uri: FileSystem.documentDirectory + 'small.mp4'
-		});
-		return soundObject;
-	};
+  const testFunction = async () => {
+    //TEST FUNCTIONS
+    // deleteAllFiles();
+    await FileSystem.downloadAsync(
+      "http://techslides.com/demos/sample-videos/small.mp4",
+      FileSystem.documentDirectory + "small.mp4"
+    );
 
-<<<<<<< HEAD
+    directoryStatus = await createDirectory(
+      FileSystem.documentDirectory,
+      "oogabooga"
+    );
+
+    await moveFile(
+      FileSystem.documentDirectory + "small.mp4",
+      FileSystem.documentDirectory + "oogabooga" + "/small.mp4"
+    );
+
+    console.log(
+      await FileSystem.readDirectoryAsync(
+        FileSystem.documentDirectory + "oogabooga"
+      )
+    );
+
+    console.log("TEST FUNCTION RUNNING");
+  };
+
+  const getDirectory = uri => {
+    return makeFileList(uri);
+  };
+  const getFile = async uri => {
+    //Need to run check to make sure URI is valid
+    //Need to throw exception if invalid
+    const soundObject = new Audio.soundO();
+    await soundObject.loadAsync({
+      uri: FileSystem.documentDirectory + "small.mp4"
+    });
+    return soundObject;
+  };
+
   const createDirectory = async (uri, name) => {
     await FileSystem.makeDirectoryAsync(uri + name);
   };
@@ -28,22 +55,16 @@ const FileManager = (props) => {
   const makeFileList = async (
     uri //Default uri is 'FileSystem.documentDirectory'
   ) => {
-    deleteAllFiles();
-    directoryStatus = createDirectory(
-      FileSystem.documentDirectory,
-      "oogabooga"
-    );
     let tempData = [];
 
     await FileSystem.readDirectoryAsync(uri).then(async data => {
       for (const file of data) {
         await FileSystem.getInfoAsync(FileSystem.documentDirectory + file).then(
-          fileInfo => {
+          async fileInfo => {
             tempData.push({
               name: file,
               uri: FileSystem.documentDirectory + file,
-              isDirectory: fileInfo.isDirectory,
-              children: []
+              isDirectory: fileInfo.isDirectory
             });
           }
         );
@@ -51,38 +72,19 @@ const FileManager = (props) => {
     });
     return tempData;
   };
-=======
-	const makeFileList = async (
-		uri //Default uri is 'FileSystem.documentDirectory'
-	) => {
-		let tempData = [];
-		await FileSystem.readDirectoryAsync(uri).then((data) => {
-			data.forEach((file) => {
-				tempData.push({
-					name: file,
-					uri: FileSystem.documentDirectory + file,
-					isDirectory: false
-					//Eventually add isDirectory
-				});
-			});
-		});
-		return tempData;
-	};
->>>>>>> c3e462d7a7a7366806f0782daa5377b921dac2df
 
-	const deleteAllFiles = async () => {
-		FileSystem.readDirectoryAsync(FileSystem.documentDirectory).then((data) => {
-			data.forEach((file) => {
-				FileSystem.deleteAsync(FileSystem.documentDirectory + file);
-			});
-		});
-	};
+  const deleteAllFiles = async () => {
+    FileSystem.readDirectoryAsync(FileSystem.documentDirectory).then(data => {
+      data.forEach(file => {
+        FileSystem.deleteAsync(FileSystem.documentDirectory + file);
+      });
+    });
+  };
 
-	const deleteFile = async (uri) => {
-		FileSystem.deleteAsync(uri);
-	};
+  const deleteFile = async uri => {
+    FileSystem.deleteAsync(uri);
+  };
 
-<<<<<<< HEAD
   const moveFile = async (oldUri, newUri) => {
     const options = {
       from: oldUri,
@@ -114,58 +116,27 @@ const FileManager = (props) => {
   };
 
   useEffect(() => {
+    // testFunction();
     updateFiles();
   }, []);
+
+  useEffect(() => {
+    if (props.shouldCreateNewDirectory) {
+      createDirectory(props.newDirectoryInformation.name);
+      props.onDirectoryCreate();
+    }
+    //props.newDirectoryInformation
+  }, [props.shouldCreateNewDirectory]);
 
   useEffect(() => {
     if (!props.isRecording) {
       pullCache();
     }
   }, [props.isRecording]);
-=======
-	const moveFile = async (oldUri, newUri) => {
-		const options = {
-			from: oldUri,
-			to: newUri
-		};
-		console.log(`Moving file at ${oldUri} to ${newUri}`);
-		await FileSystem.moveAsync(options);
-	};
 
-	const updateFiles = async () => {
-		await pullCache().then(() => {
-			makeFileList(FileSystem.documentDirectory)
-				.then((newFiles) => setFiles(newFiles))
-				.catch((error) => alert(error));
-		});
-	};
-
-	useEffect(() => {
-		updateFiles();
-	}, []);
-
-	const pullCache = async () => {
-		const audioDirectoryName = Platform.OS === 'ios' ? 'AV/' : 'Audio/';
-		const directoryName = FileSystem.cacheDirectory + audioDirectoryName;
-
-		await FileSystem.readDirectoryAsync(directoryName).then((data) => {
-			data.forEach((file) => {
-				moveFile(directoryName + file, FileSystem.documentDirectory + file);
-			});
-		});
-	};
-
-	useEffect(
-		() => {
-			if (!props.isRecording) {
-				updateFiles();
-			}
-		},
-		[ props.isRecording ]
-	);
->>>>>>> c3e462d7a7a7366806f0782daa5377b921dac2df
-
-	return <FileDisplay files={files} getDirectory={getDirectory} getFile={getFile} />;
+  return (
+    <FileDisplay files={files} getDirectory={getDirectory} getFile={getFile} />
+  );
 };
 
 export default FileManager;

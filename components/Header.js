@@ -1,6 +1,15 @@
 import React from 'react';
 
-import { View, Text, StyleSheet, SafeAreaView, Platform, TouchableOpacity, Image } from 'react-native';
+import {
+	View,
+	Text,
+	StyleSheet,
+	SafeAreaView,
+	Platform,
+	TouchableOpacity,
+	TouchableWithoutFeedback,
+	Image
+} from 'react-native';
 import { STATUS_BAR_HEIGHT, SCREEN_WIDTH } from '../constants/Sizes';
 import Colors from '../constants/Colors';
 import Icons from '../constants/Icons';
@@ -11,9 +20,11 @@ const Header = ({ title, onPress }) => {
 			<View style={styles.statusBar} />
 			<View style={{ backgroundColor: Colors.primary }}>
 				<View style={styles.header}>
-					<View style={styles.titleContainer}>
-						<Text style={styles.title}>{title}</Text>
-					</View>
+					<TouchableWithoutFeedback>
+						<View style={styles.titleContainer}>
+							<Text style={styles.title}>{title}</Text>
+						</View>
+					</TouchableWithoutFeedback>
 					<TouchableOpacity style={styles.imageButton} onPress={onPress}>
 						<Image source={Icons.addFolder} style={styles.image} />
 					</TouchableOpacity>

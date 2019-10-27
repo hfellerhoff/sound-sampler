@@ -14,13 +14,13 @@ import { STATUS_BAR_HEIGHT, SCREEN_WIDTH } from '../constants/Sizes';
 import Colors from '../constants/Colors';
 import Icons from '../constants/Icons';
 
-const Header = ({ title, onPress }) => {
+const Header = ({ title, onPress, onGoBack }) => {
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.statusBar} />
 			<View style={{ backgroundColor: Colors.primary }}>
 				<View style={styles.header}>
-					<TouchableWithoutFeedback>
+					<TouchableWithoutFeedback onPress={onGoBack}>
 						<View style={styles.titleContainer}>
 							<Text style={styles.title}>{title}</Text>
 						</View>

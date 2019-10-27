@@ -9,6 +9,7 @@ import { getParentDirectory, getNameFromUri } from '../util/Parser';
 const FileDisplay = (props) => {
 	const { files, getDirectory, deleteFile, currentDirectory, setCurrentDirectory } = props;
 	const [ displayedFiles, setDisplayedFiles ] = useState(props.files);
+	const [ firstRun, setFirstRun ] = useState(true);
 
 	const onRequestDirectory = async (uri) => {
 		const newFiles = [];
@@ -75,7 +76,9 @@ const FileDisplay = (props) => {
 
 	useEffect(
 		() => {
-			setDisplayedFiles(files);
+			if (!firstRun) {
+				setDisplayedFiles(files);
+			}
 		},
 		[ files ]
 	);

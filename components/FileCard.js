@@ -8,15 +8,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Animated, { interpolate } from 'react-native-reanimated';
 // import { getParentDirectory } from '../util/Parser';
 
-const FileCard = ({
-	file,
-	bottomStyle,
-	requestDirectory,
-	moveFile,
-	deleteFile,
-	currentDirectory,
-	ableToMoveToParentDirectory
-}) => {
+const FileCard = ({ file, bottomStyle, requestDirectory, moveFile, deleteFile, currentDirectory }) => {
 	const { uri, name, isDirectory } = file;
 
 	const borderColor = isDirectory ? Colors.primary : Colors.gray;
@@ -51,11 +43,6 @@ const FileCard = ({
 		);
 	};
 
-	const Caret = () => {
-		if (ableToMoveToParentDirectory) return <Image source={Icons.rightCaret} style={styles.image} />;
-		else return <React.Fragment />;
-	};
-
 	return (
 		<View>
 			<View style={{ marginTop: 10 }} />
@@ -66,9 +53,8 @@ const FileCard = ({
 				onSwipeableRightWillOpen={() => deleteFile(uri)}
 			>
 				<View>
-					<TouchableWithoutFeedback onPressIn={onFileClick} delayPressIn={50}>
+					<TouchableWithoutFeedback onPressIn={onFileClick} delayPressIn={100}>
 						<View style={[ styles.item, { borderColor: borderColor } ]}>
-							{Caret()}
 							<Image source={image} style={styles.image} />
 							<Text style={styles.itemText}>{file.name}</Text>
 						</View>

@@ -7,24 +7,25 @@ import FileCard from './FileCard';
 import { getParentDirectory, getNameFromUri } from '../util/Parser';
 
 const FileDisplay = (props) => {
-	const { files, deleteFile, currentDirectory, setCurrentDirectory } = props;
+	const { files, getDirectory, deleteFile, currentDirectory, setCurrentDirectory } = props;
 	const [ displayedFiles, setDisplayedFiles ] = useState(props.files);
 
 	const onRequestDirectory = async (uri) => {
+		const newFiles = [];
+		await getDirectory(uri).then((directoryFiles) => {
+			for (const file of directoryFiles) {
+				newFiles.push(file);
+			}
+		});
+		console.log(newFiles);
 		setCurrentDirectory(uri + '/');
 		console.log('Requested Directory: ' + uri);
+		setDisplayedFiles(newFiles);
 	};
 
 	const onRequestDeleteFile = async (uri) => {
+		console.log(uri);
 		deleteFile(uri);
-	};
-
-	const getAbleToMoveToParentDirectory = (index) => {
-		if (displayedFiles[index] && displayedFiles[index] !== null && displayedFiles[index] !== undefined) {
-			return displayedFiles[index].uri === currentDirectory ? true : false;
-		} else {
-			return false;
-		}
 	};
 
 	const getCard = (item, index) => {
@@ -45,7 +46,6 @@ const FileDisplay = (props) => {
 				deleteFile={onRequestDeleteFile}
 				moveFile={() => alert('Move file!')}
 				currentDirectory={currentDirectory}
-				ableToMoveToParentDirectory={getAbleToMoveToParentDirectory(index)}
 			/>
 		);
 	};

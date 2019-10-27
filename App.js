@@ -15,7 +15,7 @@ const App = () => {
 	const [ shouldCreateNewDirectory, setShouldCreateNewDirectory ] = useState(false);
 	const [ newDirectoryInformation, setNewDirectoryInformation ] = useState({});
 
-	const [ currentParentDirectory, setCurrentParentDirectory ] = useState('');
+	const [ currentParentDirectory, setCurrentParentDirectory ] = useState(FileSystem.documentDirectory);
 
 	const onCreateDirectoryAttempt = (name) => {
 		setShowNewDirectoryModal(false);

@@ -4,12 +4,24 @@ import { StyleSheet, View, FlatList, Platform, Text } from 'react-native';
 import { SCREEN_WIDTH, getStatusBarHeight, isiPhoneX } from '../constants/Sizes';
 import FileCard from './FileCard';
 
+import { getParentDirectory, getNameFromUri } from '../util/Parser';
+
 const FileDisplay = (props) => {
-	const { files, getDirectory, deleteFile } = props;
+	const { files, getDirectory, deleteFile, currentParentDirectory, setCurrentParentDirectory } = props;
 	const [ displayedFiles, setDisplayedFiles ] = useState(props.files);
 
 	const onRequestDirectory = async (uri) => {
-		const newFiles = await getDirectory(uri);
+		const newFiles = [
+			{
+				uri: uri,
+				name: getNameFromUri(uri),
+				isDirectory: true
+			}
+		];
+		newFiles.push(await getDirectory(uri));
+		setCurrentParentDirectory(getParentDirectory(uri));
+		console.log('Requested Directory: ' + uri);
+		console.log('Parent Directory: ' + getParentDirectory(uri));
 		setDisplayedFiles(newFiles);
 	};
 
@@ -36,6 +48,10 @@ const FileDisplay = (props) => {
 				requestDirectory={onRequestDirectory}
 				deleteFile={onRequestDeleteFile}
 				moveFile={() => alert('Move file!')}
+				currentParentDirectory={currentParentDirectory}
+				ableToMoveToParentDirectory={
+					getParentDirectory(displayedFiles[index].uri) === currentParentDirectory ? true : false
+				}
 			/>
 		);
 	};

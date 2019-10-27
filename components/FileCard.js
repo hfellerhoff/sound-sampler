@@ -11,6 +11,7 @@ const FileCard = ({ file, style }) => {
   const borderColor = isDirectory ? Colors.primary : Colors.gray;
   const image = isDirectory ? Icons.folder : Icons.audio;
 
+<<<<<<< HEAD
   return (
     <View style={style}>
       <TouchableOpacity
@@ -27,6 +28,18 @@ const FileCard = ({ file, style }) => {
       </TouchableOpacity>
     </View>
   );
+=======
+	return (
+		<View style={style}>
+			<TouchableOpacity onPress={() => alert(`uri: ${uri}, name: ${name}, isDirectory: ${isDirectory}`)}>
+				<View style={[ styles.item, { borderColor: borderColor } ]}>
+					<Image source={image} style={styles.image} />
+					<Text style={styles.itemText}>{file.name}</Text>
+				</View>
+			</TouchableOpacity>
+		</View>
+	);
+>>>>>>> c3e462d7a7a7366806f0782daa5377b921dac2df
 };
 
 const styles = StyleSheet.create({

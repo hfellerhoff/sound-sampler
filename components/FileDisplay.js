@@ -57,7 +57,9 @@ const FileDisplay = (props) => {
 	};
 
 	const onDismiss = (name) => {
-		changeName(selectedUri, name);
+		if (name) {
+			changeName(selectedUri, name);
+		}
 		setSelectedUri(null);
 	};
 
@@ -80,6 +82,7 @@ const FileDisplay = (props) => {
 				moveFile={onRequestMoveFile}
 				currentDirectory={currentDirectory}
 				setSelectedUri={setSelectedUri}
+				getFile={getFile}
 			/>
 		);
 	};

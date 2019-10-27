@@ -11,10 +11,10 @@ const FileManager = props => {
   const testFunction = async () => {
     //TEST FUNCTIONS
     // deleteAllFiles();
-    // await FileSystem.downloadAsync(
-    //   "http://techslides.com/demos/sample-videos/small.mp4",
-    //   FileSystem.documentDirectory + "small.mp4"
-    // );
+    await FileSystem.downloadAsync(
+      "http://techslides.com/demos/sample-videos/small.mp4",
+      FileSystem.documentDirectory + "small.mp4"
+    );
     // directoryStatus = await createDirectory(
     //   FileSystem.documentDirectory,
     //   "barkbark"
@@ -32,6 +32,24 @@ const FileManager = props => {
     //   )
     // );
     // changeName(FileSystem.documentDirectory + "barkbark", "arfarf");
+  };
+
+  const changeName = async (oldUri, newName) => {
+    for (const file of files) {
+      if (oldUri === file.uri) {
+        let newTo = oldUri.replace(file.name, "");
+        const options = {
+          from: oldUri,
+          to: newTo + newName
+        };
+
+        await FileSystem.copyAsync(options).then(() => {
+          FileSystem.deleteAsync(oldUri).then(() => {
+            updateFiles();
+          });
+        });
+      }
+    }
   };
 
   const getDirectory = uri => {

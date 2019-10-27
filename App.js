@@ -6,6 +6,7 @@ import Header from './components/Header';
 import NewDirectoryModal from './components/NewDirectoryModal';
 import * as FileSystem from 'expo-file-system';
 import LoadingScreen from './components/LoadingScreen';
+import { getNameFromUri, getParentDirectory } from './util/Parser';
 
 const App = () => {
 	const [ isRecording, setIsRecording ] = useState(false);
@@ -23,9 +24,9 @@ const App = () => {
 		if (name && name !== '') {
 			setNewDirectoryInformation({
 				name: name,
-				uri: currentParentDirectory
+				uri: currentDirectory
 			});
-			console.log(currentParentDirectory);
+			console.log(currentDirectory);
 			setShouldCreateNewDirectory(true);
 		}
 	};
@@ -35,25 +36,41 @@ const App = () => {
 		setShouldCreateNewDirectory(false);
 	};
 
-	if (isLoading) return <LoadingScreen onPress={() => setIsLoading(false)} />;
-	else
-		return (
-			<View style={styles.container}>
-				<StatusBar barStyle="light-content" />
-				<Header title="Files" onPress={() => setShowNewDirectoryModal(true)} />
-				<FileManager
-					isRecording={isRecording}
-					shouldCreateNewDirectory={shouldCreateNewDirectory}
-					newDirectoryInformation={newDirectoryInformation}
-					onDirectoryCreate={onDirectoryCreate}
-					setIsLoading={() => setIsLoading(false)}
-					currentDirectory={currentDirectory}
-					setCurrentDirectory={setCurrentDirectory}
-				/>
-				<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
-				<NewDirectoryModal isVisible={showNewDirectoryModal} dismiss={onCreateDirectoryAttempt} />
-			</View>
-		);
+	const onMoveBackDirectory = () => {
+		if (currentDirectory !== FileSystem.documentDirectory) {
+			setCurrentDirectory(getParentDirectory(currentDirectory) + '/');
+			// alert(FileSystem.documentDirectory);
+			// alert(getParentDirectory(currentDirectory));
+		}
+	};
+
+	const getHeaderTitle = () => {
+		if (currentDirectory === FileSystem.documentDirectory) return 'Files';
+		else return getNameFromUri(currentDirectory);
+	};
+
+	return (
+		<View style={styles.container}>
+			<StatusBar barStyle="light-content" />
+			<Header
+				title={getHeaderTitle()}
+				onPress={() => setShowNewDirectoryModal(true)}
+				onGoBack={onMoveBackDirectory}
+			/>
+			<FileManager
+				isRecording={isRecording}
+				shouldCreateNewDirectory={shouldCreateNewDirectory}
+				newDirectoryInformation={newDirectoryInformation}
+				onDirectoryCreate={onDirectoryCreate}
+				setIsLoading={() => setIsLoading(false)}
+				currentDirectory={currentDirectory}
+				setCurrentDirectory={setCurrentDirectory}
+			/>
+			<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
+			<NewDirectoryModal isVisible={showNewDirectoryModal} dismiss={onCreateDirectoryAttempt} />
+			<LoadingScreen isLoading={isLoading} onPress={() => setIsLoading(false)} />
+		</View>
+	);
 };
 
 const styles = StyleSheet.create({

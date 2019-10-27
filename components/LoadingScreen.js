@@ -5,7 +5,7 @@ import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../constants/Sizes';
 import Animated, { Easing } from 'react-native-reanimated';
 import { useTransition, bInterpolate } from 'react-native-redash';
 
-const LoadingScreen = ({ onPress }) => {
+const LoadingScreen = ({ onPress, isLoading }) => {
 	const [ changeLoop, setChangeLoop ] = useState(false);
 
 	const keyboardTransition = useTransition(
@@ -41,26 +41,32 @@ const LoadingScreen = ({ onPress }) => {
 		[ changeLoop ]
 	);
 
-	return (
-		<TouchableWithoutFeedback onPress={onPress}>
-			<View style={styles.background}>
-				<StatusBar barStyle="light-content" />
-				<Animated.Image
-					style={[ styles.image, innerTransitionStyle ]}
-					source={require('../assets/EmptyLogo.jpg')}
-				/>
-				{/* <Animated.Image style={[styles.image, outerTransitionStyle]} source={require('../assets/outerpulse.jpg')} /> */}
+	if (isLoading) {
+		return (
+			<TouchableWithoutFeedback onPress={onPress}>
+				<View style={styles.background}>
+					<StatusBar barStyle="light-content" />
+					<Animated.Image
+						style={[ styles.image, innerTransitionStyle ]}
+						source={require('../assets/EmptyLogo.jpg')}
+					/>
+					{/* <Animated.Image style={[styles.image, outerTransitionStyle]} source={require('../assets/outerpulse.jpg')} /> */}
 
-				<Text style={styles.text}>EARWORM</Text>
-			</View>
-		</TouchableWithoutFeedback>
-	);
+					<Text style={styles.text}>EARWORM</Text>
+				</View>
+			</TouchableWithoutFeedback>
+		);
+	} else {
+		return <React.Fragment />;
+	}
 };
 
 const imageSize = SCREEN_WIDTH / 1.25;
 const styles = StyleSheet.create({
 	background: {
-		flex: 1,
+		position: 'absolute',
+		height: SCREEN_HEIGHT,
+		width: SCREEN_WIDTH,
 		backgroundColor: '#000000',
 		alignItems: 'center',
 		justifyContent: 'center'

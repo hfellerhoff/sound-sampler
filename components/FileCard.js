@@ -5,6 +5,8 @@ import { SCREEN_WIDTH } from '../constants/Sizes';
 import Icons from '../constants/Icons';
 import Colors from '../constants/Colors';
 
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+
 const FileCard = ({ file, style }) => {
 	const { uri, name, isDirectory, requestDirectory } = file;
 
@@ -19,15 +21,25 @@ const FileCard = ({ file, style }) => {
 		}
 	};
 
+	const LeftActions = () => {
+		return (
+			<View>
+				<Text>Hey</Text>
+			</View>
+		);
+	};
+
 	return (
-		<View style={style}>
-			<TouchableOpacity onPress={onFileClick}>
-				<View style={[ styles.item, { borderColor: borderColor } ]}>
-					<Image source={image} style={styles.image} />
-					<Text style={styles.itemText}>{file.name}</Text>
-				</View>
-			</TouchableOpacity>
-		</View>
+		<Swipeable renderLeftActions={LeftActions}>
+			<View style={style}>
+				<TouchableOpacity onPress={onFileClick}>
+					<View style={[ styles.item, { borderColor: borderColor } ]}>
+						<Image source={image} style={styles.image} />
+						<Text style={styles.itemText}>{file.name}</Text>
+					</View>
+				</TouchableOpacity>
+			</View>
+		</Swipeable>
 	);
 };
 

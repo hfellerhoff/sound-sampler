@@ -19,6 +19,7 @@ const App = () => {
 
   const [currentParentDirectory, setCurrentParentDirectory] = useState("");
 
+<<<<<<< HEAD
   const onCreateDirectoryAttempt = name => {
     setShowNewDirectoryModal(false);
     // alert(
@@ -32,6 +33,19 @@ const App = () => {
     });
     setShouldCreateNewDirectory(true);
   };
+=======
+	const onCreateDirectoryAttempt = (name) => {
+		setShowNewDirectoryModal(false);
+		// alert(`Desired Directory Location: ${FileSystem.documentDirectory + currentParentDirectory + uri}`);
+		if (name && name !== '') {
+			setNewDirectoryInformation({
+				name: name,
+				uri: FileSystem.documentDirectory + currentParentDirectory
+			});
+			setShouldCreateNewDirectory(true);
+		}
+	};
+>>>>>>> 81a45737611edfd9890be74fe8dd18f95fd750ab
 
   const onDirectoryCreate = () => {
     setNewDirectoryInformation({});

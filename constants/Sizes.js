@@ -15,4 +15,4 @@ const isIPhoneXrSize = SCREEN_HEIGHT == 896 || SCREEN_WIDTH == 896;
 export const BOTTOM_BAR_HEIGHT = isiPhoneX() ? 17 : 0; // Actual Height is 34, but using 17 as it works better with styles
 export const STATUS_BAR_HEIGHT = getStatusBarHeight();
 
-export const KEYBOARD_HEIGHT = 216;
+export const KEYBOARD_HEIGHT = isiPhoneX() ? 333 : 216;

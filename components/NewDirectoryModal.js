@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { SCREEN_WIDTH, SCREEN_HEIGHT, KEYBOARD_HEIGHT } from '../constants/Sizes';
 import Button from './basic/CustomButton';
+import Animated, { Easing, eq } from 'react-native-reanimated';
+import { bInterpolate, useTransition, clamp } from 'react-native-redash';
 
 const NewDirectoryModal = (props) => {
 	const { isVisible, dismiss } = props;
@@ -12,7 +14,36 @@ const NewDirectoryModal = (props) => {
 	const [ keyboardDidShowListener, setKeyboardDidShowListener ] = useState(null);
 	const [ keyboardDidHideListener, setKeyboardDidHideListener ] = useState(null);
 
-	const marginBottom = isKeyboardShown ? KEYBOARD_HEIGHT : 0;
+	const [ isAnimating, setIsAnimating ] = useState(false);
+
+	const keyboardTransition = useTransition(
+		isKeyboardShown,
+		isKeyboardShown ? 0 : 1,
+		isKeyboardShown ? 1 : 0,
+		150,
+		Easing.inOut(Easing.linear)
+	);
+	const marginBottom = bInterpolate(keyboardTransition, KEYBOARD_HEIGHT, 0);
+	const modalTransitionStyle = {
+		marginBottom: marginBottom
+	};
+
+	const visibleTransition = useTransition(
+		isVisible,
+		isVisible ? 0 : 1,
+		isVisible ? 1 : 0,
+		150,
+		Easing.inOut(Easing.ease)
+	);
+	const opacity = bInterpolate(visibleTransition, 0.25, 0);
+	const backgroundTransitionStyle = {
+		opacity: opacity
+	};
+
+	const bottom = bInterpolate(visibleTransition, 0, -300);
+	const bottomTransitionStyle = {
+		bottom: bottom
+	};
 
 	const onKeyboardShow = (e) => {
 		// keyboardHeight = e.endCoordinates.height;
@@ -23,7 +54,7 @@ const NewDirectoryModal = (props) => {
 	};
 
 	const onBackgroundTap = () => {
-		if (!isKeyboardShown) dismiss();
+		if (!isKeyboardShown) dismiss(null);
 		else Keyboard.dismiss();
 	};
 
@@ -34,6 +65,7 @@ const NewDirectoryModal = (props) => {
 	useEffect(
 		() => {
 			if (isVisible) {
+				setIsAnimating(true);
 				setKeyboardDidShowListener(Keyboard.addListener('keyboardWillShow', onKeyboardShow));
 				setKeyboardDidHideListener(Keyboard.addListener('keyboardWillHide', onKeyboardHide));
 				// alert('Keyboard listeners created.');
@@ -43,17 +75,21 @@ const NewDirectoryModal = (props) => {
 				keyboardDidShowListener.remove();
 				keyboardDidHideListener.remove();
 				// alert('Keyboard listeners removed.');
+				setTimeout(() => {
+					setIsAnimating(false);
+					setIsKeyboardShown(false);
+				}, 150);
 			}
 		},
 		[ isVisible ]
 	);
 
-	if (isVisible) {
+	if (isAnimating || isVisible) {
 		return (
 			<TouchableWithoutFeedback onPress={onBackgroundTap}>
 				<View style={styles.fullScreen}>
-					<View style={styles.background} />
-					<View style={[ styles.container, { marginBottom: marginBottom } ]}>
+					<Animated.View style={[ styles.background, backgroundTransitionStyle ]} />
+					<Animated.View style={[ styles.container, modalTransitionStyle, bottomTransitionStyle ]}>
 						<Text style={styles.inputTitle}>New Directory Name</Text>
 						<TextInput
 							value={inputValue}
@@ -61,7 +97,7 @@ const NewDirectoryModal = (props) => {
 							style={styles.input}
 						/>
 						<Button title="+" style={{ paddingHorizontal: 20 }} onPress={onSubmit} />
-					</View>
+					</Animated.View>
 				</View>
 			</TouchableWithoutFeedback>
 		);

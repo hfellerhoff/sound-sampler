@@ -142,6 +142,8 @@ const FileManager = props => {
       getDirectory={getDirectory}
       getFile={getFile}
       deleteFile={deleteFile}
+      currentParentDirectory={props.currentParentDirectory}
+      setCurrentParentDirectory={props.setCurrentParentDirectory}
     />
   );
 };

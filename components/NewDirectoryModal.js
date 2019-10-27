@@ -54,7 +54,7 @@ const NewDirectoryModal = (props) => {
 	};
 
 	const onBackgroundTap = () => {
-		if (!isKeyboardShown) dismiss();
+		if (!isKeyboardShown) dismiss(null);
 		else Keyboard.dismiss();
 	};
 
@@ -75,10 +75,9 @@ const NewDirectoryModal = (props) => {
 				keyboardDidShowListener.remove();
 				keyboardDidHideListener.remove();
 				// alert('Keyboard listeners removed.');
-				// setTimeout(() => {
-				// 	setIsAnimating(false);
-				// }, 300);
-				setIsAnimating(false);
+				setTimeout(() => {
+					setIsAnimating(false);
+				}, 150);
 			}
 		},
 		[ isVisible ]

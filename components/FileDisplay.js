@@ -3,11 +3,21 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, FlatList, Platform, Text } from 'react-native';
 import { SCREEN_WIDTH, getStatusBarHeight, isiPhoneX } from '../constants/Sizes';
 import FileCard from './FileCard';
+import * as FileSystem from 'expo-file-system';
 
 import { getParentDirectory, getNameFromUri } from '../util/Parser';
 
 const FileDisplay = (props) => {
-	const { files, getDirectory, deleteFile, currentDirectory, setCurrentDirectory } = props;
+	const {
+		files,
+		getDirectory,
+		deleteFile,
+		currentDirectory,
+		setCurrentDirectory,
+		moveFile,
+		movingOptions,
+		setMovingOptions
+	} = props;
 	const [ displayedFiles, setDisplayedFiles ] = useState(props.files);
 
 	const onRequestDirectory = async (uri) => {
@@ -28,6 +38,16 @@ const FileDisplay = (props) => {
 		deleteFile(uri);
 	};
 
+	const onRequestMoveFile = async (uri) => {
+		console.log(uri);
+		setMovingOptions({
+			areMoving: true,
+			moveUri: uri
+		});
+		setCurrentDirectory(FileSystem.documentDirectory);
+		alert('Transitioning into moving mode');
+	};
+
 	const getCard = (item, index) => {
 		let marginStyle = {};
 		if (displayedFiles.length - 1 === index) {
@@ -44,7 +64,7 @@ const FileDisplay = (props) => {
 				file={item}
 				requestDirectory={onRequestDirectory}
 				deleteFile={onRequestDeleteFile}
-				moveFile={() => alert('Move file!')}
+				moveFile={onRequestMoveFile}
 				currentDirectory={currentDirectory}
 			/>
 		);

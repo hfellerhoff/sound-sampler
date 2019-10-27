@@ -7,6 +7,9 @@ import NewDirectoryModal from './components/NewDirectoryModal';
 import * as FileSystem from 'expo-file-system';
 import LoadingScreen from './components/LoadingScreen';
 import { getNameFromUri, getParentDirectory } from './util/Parser';
+import Button from './components/basic/CustomButton';
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from './constants/Sizes';
+import Colors from './constants/Colors';
 
 const App = () => {
 	const [ isRecording, setIsRecording ] = useState(false);
@@ -19,7 +22,8 @@ const App = () => {
 	const [ currentDirectory, setCurrentDirectory ] = useState(FileSystem.documentDirectory);
 	const [ movingOptions, setMovingOptions ] = useState({
 		areMoving: false,
-		moveUri: ''
+		fromUri: '',
+		toUri: ''
 	});
 
 	const onCreateDirectoryAttempt = (name) => {
@@ -53,6 +57,8 @@ const App = () => {
 		else return getNameFromUri(currentDirectory);
 	};
 
+	const onFileMove = () => {};
+
 	return (
 		<View style={styles.container}>
 			<StatusBar barStyle="light-content" />
@@ -72,7 +78,20 @@ const App = () => {
 				movingOptions={movingOptions}
 				setMovingOptions={setMovingOptions}
 			/>
-			<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
+			{movingOptions.areMoving ? (
+				<Button
+					title="Move Here"
+					onPress={() => alert('move')}
+					style={{
+						position: 'absolute',
+						bottom: SCREEN_HEIGHT / 8,
+						left: -SCREEN_WIDTH / 4,
+						backgroundColor: Colors.fileLeftAction
+					}}
+				/>
+			) : (
+				<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
+			)}
 			<NewDirectoryModal isVisible={showNewDirectoryModal} dismiss={onCreateDirectoryAttempt} />
 			<LoadingScreen isLoading={isLoading} onPress={() => setIsLoading(false)} />
 		</View>

@@ -10,7 +10,10 @@ const FileDisplay = (props) => {
 	const getCard = (item, index) => {
 		let bottomStyle = {};
 		if (files.length - 1 === index) {
-			if (isiPhoneX()) bottomStyle = { marginBottom: 204 };
+			if (isiPhoneX())
+				bottomStyle = {
+					marginBottom: 204
+				};
 			else if (Platform.OS === 'ios') bottomStyle = { marginBottom: 180 };
 			else bottomStyle = { marginBottom: 190 };
 		}

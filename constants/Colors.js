@@ -3,7 +3,9 @@ const Colors = {
 	secondary: '#9F64D8',
 	gray: 'gray',
 	recordingButton: '#EE1717',
-	recordingButtonBorder: 'gray'
+	recordingButtonBorder: 'gray',
+	recordingButtonBackground: '#eee',
+	white: '#eee'
 };
 
 export default Colors;

@@ -10,59 +10,43 @@ const FileManager = props => {
 
   const testFunction = async () => {
     //TEST FUNCTIONS
-    // deleteAllFiles();
-    await FileSystem.downloadAsync(
-      "http://techslides.com/demos/sample-videos/small.mp4",
-      FileSystem.documentDirectory + "small.mp4"
-    );
+    deleteAllFiles();
+    // await FileSystem.downloadAsync(
+    //   "http://techslides.com/demos/sample-videos/small.mp4",
+    //   FileSystem.documentDirectory + "small.mp4"
+    // );
 
-    directoryStatus = await createDirectory(
-      FileSystem.documentDirectory,
-      "oogabooga"
-    );
+    // directoryStatus = await createDirectory(
+    //   FileSystem.documentDirectory,
+    //   "barkbark"
+    // );
+
+    // console.log(files);
+    // updateFiles();
 
     // updateFiles();
 
-    // changeName(FileSystem.documentDirectory + 'oogabooga', 'arfarf');
-
-    // updateFiles();
-
-    await moveFile(
-      FileSystem.documentDirectory + "small.mp4",
-      FileSystem.documentDirectory + "oogabooga" + "/small.mp4"
-    );
+    // await moveFile(
+    //   FileSystem.documentDirectory + "small.mp4",
+    //   FileSystem.documentDirectory + "oogabooga" + "/small.mp4"
+    // );
 
     // console.log(
     //   await FileSystem.readDirectoryAsync(
     //     FileSystem.documentDirectory + "oogabooga"
     //   )
     // );
-
-    console.log("TEST FUNCTION RUNNING");
-  };
-
-  const changeName = async (oldUri, newName) => {
-    console.log("CHANGIN NAMES");
-    for (const info of files) {
-      if (info.uri === oldUri) {
-        console.log("COME HERE!");
-        const options = {
-          from: oldUri,
-          to: oldUri - info.name + newName
-        };
-      }
-    }
-    console.log("DONT COME HERE FIRST!");
-    await FileSystem.copyAsync(options);
+    // changeName(FileSystem.documentDirectory + "barkbark", "arfarf");
   };
 
   const getDirectory = uri => {
     return makeFileList(uri);
   };
-  const getFile = async uri => {
+
+  const getFile = async soundUri => {
     const soundObject = new Audio.soundO();
     await soundObject.loadAsync({
-      uri: FileSystem.documentDirectory + "small.mp4"
+      uri: soundUri
     });
     return soundObject;
   };
@@ -75,7 +59,6 @@ const FileManager = props => {
     uri //Default uri is 'FileSystem.documentDirectory'
   ) => {
     let tempData = [];
-
     await FileSystem.readDirectoryAsync(uri).then(async data => {
       for (const file of data) {
         await FileSystem.getInfoAsync(FileSystem.documentDirectory + file).then(
@@ -158,8 +141,12 @@ const FileManager = props => {
   }, [props.isRecording]);
 
   return (
-    <FileDisplay files={files} getDirectory={getDirectory} getFile={getFile} />
+    <FileDisplay
+      files={files}
+      getDirectory={getDirectory}
+      getFile={getFile}
+      deleteFile={deleteFile}
+    />
   );
 };
-
 export default FileManager;

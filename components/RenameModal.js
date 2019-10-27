@@ -6,7 +6,7 @@ import Button from './basic/CustomButton';
 import Animated, { Easing, eq } from 'react-native-reanimated';
 import { bInterpolate, useTransition, clamp } from 'react-native-redash';
 
-const NewDirectoryModal = (props) => {
+const RenameModal = (props) => {
 	const { isVisible, dismiss } = props;
 	const [ inputValue, setInputValue ] = useState('');
 	const [ isKeyboardShown, setIsKeyboardShown ] = useState(false);
@@ -167,4 +167,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default NewDirectoryModal;
+export default RenameModal;

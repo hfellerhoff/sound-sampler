@@ -17,11 +17,11 @@ const FileDisplay = (props) => {
 		deleteFile,
 		currentDirectory,
 		setCurrentDirectory,
-		moveFile,
+		changeName,
 		exportData,
 		getFile,
-		movingOptions,
-		setMovingOptions
+		selectedUri,
+		setSelectedUri
 	} = props;
 	const [ displayedFiles, setDisplayedFiles ] = useState(props.files);
 	const [ sampleVisible, setSampleVisible ] = useState(false);
@@ -56,7 +56,8 @@ const FileDisplay = (props) => {
 		// alert('Transitioning into moving mode');
 	};
 
-	const onDismiss = () => {
+	const onDismiss = (name) => {
+		changeName(selectedUri, name);
 		setSelectedUri(null);
 	};
 

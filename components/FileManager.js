@@ -3,7 +3,6 @@ import { Platform } from "react-native";
 import FileDisplay from "./FileDisplay";
 import { DUMMY_FILES } from "../constants/Dummy";
 import * as FileSystem from "expo-file-system";
-import { create } from "uuid-js";
 
 const FileManager = props => {
   const [files, setFiles] = useState([]);
@@ -113,17 +112,15 @@ const FileManager = props => {
     );
   };
 
-  const pullCache = async currentParentDirectory => {
+  const pullCache = async currentDirectory => {
     const audioDirectoryName = Platform.OS === "ios" ? "AV/" : "Audio/";
     const directoryName = FileSystem.cacheDirectory + audioDirectoryName;
 
     await FileSystem.readDirectoryAsync(directoryName).then(data => {
       for (const file of data) {
-        moveFile(directoryName + file, currentParentDirectory + file).then(
-          () => {
-            updateFiles();
-          }
-        );
+        moveFile(directoryName + file, currentDirectory + file).then(() => {
+          updateFiles();
+        });
       }
     });
   };
@@ -147,7 +144,8 @@ const FileManager = props => {
 
   useEffect(() => {
     if (!props.isRecording) {
-      pullCache(props.currentParentDirectory);
+      alert(props.currentDirectory);
+      pullCache(props.currentDirectory);
     }
   }, [props.isRecording]);
 

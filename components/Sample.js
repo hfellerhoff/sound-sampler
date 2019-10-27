@@ -1,144 +1,206 @@
-import React, {useState, useEffect} from 'react';
-import {Audio, Video} from 'expo-av';
-import Recorder from "./Recorder";
-import LoopButton from "./LoopButton";
-import DeleteButton from "./DeleteButton";
-import FileManager from "./FileManager";
-const Sample = (props) => {
-    const {sound} = props;
-     /* required to load for playing */
-    sound.loadAsync(sound, status, false);
-    const handlePosition = (props) => {
-        const {sound, status} = props;
-        sound.setPositionAsync(0) //default until the slider starts to work
-    };
-    const handlePlaying = (props) => {
-        const {sound} = props;
-        if (sound.isPlaying === false) {
-            sound.playFromPositionAsync(sound.positionMillis);
-        } else if (sound.isPlaying === true) {
-            sound.stopAsync();
-            ////playbackObject.playFromPositionAsync(millis)
-            // we need logic for this so that they can play,stop, then play from same point
-        } else {
-            alert("Play Button did not work!");
-        }
-    };
-    const handleVolume = (props) => {
-        let value = 1; ////default until the slider/Volume Button starts to work
-        const {sound} = props;
-        /* Need to return a value between 0 and 1 from the slider component
-            No idea how to implement this
-            setting default as 1 for now
-         */
-        sound.setVolumeAsync(value)
-    };
-    const handleMute = (props) => {
-        const {sound} = props;
-        if (true === sound.isMuted) {
-            sound.setIsMutedAsync(false);
-        } else if (sound.isMuted === false) {
-            sound.setIsMutedAsync(true);
-        } else {
-            alert("Mute Button did not work!")
-        }
-    };
-    const handleLooping = (props) => {
-        const {sound} = props;
-        if (sound.isLooping === true) {
-            sound.setIsLoopingAsync(true);
-        } else if (sound.isLooping === false) {
-            sound.setIsLoopingAsync(false);
-        }
-        alert("Loop Button did not work!")
-    };
-    const handleTrimming = (props) => {
-        const {sound} = props;
-        const playbackObject = {sound: sound, status};
-        //Henry should handle this (he is better then me), but I think we would eventually call a new Sample
-        /*
-            const start: Create a constant for the desired start postion from the user
-            const end: Create a constart for the desired end position from the user
-            const playbackObject = await Audio.Sound.createAsync(
-            {
-                durationMillis: end - start;
-         */
-    };
-    const handleFastForward = (props) => {
-        const {sound, millis} = props;
-        //Henry should handle this (he is better then me), but I think we would set an function running on a interval
-        if (sound.durationMillis >= 10000) {
-            sound.playFromPositionAsync(millis + 2000)
-        }
-        else if (sound.durationMillis < 10000) {
-            sound.playFromPositionAsync(millis + 1000)
-        }
-        else if (sound.durationMillis < 5000) {
-            sound.playFromPositionAsync(millis + 500)
-        }
-        //for every interval (e.g 2 seconds) change millis (e.g by 2000)
-        //However, we should probably program logic into a new component for the UI (see FastForwardButton)
-    };
-    const handleRewinding = (props) => {
-        const {sound, millis} = props;
-        //Henry should handle this (he is better then me), but I think we would set an function running on a interval
-        if (sound.durationMillis >= 10000) {
-            sound.playFromPositionAsync(millis - 2000)
-        }
-        else if (sound.durationMillis < 10000) {
-            sound.playFromPositionAsync(millis - 1000)
-        }
-        else if (sound.durationMillis < 5000) {
-            sound.playFromPositionAsync(millis - 500)
-        }
-        //Henry should handle this (he is better then me), but I think we would set an function running on a interval
-        //However, we should probably program logic into a new component for the UI (see RewindButton)
-    };
-    const handleDeletion = (props) => {
-        const {sound} = props;
-        FileManager.deleteFile(sound.uri);
-        //Render new html with options to either confirm or cancel the deletion, then program logic with that
-    };
-    const getPosition = (props) => {
-        const {sound} = props;
-        let position = sound.positionMillis;
-        return position;
+import React from 'react'
+import { StyleSheet, TouchableOpacity, View, Image, Text } from 'react-native'
+import { Audio } from 'expo-av'
+const audioBookPlaylist = [
+    {
+        title: 'Macarena',
+        author: 'Los Del Rios',
+        uri:
+            'https://archive.org/download/04MacarenaLosDelRio/04%20-%20Macarena%20-%20Los%20Del%20Rio.mp3',
+
+    }
+];
+export default class App extends React.Component {
+    state = {
+        isPlaying: false,
+        playbackInstance: null,
+        currentIndex: 0,
+        isLoaded: false,
+        isLooping: false,
+        volume: 1.0,
+        isBuffering: true,
+        positionMillis: null,
+        durationMillis: null,
     };
 
-    // return (
-    //      <LoopButton sound={sound} onPress={handleLooping}/>
-    //      <DeleteButton uri ={sound.uri} onPress={deleteFile(sound.uri)} />
-    //      <FastForward sound={sound} onPress={handleFastForward}/>
-         //May have to call in the position of the millis, but I don't think so
-    //      <RewindButton sound={sound}  onPress={handleRewinding}/>
-        //May have to call in the position of the millis, but I don't think so
-    //        <PauseAndPlayButton sound={sound} onPress={handlePlaying} ></PauseAndPlayButton>
-    //      <TimeStamp sound={sound}/>
-    // )
-    // );
+    async componentDidMount() {
+        try {
+            await Audio.setAudioModeAsync({
+                allowsRecordingIOS: false,
+                interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+                playsInSilentModeIOS: true,
+                interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+                shouldDuckAndroid: true,
+                staysActiveInBackground: true,
+                playThroughEarpieceAndroid: true
+            });
 
+            this.loadAudio()
+        } catch (e) {
+            console.log(e)
+        }
+    }
 
-};
-//stolen from the recorder component, probably wont work but I am horrendous with CSS
+    async loadAudio() {
+        const { currentIndex, isPlaying, volume } = this.state;
+
+        try {
+            const playbackInstance = new Audio.Sound();
+            const source = {
+                uri: audioBookPlaylist[currentIndex].uri
+            };
+
+            const status = {
+                shouldPlay: isPlaying,
+                volume: volume
+            };
+
+            playbackInstance.setOnPlaybackStatusUpdate(this.onPlaybackStatusUpdate);
+            await playbackInstance.loadAsync(source, status, false);
+            this.setState({
+                playbackInstance,
+                soundDuration: playbackInstance.durationMillis,
+                soundPosition: playbackInstance.positionMillis,
+            })
+        }
+        catch (error) {
+            alert(error);
+        }
+    };
+    // async handleLooping() {
+    // 	const {sound} = props;
+    // 	const {playbackInstance, isLoaded } = this.state;
+    // 	if (isLoaded) {
+    // 		if (playbackInstance.isLooping === true) {
+    // 			await playbackInstance.setIsLoopingAsync(true);
+    // 		} else if (sound.isLooping === false) {
+    // 			await playbackInstance.setIsLoopingAsync(false);
+    // 		}
+    // 		alert("Loop Button did not work!")
+    // 	}
+
+    // handleFastForward = async () => {
+    // 	const {playbackInstance, isLoaded } = this.state;
+    // 	const durationMillis = playbackInstance.durationMillis;
+    // 	const positionMillis = playbackInstance.positionMillis;
+    // 	if (isLoaded) {
+    // 		if (durationMillis >= 10000) {
+    // 			await this.playbackInstance.playFromPositionAsync(positionMillis + 2000);
+    // 		} else if (durationMillis < 10000) {
+    // 			await this.playbackInstance.playFromPositionAsync(positionMillis + 1000);
+    // 		} else if (durationMillis < 5000) {
+    // 			await this.playbackInstance.playFromPositionAsync(positionMillis + 500);
+    // 		}
+    // 	}
+    // };
+    // handleRewinding = async () => {
+    // 	const {playbackInstance, isLoaded } = this.state;
+    // 	const durationMillis = playbackInstance.durationMillis;
+    // 	const positionMillis = playbackInstance.positionMillis;
+    // 	if (isLoaded) {
+    // 		if (durationMillis >= 10000) {
+    // 			await this.playbackInstance.playFromPositionAsync(positionMillis - 2000);
+    // 		} else if (durationMillis < 10000) {
+    // 			await this.playbackInstance.playFromPositionAsync(positionMillis - 1000);
+    // 		} else if (durationMillis < 5000) {
+    // 			await this.playbackInstance.playFromPositionAsync(positionMillis - 500);
+    // 		}
+    // 	}
+    // };
+    onPlaybackStatusUpdate = status => {
+        this.setState({
+            isBuffering: status.isBuffering
+        })
+    };
+
+    handlePlayPause = async () => {
+        const { isPlaying, playbackInstance } = this.state;
+        isPlaying ? await playbackInstance.pauseAsync() : await playbackInstance.playAsync();
+
+        this.setState({
+            isPlaying: !isPlaying
+        })
+    };
+
+    renderFileInfo() {
+        const { playbackInstance, currentIndex } = this.state;
+        return playbackInstance ? (
+            <View style={styles.trackInfo}>
+                <Text style={[styles.trackInfoText, styles.largeText]}>
+                    {audioBookPlaylist[currentIndex].title}
+                </Text>
+                <Text style={[styles.trackInfoText, styles.smallText]}>
+                    {audioBookPlaylist[currentIndex].author}
+                </Text>
+                <Text style={[styles.trackInfoText, styles.smallText]}>
+                    {audioBookPlaylist[currentIndex].source}
+                </Text>
+            </View>
+        ) : null
+    }
+    render() {
+        return (
+            <View style={styles.container}>
+                <View style={styles.controls}>
+                    <TouchableOpacity style={styles.control}>
+                        <Image source={require('../assets/ios-icons/rewind-ios.png')} style={{width: 50, height: 50}} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.control} onPress={this.handlePlayPause}>
+                        {this.state.isPlaying ? (
+                            <Image source={require('../assets/ios-icons/pause-ios.png')} style={{width: 50, height: 50}} />
+                        ) : (
+                            <Image source={require('../assets/ios-icons/play-ios.png')} style={{width: 50, height: 50}}/>
+                        )}
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.control}>
+                        <Image source={require('../assets/ios-icons/fast-forward-ios.png')} style={{width: 50, height: 50}} />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.controls}>
+                    <TouchableOpacity style={styles.control}>
+                        <Image source={require('../assets/ios-icons/loop-ios.png')} style={{width: 50, height: 50}} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.control}>
+                        <Image source={require('../assets/ios-icons/delete-ios.png')} style={{width: 50, height: 50}} />
+                    </TouchableOpacity>
+                </View>
+                {this.renderFileInfo()}
+            </View>
+        );
+    }
+}
+
 const styles = StyleSheet.create({
-    border: {
-        position: 'absolute',
-        bottom: 20,
-        width: 75,
-        height: 75,
-        borderColor: 'gray',
-        borderWidth: 3,
-        borderRadius: 40,
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
-        transform: [ { translateX: -(75 / 2) } ]
+        justifyContent: 'center'
+    },
+    albumCover: {
+        width: 250,
+        height: 250
+    },
+    trackInfo: {
+        padding: 40,
+        backgroundColor: '#fff'
     },
 
-    button: {
-        width: 60,
-        height: 60,
-        backgroundColor: 'red',
-        borderRadius: 30
+    trackInfoText: {
+        textAlign: 'center',
+        flexWrap: 'wrap',
+        color: '#550088'
+    },
+    largeText: {
+        fontSize: 22
+    },
+    smallText: {
+        fontSize: 16
+    },
+    control: {
+        margin: 20
+    },
+    controls: {
+        flexDirection: 'row'
     }
 });
-export default Sample;

@@ -12,7 +12,7 @@ const fileSystem = [
 ];
 
 const Sample = async (props) => {
-	const { recording, sound } = props;
+	const { recording, sound: propSound } = props;
 	const PlaybackStatusToSet = {
 		progressUpdateIntervalMillis: 500,
 		positionMillis: false,

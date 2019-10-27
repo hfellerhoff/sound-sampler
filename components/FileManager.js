@@ -7,6 +7,7 @@ import * as Sharing from 'expo-sharing';
 
 const FileManager = (props) => {
 	const [ files, setFiles ] = useState([]);
+	const { movingOptions, setMovingOptions } = props;
 
 	const changeName = async (oldUri, newName) => {
 		for (const file of files) {
@@ -130,6 +131,15 @@ const FileManager = (props) => {
 		[ props.isRecording ]
 	);
 
+	useEffect(
+		() => {
+			if (movingOptions.areMoving) {
+				// some code
+			}
+		},
+		[ movingOptions ]
+	);
+
 	return (
 		<FileDisplay
 			files={files}
@@ -138,6 +148,8 @@ const FileManager = (props) => {
 			deleteFile={deleteFile}
 			currentDirectory={props.currentDirectory}
 			setCurrentDirectory={props.setCurrentDirectory}
+			movingOptions={movingOptions}
+			setMovingOptions={setMovingOptions}
 		/>
 	);
 };

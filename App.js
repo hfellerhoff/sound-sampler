@@ -17,6 +17,10 @@ const App = () => {
 	const [ newDirectoryInformation, setNewDirectoryInformation ] = useState({});
 
 	const [ currentDirectory, setCurrentDirectory ] = useState(FileSystem.documentDirectory);
+	const [ movingOptions, setMovingOptions ] = useState({
+		areMoving: false,
+		moveUri: ''
+	});
 
 	const onCreateDirectoryAttempt = (name) => {
 		setShowNewDirectoryModal(false);
@@ -65,6 +69,8 @@ const App = () => {
 				setIsLoading={() => setIsLoading(false)}
 				currentDirectory={currentDirectory}
 				setCurrentDirectory={setCurrentDirectory}
+				movingOptions={movingOptions}
+				setMovingOptions={setMovingOptions}
 			/>
 			<Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
 			<NewDirectoryModal isVisible={showNewDirectoryModal} dismiss={onCreateDirectoryAttempt} />

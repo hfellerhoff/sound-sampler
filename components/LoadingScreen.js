@@ -4,8 +4,6 @@ import { View, StyleSheet, Image, Text, TouchableWithoutFeedback, StatusBar } fr
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../constants/Sizes';
 import Animated, { Easing } from 'react-native-reanimated';
 import { useTransition, bInterpolate } from 'react-native-redash';
-// atan2(<Image style={styles.image} source={require('../assets/Innerpulse.jpg')} />,
-//  		<Image style={styles.image} source={require('../assets/outerPulse.jpg')} />);
 
 const LoadingScreen = ({ onPress }) => {
 	const [ changeLoop, setChangeLoop ] = useState(false);

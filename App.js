@@ -23,7 +23,7 @@ const App = () => {
 		if (name && name !== '') {
 			setNewDirectoryInformation({
 				name: name,
-				uri: FileSystem.documentDirectory + currentParentDirectory + name
+				uri: FileSystem.documentDirectory + currentParentDirectory
 			});
 			setShouldCreateNewDirectory(true);
 		}

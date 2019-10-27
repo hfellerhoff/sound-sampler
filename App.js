@@ -20,7 +20,7 @@ const App = () => {
 	const onCreateDirectoryAttempt = (name) => {
 		setShowNewDirectoryModal(false);
 		// alert(`Desired Directory Location: ${FileSystem.documentDirectory + currentParentDirectory + uri}`);
-		if (name) {
+		if (name && name !== '') {
 			setNewDirectoryInformation({
 				name: name,
 				uri: FileSystem.documentDirectory + currentParentDirectory + name

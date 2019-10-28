@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import { StyleSheet, View, FlatList, Platform, Text } from "react-native";
+import { StyleSheet, FlatList, Platform, Text } from "react-native";
 import { SCREEN_WIDTH, isiPhoneX } from "../constants/Sizes";
 import FileCard from "./FileCard";
 
 import { parseFilename } from "../util/Parser";
-import RenameModal from "./modals/RenameModal";
+import TextInputModal from "./modals/TextInputModal";
+import Recorder from "./Recorder";
 
 const FileDisplay = props => {
   const {
@@ -18,10 +19,11 @@ const FileDisplay = props => {
     exportData,
     getFile,
     selectedUri,
-    setSelectedUri
+    setSelectedUri,
+    isRecording,
+    setIsRecording
   } = props;
   const [displayedFiles, setDisplayedFiles] = useState(files);
-  const [, setSampleVisible] = useState(false);
 
   const onRequestDirectory = async uri => {
     const newFiles = [];
@@ -102,21 +104,22 @@ const FileDisplay = props => {
     setDisplayedFiles(files);
   }, [files]);
 
-  useEffect(() => {
-    if (selectedUri) {
-      // alert('Sample visible');
-      setSampleVisible(true);
-    } else {
-      // alert('Sample not visible');
-      setSampleVisible(false);
-    }
-  }, [selectedUri]);
-
+  // ~ Not working: would love to get it working though ~
+  // const modalDescription = selectedUri
+  //   ? `Enter a new name for ${getNameFromUri(selectedUri)}`
+  //   : "";
   return (
-    <View styles={styles.container}>
+    <>
       {getPageContent()}
-      <RenameModal isVisible={!!selectedUri} dismiss={onDismiss} />
-    </View>
+      <Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
+      <TextInputModal
+        title="Rename File"
+        buttonTitle="Submit"
+        description="Enter a new name for the file."
+        isVisible={!!selectedUri}
+        onDismiss={onDismiss}
+      />
+    </>
   );
 };
 

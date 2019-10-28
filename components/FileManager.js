@@ -12,6 +12,7 @@ const FileManager = props => {
     currentDirectory,
     setCurrentDirectory,
     isRecording,
+    setIsRecording,
     shouldCreateNewDirectory,
     selectedUri,
     setSelectedUri
@@ -169,6 +170,8 @@ const FileManager = props => {
       changeName={changeName}
       selectedUri={selectedUri}
       setSelectedUri={setSelectedUri}
+      isRecording={isRecording}
+      setIsRecording={setIsRecording}
     />
   );
 };

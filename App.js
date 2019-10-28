@@ -4,7 +4,6 @@ import * as FileSystem from "expo-file-system";
 import FileManager from "./components/FileManager";
 import Recorder from "./components/Recorder";
 import Header from "./components/Header";
-import NewDirectoryModal from "./components/modals/NewDirectoryModal";
 import LoadingScreen from "./components/LoadingScreen";
 import {
   getNameFromUri,
@@ -12,6 +11,7 @@ import {
   parseFilename
 } from "./util/Parser";
 import Colors from "./constants/Colors";
+import TextInputModal from "./components/modals/TextInputModal";
 
 const App = () => {
   const [isRecording, setIsRecording] = useState(false);
@@ -86,6 +86,7 @@ const App = () => {
       />
       <FileManager
         isRecording={isRecording}
+        setIsRecording={setIsRecording}
         shouldCreateNewDirectory={shouldCreateNewDirectory}
         newDirectoryInformation={newDirectoryInformation}
         onDirectoryCreate={onDirectoryCreate}
@@ -95,14 +96,17 @@ const App = () => {
         selectedUri={selectedUri}
         setSelectedUri={setSelectedUri}
       />
-      {selectedUri ? (
+      {/* {selectedUri ? (
         <></>
       ) : (
         <Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
-      )}
-      <NewDirectoryModal
+      )} */}
+      <TextInputModal
+        title="New Directory"
+        description="Enter a name for the new directory."
+        buttonTitle="Create"
         isVisible={showNewDirectoryModal}
-        dismiss={onCreateDirectoryAttempt}
+        onDismiss={onCreateDirectoryAttempt}
       />
       <LoadingScreen
         isLoading={isLoading}

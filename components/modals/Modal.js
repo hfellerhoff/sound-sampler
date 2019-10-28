@@ -3,12 +3,11 @@ import {
   View,
   StyleSheet,
   Keyboard,
-  TouchableWithoutFeedback,
-  Text
+  TouchableWithoutFeedback
 } from "react-native";
 
 import Animated, { Easing } from "react-native-reanimated";
-import { bInterpolate, useTransition, ReText } from "react-native-redash";
+import { bInterpolate, useTransition } from "react-native-redash";
 
 import {
   SCREEN_WIDTH,
@@ -25,7 +24,7 @@ import {
 
 const animationTiming = 200;
 const Modal = props => {
-  const { isVisible, dismiss, children } = props;
+  const { isVisible, onDismiss, children } = props;
 
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -65,7 +64,7 @@ const Modal = props => {
   };
 
   const onBackgroundTap = () => {
-    if (!isKeyboardShown) dismiss();
+    if (!isKeyboardShown) onDismiss();
     else Keyboard.dismiss();
   };
 

@@ -47,7 +47,7 @@ const statusBarHeight = STATUS_BAR_HEIGHT;
 const styles = StyleSheet.create({
   statusBar: {
     marginTop: -statusBarHeight,
-    height: statusBarHeight + 70 + (Platform.OS === "android" ? 10 : 0),
+    height: statusBarHeight + (Platform.OS === "android" ? 10 : 0),
     backgroundColor: Colors.primary
   },
   container: {

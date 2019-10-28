@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Audio } from "expo-av";
 import * as Permissions from "expo-permissions";
-import * as FileSystem from "expo-file-system";
 import RecorderDisplay from "./RecorderDisplay";
 import sendSingleButtonAlert from "../util/Alert";
 
@@ -50,7 +49,7 @@ const Recorder = props => {
       }
     } else {
       sendSingleButtonAlert(
-        "Title",
+        "Recording Permissions Needed",
         "Please enable Sampler to use your microphone, as the app will not work otherwise."
       );
     }
@@ -60,34 +59,33 @@ const Recorder = props => {
     await recording
       .stopAndUnloadAsync()
       .then(setIsRecording(false))
-      .catch(() => {
-        alert(error);
+      .catch(error => {
+        // eslint-disable-next-line no-console
+        console.error(error);
         setIsRecording(false);
       });
-    const info = await FileSystem.getInfoAsync(recording.getURI());
   };
-  //used for getRecordingTimestamp
-  const getMMSSFromMillis = props => {
-    const { millis } = props;
-    const totalSeconds = millis / 1000;
-    const seconds = Math.floor(totalSeconds % 60);
-    const minutes = Math.floor(totalSeconds / 60);
+  // used for getRecordingTimestamp
+  //   const getMMSSFromMillis = millis => {
+  //     const totalSeconds = millis / 1000;
+  //     const seconds = Math.floor(totalSeconds % 60);
+  //     const minutes = Math.floor(totalSeconds / 60);
 
-    const padWithZero = number => {
-      const string = number.toString();
-      if (number < 10) {
-        return "0" + string;
-      }
-      return string;
-    };
-    return padWithZero(minutes) + ":" + padWithZero(seconds);
-  };
-  const getRecordingTimestamp = async () => {
-    if (setIsRecording != null) {
-      return getMMSSFromMillis(setIsRecording.durationMillis);
-    }
-    return getMMSSFromMillis(0);
-  };
+  //     const padWithZero = number => {
+  //       const string = number.toString();
+  //       if (number < 10) {
+  //         return `0${string}`;
+  //       }
+  //       return string;
+  //     };
+  //     return `${padWithZero(minutes)}:${padWithZero(seconds)}`;
+  //   };
+  //   const getRecordingTimestamp = async () => {
+  //     if (setIsRecording != null) {
+  //       return getMMSSFromMillis(setIsRecording.durationMillis);
+  //     }
+  //     return getMMSSFromMillis(0);
+  //   };
 
   useEffect(() => {
     askForPermissions();

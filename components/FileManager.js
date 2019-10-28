@@ -61,9 +61,7 @@ const FileManager = props => {
   }, [currentDirectory, shouldCreateNewDirectory]);
 
   useEffect(() => {
-    if (!isRecording) {
-      pullCache(currentDirectory);
-    }
+    if (!isRecording) pullCache(currentDirectory);
   }, [isRecording]);
 
   return (

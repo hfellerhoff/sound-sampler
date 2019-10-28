@@ -99,6 +99,9 @@ const fetchFilesFrom = async directoryUri => {
       );
     }
   });
+  tempData.sort((a, b) => {
+    return a.name > b.name;
+  });
   return tempData;
 };
 

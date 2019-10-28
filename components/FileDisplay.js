@@ -7,8 +7,8 @@ import * as FileSystem from 'expo-file-system';
 
 import { getParentDirectory, getNameFromUri, parseFilename } from '../util/Parser';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import Sample from './Sample';
-import RenameModal from './RenameModal';
+import Sample from './unimplemented/Sample';
+import RenameModal from './modals/RenameModal';
 
 const FileDisplay = (props) => {
 	const {

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
 import { View, StyleSheet, Text, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
-import { SCREEN_WIDTH, SCREEN_HEIGHT, KEYBOARD_HEIGHT } from '../constants/Sizes';
-import Button from './basic/CustomButton';
+import { SCREEN_WIDTH, SCREEN_HEIGHT, KEYBOARD_HEIGHT } from '../../constants/Sizes';
 import Animated, { Easing, eq } from 'react-native-reanimated';
 import { bInterpolate, useTransition, clamp } from 'react-native-redash';
+import ButtonOpacity from '../buttons/ButtonOpacity';
 
 const RenameModal = (props) => {
 	const { isVisible, dismiss } = props;
@@ -96,7 +96,7 @@ const RenameModal = (props) => {
 							onChangeText={(text) => setInputValue(text)}
 							style={styles.input}
 						/>
-						<Button title="Rename" style={{ paddingHorizontal: 20 }} onPress={onSubmit} />
+						<ButtonOpacity title="Rename" style={{ paddingHorizontal: 20 }} onPress={onSubmit} />
 					</Animated.View>
 				</View>
 			</TouchableWithoutFeedback>

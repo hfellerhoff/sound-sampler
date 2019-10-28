@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import FileManager from './components/FileManager';
 import Recorder from './components/Recorder';
 import Header from './components/Header';
-import NewDirectoryModal from './components/NewDirectoryModal';
+import NewDirectoryModal from './components/modals/NewDirectoryModal';
 import * as FileSystem from 'expo-file-system';
 import LoadingScreen from './components/LoadingScreen';
 import { getNameFromUri, getParentDirectory, parseFilename } from './util/Parser';

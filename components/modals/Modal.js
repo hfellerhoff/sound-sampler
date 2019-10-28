@@ -3,11 +3,12 @@ import {
   View,
   StyleSheet,
   Keyboard,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Text
 } from "react-native";
 
 import Animated, { Easing } from "react-native-reanimated";
-import { bInterpolate, useTransition } from "react-native-redash";
+import { bInterpolate, useTransition, ReText } from "react-native-redash";
 
 import {
   SCREEN_WIDTH,
@@ -22,43 +23,38 @@ import {
 	@ui children: The UI elements to place inside of the modal
 */
 
+const animationTiming = 200;
 const Modal = props => {
   const { isVisible, dismiss, children } = props;
+
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const [keyboardDidShowListener, setKeyboardDidShowListener] = useState(null);
   const [keyboardDidHideListener, setKeyboardDidHideListener] = useState(null);
-
-  const [isAnimating, setIsAnimating] = useState(false);
 
   const keyboardTransition = useTransition(
     isKeyboardShown,
     isKeyboardShown ? 0 : 1,
     isKeyboardShown ? 1 : 0,
-    150,
-    Easing.inOut(Easing.linear)
+    animationTiming,
+    Easing.inOut(Easing.ease)
   );
-  const marginBottom = bInterpolate(keyboardTransition, KEYBOARD_HEIGHT, 0);
-  const modalTransitionStyle = {
-    marginBottom
-  };
-
   const visibleTransition = useTransition(
     isVisible,
     isVisible ? 0 : 1,
     isVisible ? 1 : 0,
-    150,
+    animationTiming,
     Easing.inOut(Easing.ease)
   );
-  const opacity = bInterpolate(visibleTransition, 0.25, 0);
-  const backgroundTransitionStyle = {
-    opacity
-  };
 
+  const marginBottom = bInterpolate(keyboardTransition, KEYBOARD_HEIGHT, 0);
+  const opacity = bInterpolate(visibleTransition, 0.25, 0);
   const bottom = bInterpolate(visibleTransition, 0, -300);
-  const bottomTransitionStyle = {
-    bottom
-  };
+
+  const modalTransitionStyle = { marginBottom };
+  const backgroundTransitionStyle = { opacity };
+  const bottomTransitionStyle = { bottom };
 
   const onKeyboardShow = () => {
     // keyboardHeight = e.endCoordinates.height;
@@ -69,7 +65,7 @@ const Modal = props => {
   };
 
   const onBackgroundTap = () => {
-    if (!isKeyboardShown) dismiss(null);
+    if (!isKeyboardShown) dismiss();
     else Keyboard.dismiss();
   };
 
@@ -84,30 +80,34 @@ const Modal = props => {
       );
       // alert('Keyboard listeners created.');
     }
+
     if (!isVisible && keyboardDidShowListener && keyboardDidHideListener) {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
       // alert('Keyboard listeners removed.');
+    }
+
+    if (!isVisible) {
       setTimeout(() => {
         setIsAnimating(false);
         setIsKeyboardShown(false);
-      }, 150);
+      }, animationTiming);
     }
   }, [isVisible]);
 
-  if (isAnimating || isVisible) {
+  if (isVisible || isAnimating) {
     return (
       <TouchableWithoutFeedback onPress={onBackgroundTap}>
         <View style={styles.fullScreen}>
           <Animated.View
-            style={[styles.background, backgroundTransitionStyle]}
+            style={{ ...styles.background, ...backgroundTransitionStyle }}
           />
           <Animated.View
-            style={[
-              styles.container,
-              modalTransitionStyle,
-              bottomTransitionStyle
-            ]}
+            style={{
+              ...styles.container,
+              ...bottomTransitionStyle,
+              ...modalTransitionStyle
+            }}
           >
             {children}
           </Animated.View>
@@ -115,13 +115,13 @@ const Modal = props => {
       </TouchableWithoutFeedback>
     );
   }
+
   return <></>;
 };
 
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    bottom: 0,
     left: 0,
     right: 0,
     paddingBottom: 30,

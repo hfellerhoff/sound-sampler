@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Platform
 } from "react-native";
-import { BOTTOM_BAR_HEIGHT, SCREEN_HEIGHT } from "../constants/Sizes";
+import { BOTTOM_BAR_HEIGHT } from "../constants/Sizes";
 import Colors from "../constants/Colors";
 
 const RecordingButton = props => {

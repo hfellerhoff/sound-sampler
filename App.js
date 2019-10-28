@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { StyleSheet, View, StatusBar } from "react-native";
 import * as FileSystem from "expo-file-system";
 import FileManager from "./components/FileManager";
-import Recorder from "./components/Recorder";
 import Header from "./components/Header";
 import LoadingScreen from "./components/LoadingScreen";
 import {

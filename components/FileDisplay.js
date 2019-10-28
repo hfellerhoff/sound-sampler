@@ -104,10 +104,13 @@ const FileDisplay = props => {
     setDisplayedFiles(files);
   }, [files]);
 
-  // ~ Not working: would love to get it working though ~
-  // const modalDescription = selectedUri
-  //   ? `Enter a new name for ${getNameFromUri(selectedUri)}`
-  //   : "";
+  /*
+      ~ Not working: would love to get it working though ~
+      
+      const modalDescription = selectedUri
+      ? `Enter a new name for ${getNameFromUri(selectedUri)}`
+      : "";
+  */
   return (
     <>
       {getPageContent()}

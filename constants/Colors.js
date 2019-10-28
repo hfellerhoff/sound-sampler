@@ -6,7 +6,7 @@ const black = "#222222";
 
 // Text colors
 const lightText = white;
-const darkText = black;
+// const darkText = black;
 
 const Colors = {
   primary,
@@ -17,7 +17,7 @@ const Colors = {
   recordingButtonBackground: "#eee",
   white,
   black,
-  fileLeftAction: "#294FF4", //FFB81A
+  fileLeftAction: "#294FF4", // FFB81A
   fileRightAction: "#EE1717",
   button: {
     background: primary,

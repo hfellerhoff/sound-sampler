@@ -4,6 +4,7 @@ import FileDisplay from './FileDisplay';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { Audio } from 'expo-av';
+import { parseFilename } from '../util/Parser';
 
 const FileManager = (props) => {
 	const [ files, setFiles ] = useState([]);
@@ -19,9 +20,15 @@ const FileManager = (props) => {
 		for (const file of files) {
 			if (oldUri === file.uri) {
 				let newTo = oldUri.replace(file.name, '');
+				const fileInfo = await FileSystem.getInfoAsync(file.uri);
+
+				let parsedName;
+				if (!fileInfo.isDirectory) parsedName = parseFilename(newName, audioType);
+				else parsedName = parseFilename(newName);
+
 				const options = {
 					from: oldUri,
-					to: newTo + newName + audioType
+					to: newTo + parsedName
 				};
 
 				await FileSystem.copyAsync(options).then(() => {

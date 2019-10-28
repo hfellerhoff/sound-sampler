@@ -5,7 +5,7 @@ import { SCREEN_WIDTH, getStatusBarHeight, isiPhoneX } from '../constants/Sizes'
 import FileCard from './FileCard';
 import * as FileSystem from 'expo-file-system';
 
-import { getParentDirectory, getNameFromUri } from '../util/Parser';
+import { getParentDirectory, getNameFromUri, parseFilename } from '../util/Parser';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Sample from './Sample';
 import RenameModal from './RenameModal';
@@ -58,7 +58,7 @@ const FileDisplay = (props) => {
 
 	const onDismiss = (name) => {
 		if (name) {
-			changeName(selectedUri, name);
+			changeName(selectedUri, parseFilename(name));
 		}
 		setSelectedUri(null);
 	};

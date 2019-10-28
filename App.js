@@ -6,10 +6,7 @@ import Header from './components/Header';
 import NewDirectoryModal from './components/NewDirectoryModal';
 import * as FileSystem from 'expo-file-system';
 import LoadingScreen from './components/LoadingScreen';
-import { getNameFromUri, getParentDirectory } from './util/Parser';
-import Button from './components/basic/AnotherCustomButton';
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from './constants/Sizes';
-import Colors from './constants/Colors';
+import { getNameFromUri, getParentDirectory, parseFilename } from './util/Parser';
 
 const App = () => {
 	const [ isRecording, setIsRecording ] = useState(false);
@@ -29,11 +26,10 @@ const App = () => {
 
 	const onCreateDirectoryAttempt = (name) => {
 		setShowNewDirectoryModal(false);
-		// alert(`Desired Directory Location: ${FileSystem.documentDirectory + currentParentDirectory + name}`);
-		if (name && name !== '') {
-			name = name.split(' ').join('-');
+		const parsedName = parseFilename(name);
+		if (parsedName) {
 			setNewDirectoryInformation({
-				name: name,
+				name: parsedName,
 				uri: currentDirectory
 			});
 			console.log(currentDirectory);

@@ -10,3 +10,14 @@ export const getNameFromUri = (uri) => {
 	if (array[array.length - 1] === '') return array[array.length - 2];
 	else array[array.length - 1];
 };
+
+/*
+	A function to parse a valid file name from a user's desired rename.
+	@return: Null if invalid, the parsed name otherwise
+*/
+export const parseFilename = (name, extension) => {
+	if (!name || name === '') return null;
+	name = name.split(' ').join('-');
+	if (extension) name += extension;
+	return name;
+};

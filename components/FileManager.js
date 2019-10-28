@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import * as FileSystem from "expo-file-system";
 import FileDisplay from "./FileDisplay";
 import FileController from "../util/FileController";
 

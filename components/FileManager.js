@@ -3,8 +3,6 @@ import * as FileSystem from "expo-file-system";
 import FileDisplay from "./FileDisplay";
 import FileController from "../util/FileController";
 
-const waitTime = 50;
-
 const FileManager = props => {
   const [files, setFiles] = useState([]);
   const {
@@ -13,8 +11,11 @@ const FileManager = props => {
     isRecording,
     setIsRecording,
     shouldCreateNewDirectory,
+    newDirectoryInformation,
     selectedUri,
-    setSelectedUri
+    setSelectedUri,
+    onDirectoryCreate,
+    setIsLoading
   } = props;
 
   const exportData = async uri => {
@@ -23,7 +24,7 @@ const FileManager = props => {
 
   const changeName = async (oldUri, newName) => {
     FileController.changeFilename(oldUri, newName, files);
-    setTimeout(() => updateFiles(), waitTime); // await doesn't work - look into Promises
+    setTimeout(() => updateFiles(), 50); // This is a workaround, as await doesn't work - look into Promises
   };
 
   const getDirectory = uri => {
@@ -31,7 +32,7 @@ const FileManager = props => {
   };
 
   const deleteFile = async uri => {
-    FileController.deleteFile(uri); // await doesn't work - look into Promises
+    FileController.deleteFile(uri);
     setTimeout(() => updateFiles(), 250);
   };
 
@@ -46,23 +47,21 @@ const FileManager = props => {
   };
 
   useEffect(() => {
-    updateFiles();
-    props.setIsLoading();
-  }, [currentDirectory]);
+    setIsLoading();
 
-  useEffect(() => {
-    if (props.shouldCreateNewDirectory) {
-      FileSystem.createDirectory(
-        props.newDirectoryInformation.uri,
-        props.newDirectoryInformation.name
+    if (shouldCreateNewDirectory) {
+      FileController.createDirectory(
+        newDirectoryInformation.uri,
+        newDirectoryInformation.name
       );
-      updateFiles();
-      props.onDirectoryCreate();
+      onDirectoryCreate();
     }
-  }, [shouldCreateNewDirectory]);
+
+    updateFiles();
+  }, [currentDirectory, shouldCreateNewDirectory]);
 
   useEffect(() => {
-    if (!props.isRecording) {
+    if (!isRecording) {
       pullCache(currentDirectory);
     }
   }, [isRecording]);
@@ -71,13 +70,9 @@ const FileManager = props => {
     <FileDisplay
       files={files}
       getDirectory={getDirectory}
-      getFile={FileController.fetchAndPlaySoundFile}
       deleteFile={deleteFile}
-      moveFile={FileController.moveFile}
       currentDirectory={currentDirectory}
       setCurrentDirectory={setCurrentDirectory}
-      // movingOptions={movingOptions}
-      // setMovingOptions={setMovingOptions}
       exportData={exportData}
       changeName={changeName}
       selectedUri={selectedUri}

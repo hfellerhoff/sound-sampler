@@ -17,7 +17,6 @@ const FileDisplay = props => {
     setCurrentDirectory,
     changeName,
     exportData,
-    getFile,
     selectedUri,
     setSelectedUri,
     isRecording,
@@ -77,7 +76,6 @@ const FileDisplay = props => {
         moveFile={onRequestMoveFile}
         currentDirectory={currentDirectory}
         setSelectedUri={setSelectedUri}
-        getFile={getFile}
       />
     );
   };

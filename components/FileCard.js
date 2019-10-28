@@ -12,6 +12,7 @@ import Animated from "react-native-reanimated";
 import { SCREEN_WIDTH } from "../constants/Sizes";
 import Icons from "../constants/Icons";
 import Colors from "../constants/Colors";
+import FileController from "../util/FileController";
 // import { getParentDirectory } from '../util/Parser';
 
 const FileCard = ({
@@ -19,7 +20,6 @@ const FileCard = ({
   bottomStyle,
   requestDirectory,
   moveFile,
-  getFile,
   deleteFile,
   setSelectedUri
 }) => {
@@ -32,7 +32,7 @@ const FileCard = ({
     if (isDirectory) {
       requestDirectory(uri);
     } else {
-      getFile(uri);
+      FileController.fetchAndPlaySoundFile(uri);
     }
   };
 

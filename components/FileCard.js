@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
   item: {
     height: "auto",
     padding: 10,
-    // marginTop: 10,
     width: SCREEN_WIDTH - 20,
     backgroundColor: "#fff",
     elevation: 3,

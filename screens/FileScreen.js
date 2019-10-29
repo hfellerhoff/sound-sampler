@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, StatusBar, Text } from "react-native";
+import { View, StatusBar } from "react-native";
 import * as FileSystem from "expo-file-system";
 import FileManager from "../components/FileManager";
 import Header from "../components/Header";
 import { getNameFromUri, getParentDirectory } from "../util/Parser";
-import Colors from "../constants/Colors";
 import TextInputModal from "../components/modals/TextInputModal";
 import FileController from "../util/FileController";
-import Modal from "../components/modals/Modal";
-import ButtonOpacity from "../components/buttons/ButtonOpacity";
+import PlaybackModal from "../components/modals/PlaybackModal";
+import Styles from "../constants/Styles";
 
 const FileScreen = ({ isVisible, onDoneLoading }) => {
   // Handle general app state
@@ -125,7 +124,7 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
 
   if (isVisible) {
     return (
-      <View style={styles.container}>
+      <View style={Styles.transparentContainer}>
         <StatusBar barStyle="light-content" />
         <Header
           title={getHeaderTitle()}
@@ -163,24 +162,16 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
           isVisible={showRenameModal}
           onDismiss={onRenameAttempt}
         />
-        <Modal isVisible={showPlaybackModal} onDismiss={onPlaybackModalDismiss}>
-          <Text>Click to play sound:</Text>
-          <ButtonOpacity title="Play" onPress={onPlaybackAttempt} />
-        </Modal>
+        <PlaybackModal
+          isVisible={showPlaybackModal}
+          onPlaybackAttempt={onPlaybackAttempt}
+          onDismiss={onPlaybackModalDismiss}
+          playbackInformation={playbackInformation}
+        />
       </View>
     );
   }
   return <></>;
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.white
-  }
-});
 
 export default FileScreen;

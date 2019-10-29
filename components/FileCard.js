@@ -21,7 +21,7 @@ const FileCard = ({
   requestDirectory,
   moveFile,
   deleteFile,
-  setSelectedUri
+  requestRename
 }) => {
   const { uri, isDirectory } = file;
 
@@ -37,7 +37,7 @@ const FileCard = ({
   };
 
   const onLongPress = () => {
-    setSelectedUri(uri);
+    requestRename(uri);
   };
 
   const LeftActions = () => {

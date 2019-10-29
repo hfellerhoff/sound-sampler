@@ -11,19 +11,21 @@ const FileManager = props => {
     setIsRecording,
     shouldCreateNewDirectory,
     newDirectoryInformation,
-    selectedUri,
-    setSelectedUri,
-    onDirectoryCreate
+    onDirectoryCreate,
+    requestRename,
+    fileRenameInformation,
+    shouldRenameFile,
+    onRenameFile
   } = props;
 
   const exportData = async uri => {
     FileController.exportData(uri);
   };
 
-  const changeName = async (oldUri, newName) => {
-    FileController.changeFilename(oldUri, newName, files);
-    setTimeout(() => updateFiles(), 50); // This is a workaround, as await doesn't work - look into Promises
-  };
+  // const changeName = async (oldUri, newName) => {
+  //   FileController.changeFilename(oldUri, newName);
+  //   setTimeout(() => updateFiles(), 50); // This is a workaround, as await doesn't work - look into Promises
+  // };
 
   const getDirectory = uri => {
     return FileController.fetchFilesFrom(uri);
@@ -40,25 +42,39 @@ const FileManager = props => {
     );
   };
 
-  const pullCache = async directoryUri => {
-    FileController.moveCacheToDirectory(directoryUri).then(() => updateFiles());
+  const onFinishedRecording = async () => {
+    FileController.moveCacheToDirectory(currentDirectory).then(() =>
+      updateFiles()
+    );
+  };
+
+  const createDirectory = async information => {
+    FileController.createDirectory(information.uri, information.name);
+    onDirectoryCreate();
+    updateFiles();
+  };
+
+  const renameFile = async information => {
+    onRenameFile();
+    await FileController.changeFilename(information.uri, information.name);
+    updateFiles();
   };
 
   useEffect(() => {
-    if (shouldCreateNewDirectory) {
-      FileController.createDirectory(
-        newDirectoryInformation.uri,
-        newDirectoryInformation.name
-      );
-      onDirectoryCreate();
-    }
-
-    updateFiles().then();
-  }, [currentDirectory, shouldCreateNewDirectory]);
+    if (shouldCreateNewDirectory) createDirectory(newDirectoryInformation);
+  }, [shouldCreateNewDirectory]);
 
   useEffect(() => {
-    if (!isRecording) pullCache(currentDirectory);
+    if (shouldRenameFile) renameFile(fileRenameInformation);
+  }, [shouldRenameFile]);
+
+  useEffect(() => {
+    if (!isRecording) onFinishedRecording();
   }, [isRecording]);
+
+  useEffect(() => {
+    updateFiles();
+  }, [currentDirectory]);
 
   return (
     <FileDisplay
@@ -68,11 +84,9 @@ const FileManager = props => {
       currentDirectory={currentDirectory}
       setCurrentDirectory={setCurrentDirectory}
       exportData={exportData}
-      changeName={changeName}
-      selectedUri={selectedUri}
-      setSelectedUri={setSelectedUri}
       isRecording={isRecording}
       setIsRecording={setIsRecording}
+      requestRename={requestRename}
     />
   );
 };

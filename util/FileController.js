@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import { Audio } from "expo-av";
-import { parseFilename } from "./Parser";
+import { parseFilename, getNameFromUri } from "./Parser";
 
 /*
   Exports a file or directory using native sharing.
@@ -19,29 +19,21 @@ const exportData = async uri => {
     @string newName: The desired new name of the file.
     @object files: The list of files in the current directory.
 */
-const changeFilename = async (oldUri, newName, files) => {
+const changeFilename = async (oldUri, newName) => {
   const audioType = Platform.OS === "ios" ? ".caf" : ".m4a";
-  // eslint-disable-next-line no-restricted-syntax
-  for (const file of files) {
-    if (oldUri === file.uri) {
-      const newTo = oldUri.replace(file.name, "");
-      // eslint-disable-next-line no-await-in-loop
-      const fileInfo = await FileSystem.getInfoAsync(file.uri);
-
-      let parsedName;
-      if (!fileInfo.isDirectory) parsedName = parseFilename(newName, audioType);
-      else parsedName = parseFilename(newName);
-
-      const options = {
-        from: oldUri,
-        to: newTo + parsedName
-      };
-
-      FileSystem.copyAsync(options).then(() => {
-        FileSystem.deleteAsync(oldUri);
-      });
-    }
-  }
+  const oldFilename = getNameFromUri(oldUri);
+  const desiredLocation = oldUri.replace(oldFilename, "");
+  const fileInfo = await FileSystem.getInfoAsync(oldUri);
+  let parsedName;
+  if (!fileInfo.isDirectory) parsedName = parseFilename(newName, audioType);
+  else parsedName = parseFilename(newName);
+  const options = {
+    from: oldUri,
+    to: desiredLocation + parsedName
+  };
+  await FileSystem.copyAsync(options).then(() => {
+    FileSystem.deleteAsync(oldUri);
+  });
 };
 
 /*
@@ -49,7 +41,7 @@ const changeFilename = async (oldUri, newName, files) => {
     @string uri: The uri of the file to delete.
 */
 const deleteFile = async uri => {
-  FileSystem.deleteAsync(uri);
+  await FileSystem.deleteAsync(uri);
 };
 
 /*
@@ -73,7 +65,7 @@ const fetchAndPlaySoundFile = async uri => {
   const soundObject = new Audio.Sound();
   soundObject.setVolumeAsync(1);
 
-  soundObject.loadAsync({ uri }).then(() => {
+  await soundObject.loadAsync({ uri }).then(() => {
     soundObject.playAsync();
   });
 };
@@ -126,7 +118,8 @@ const moveCacheToDirectory = async directoryUri => {
     @string name: The desired directory name.
 */
 const createDirectory = async (uri, name) => {
-  FileSystem.makeDirectoryAsync(uri + name);
+  const parsedName = parseFilename(name);
+  await FileSystem.makeDirectoryAsync(uri + parsedName);
 };
 
 const FileController = {

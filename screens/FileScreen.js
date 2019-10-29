@@ -3,11 +3,7 @@ import { StyleSheet, View, StatusBar } from "react-native";
 import * as FileSystem from "expo-file-system";
 import FileManager from "../components/FileManager";
 import Header from "../components/Header";
-import {
-  getNameFromUri,
-  getParentDirectory,
-  parseFilename
-} from "../util/Parser";
+import { getNameFromUri, getParentDirectory } from "../util/Parser";
 import Colors from "../constants/Colors";
 import TextInputModal from "../components/modals/TextInputModal";
 
@@ -19,19 +15,21 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
     false
   );
   const [newDirectoryInformation, setNewDirectoryInformation] = useState({});
+  const [showRenameModal, setShowRenameModal] = useState(false);
 
   const [currentDirectory, setCurrentDirectory] = useState(
     FileSystem.documentDirectory
   );
 
-  const [selectedUri, setSelectedUri] = useState(null);
+  const [fileRenameInformation, setFileRenameInformation] = useState({});
+  const [shouldRenameFile, setShouldRenameFile] = useState(false);
 
+  // Directory creation
   const onCreateDirectoryAttempt = name => {
     setShowNewDirectoryModal(false);
-    const parsedName = parseFilename(name);
-    if (parsedName) {
+    if (name) {
       setNewDirectoryInformation({
-        name: parsedName,
+        name,
         uri: currentDirectory
       });
       setShouldCreateNewDirectory(true);
@@ -43,17 +41,45 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
     setShouldCreateNewDirectory(false);
   };
 
+  // File renaming
+  const onShowRenameModal = uri => {
+    setFileRenameInformation({
+      uri,
+      name: null
+    });
+    setShowRenameModal(true);
+  };
+
+  const onRenameAttempt = newName => {
+    setShowRenameModal(false);
+    if (newName) {
+      setFileRenameInformation({
+        uri: fileRenameInformation.uri,
+        name: newName
+      });
+      setShouldRenameFile(true);
+    }
+  };
+
+  const onRenameComplete = () => {
+    setFileRenameInformation(null);
+    setShouldRenameFile(false);
+  };
+
+  // Handle moving back a directory
   const onMoveBackDirectory = () => {
     if (currentDirectory !== FileSystem.documentDirectory) {
       setCurrentDirectory(`${getParentDirectory(currentDirectory)}/`);
     }
   };
 
+  // Get the header title
   const getHeaderTitle = () => {
     if (currentDirectory === FileSystem.documentDirectory) return "Files";
     return getNameFromUri(currentDirectory);
   };
 
+  // Handle the loading screen
   useEffect(() => {
     setTimeout(() => onDoneLoading(), 1000);
   }, []);
@@ -76,8 +102,10 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
           onDoneLoading={onDoneLoading}
           currentDirectory={currentDirectory}
           setCurrentDirectory={setCurrentDirectory}
-          selectedUri={selectedUri}
-          setSelectedUri={setSelectedUri}
+          requestRename={onShowRenameModal}
+          fileRenameInformation={fileRenameInformation}
+          shouldRenameFile={shouldRenameFile}
+          onRenameFile={onRenameComplete}
         />
         <TextInputModal
           title="New Directory"
@@ -86,10 +114,13 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
           isVisible={showNewDirectoryModal}
           onDismiss={onCreateDirectoryAttempt}
         />
-        {/* <LoadingScreen
-            isLoading={isLoading}
-            onPress={() => setIsLoading(false)}
-          /> */}
+        <TextInputModal
+          title="Rename File"
+          description="Enter a new name for the file."
+          buttonTitle="Submit"
+          isVisible={showRenameModal}
+          onDismiss={onRenameAttempt}
+        />
       </View>
     );
   }

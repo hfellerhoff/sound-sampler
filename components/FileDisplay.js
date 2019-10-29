@@ -4,8 +4,6 @@ import { StyleSheet, FlatList, Platform, Text } from "react-native";
 import { SCREEN_WIDTH, isiPhoneX } from "../constants/Sizes";
 import FileCard from "./FileCard";
 
-import { parseFilename } from "../util/Parser";
-import TextInputModal from "./modals/TextInputModal";
 import Recorder from "./Recorder";
 
 const FileDisplay = props => {
@@ -15,10 +13,8 @@ const FileDisplay = props => {
     deleteFile,
     currentDirectory,
     setCurrentDirectory,
-    changeName,
+    requestRename,
     exportData,
-    selectedUri,
-    setSelectedUri,
     isRecording,
     setIsRecording
   } = props;
@@ -50,12 +46,12 @@ const FileDisplay = props => {
     // alert('Transitioning into moving mode');
   };
 
-  const onDismiss = name => {
-    if (name) {
-      changeName(selectedUri, parseFilename(name));
-    }
-    setSelectedUri(null);
-  };
+  // const onDismiss = name => {
+  //   if (name) {
+  //     changeName(selectedUri, parseFilename(name));
+  //   }
+  //   setSelectedUri(null);
+  // };
 
   const getCard = (item, index) => {
     let marginStyle = {};
@@ -75,7 +71,7 @@ const FileDisplay = props => {
         deleteFile={onRequestDeleteFile}
         moveFile={onRequestMoveFile}
         currentDirectory={currentDirectory}
-        setSelectedUri={setSelectedUri}
+        requestRename={requestRename}
       />
     );
   };
@@ -113,13 +109,6 @@ const FileDisplay = props => {
     <>
       {getPageContent()}
       <Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
-      <TextInputModal
-        title="Rename File"
-        buttonTitle="Submit"
-        description="Enter a new name for the file."
-        isVisible={!!selectedUri}
-        onDismiss={onDismiss}
-      />
     </>
   );
 };

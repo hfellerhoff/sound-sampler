@@ -74,23 +74,56 @@ const fetchAndPlaySoundFile = async uri => {
   Returns a list of the files in the current directory.
     @string directoryUri: The uri of the directory to fetch from.
 */
+// const fetchFilesFrom = async directoryUri => {
+//   const tempData = [];
+//   await FileSystem.readDirectoryAsync(directoryUri).then(async data => {
+//     // eslint-disable-next-line no-restricted-syntax
+//     for (const file of data) {
+//       // eslint-disable-next-line no-await-in-loop
+//       await FileSystem.getInfoAsync(directoryUri + file).then(
+//         async fileInfo => {
+//           tempData.push({
+//             name: file,
+//             uri: directoryUri + file,
+//             isDirectory: fileInfo.isDirectory
+//           });
+//         }
+//       );
+//     }
+//   });
+//   tempData.sort((a, b) => {
+//     return a.name > b.name;
+//   });
+//   return tempData;
+// };
+const getChildren = async (uri, isDirectory) => {
+  if (!isDirectory) {
+    return [];
+  }
+
+  childList = await fetchFilesFrom(uri);
+  // childList = null;
+
+  console.log(childList);
+  return childList;
+};
+
 const fetchFilesFrom = async directoryUri => {
   const tempData = [];
-  await FileSystem.readDirectoryAsync(directoryUri).then(async data => {
-    // eslint-disable-next-line no-restricted-syntax
-    for (const file of data) {
-      // eslint-disable-next-line no-await-in-loop
-      await FileSystem.getInfoAsync(directoryUri + file).then(
-        async fileInfo => {
-          tempData.push({
-            name: file,
-            uri: directoryUri + file,
-            isDirectory: fileInfo.isDirectory
-          });
-        }
-      );
-    }
-  });
+  const data = await FileSystem.readDirectoryAsync(directoryUri);
+
+  for (const file of data) {
+    fileInfo = await FileSystem.getInfoAsync(directoryUri + file);
+
+    tempChild = await getChildren(directoryUri + file, fileInfo.isDirectory);
+    await tempData.push({
+      name: file,
+      uri: directoryUri + file,
+      isDirectory: fileInfo.isDirectory,
+      children: tempChild
+    });
+  }
+
   tempData.sort((a, b) => {
     return a.name > b.name;
   });

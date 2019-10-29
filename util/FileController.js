@@ -120,7 +120,9 @@ const fetchFilesFrom = async directoryUri => {
   const tempData = [];
   const data = await FileSystem.readDirectoryAsync(directoryUri);
 
-  console.log(data.length);
+  console.log(
+    `Number of children of ${getNameFromUri(directoryUri)}: ${data.length}`
+  );
   // eslint-disable-next-line no-restricted-syntax
   for (const file of data) {
     // eslint-disable-next-line no-await-in-loop

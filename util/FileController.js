@@ -61,6 +61,17 @@ const moveFile = async (oldUri, newUri) => {
   Fetches a sound file from a specified uri.
     @string uri: The uri of the sound file to fetch.
 */
+const fetchSoundFile = async uri => {
+  const soundObject = new Audio.Sound();
+  soundObject.setVolumeAsync(1);
+  await soundObject.loadAsync({ uri });
+  return soundObject;
+};
+
+/*
+  Fetches a sound file from a specified uri.
+    @string uri: The uri of the sound file to fetch.
+*/
 const fetchAndPlaySoundFile = async uri => {
   const soundObject = new Audio.Sound();
   soundObject.setVolumeAsync(1);
@@ -128,6 +139,7 @@ const FileController = {
   fetchFilesFrom,
   createDirectory,
   deleteFile,
+  fetchSoundFile,
   fetchAndPlaySoundFile,
   moveFile,
   moveCacheToDirectory

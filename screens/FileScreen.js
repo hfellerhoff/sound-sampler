@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, StatusBar } from "react-native";
+import { View, StatusBar } from "react-native";
 import * as FileSystem from "expo-file-system";
 import FileManager from "../components/FileManager";
 import Header from "../components/Header";
 import { getNameFromUri, getParentDirectory } from "../util/Parser";
-import Colors from "../constants/Colors";
 import TextInputModal from "../components/modals/TextInputModal";
+import FileController from "../util/FileController";
+import PlaybackModal from "../components/modals/PlaybackModal";
+import Styles from "../constants/Styles";
 
 const FileScreen = ({ isVisible, onDoneLoading }) => {
   // Handle general app state
@@ -25,6 +27,14 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
   const [fileRenameInformation, setFileRenameInformation] = useState({});
   const [showRenameModal, setShowRenameModal] = useState(false);
   const [shouldRenameFile, setShouldRenameFile] = useState(false);
+
+  // Handle file playing
+  const [playbackInformation, setPlaybackInformation] = useState({
+    uri: null,
+    sound: null,
+    shouldPlay: false
+  });
+  const [showPlaybackModal, setShowPlaybackModal] = useState(false);
 
   // Directory creation
   const onCreateDirectoryAttempt = name => {
@@ -68,6 +78,32 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
     setShouldRenameFile(false);
   };
 
+  // File playback
+  const onShowPlaybackModal = async uri => {
+    setShowPlaybackModal(true);
+    const sound = await FileController.fetchSoundFile(uri);
+    setPlaybackInformation({
+      uri,
+      sound,
+      shouldPlay: false
+    });
+  };
+  const onPlaybackAttempt = () => {
+    setPlaybackInformation({
+      uri: playbackInformation.uri,
+      sound: playbackInformation.sound,
+      shouldPlay: true
+    });
+  };
+  const onPlaybackModalDismiss = () => {
+    setPlaybackInformation({
+      uri: null,
+      sound: null,
+      shouldPlay: false
+    });
+    setShowPlaybackModal(false);
+  };
+
   // Handle moving back a directory
   const onMoveBackDirectory = () => {
     if (currentDirectory !== FileSystem.documentDirectory) {
@@ -88,7 +124,7 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
 
   if (isVisible) {
     return (
-      <View style={styles.container}>
+      <View style={Styles.transparentContainer}>
         <StatusBar barStyle="light-content" />
         <Header
           title={getHeaderTitle()}
@@ -108,6 +144,9 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
           fileRenameInformation={fileRenameInformation}
           shouldRenameFile={shouldRenameFile}
           onRenameFile={onRenameComplete}
+          playbackInformation={playbackInformation}
+          setPlaybackInformaation={setPlaybackInformation}
+          requestPlayback={onShowPlaybackModal}
         />
         <TextInputModal
           title="New Directory"
@@ -123,20 +162,16 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
           isVisible={showRenameModal}
           onDismiss={onRenameAttempt}
         />
+        <PlaybackModal
+          isVisible={showPlaybackModal}
+          onPlaybackAttempt={onPlaybackAttempt}
+          onDismiss={onPlaybackModalDismiss}
+          playbackInformation={playbackInformation}
+        />
       </View>
     );
   }
   return <></>;
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.white
-  }
-});
 
 export default FileScreen;

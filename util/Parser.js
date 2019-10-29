@@ -6,6 +6,7 @@ export const getParentDirectory = uri => {
 };
 
 export const getNameFromUri = uri => {
+  if (!uri) return "";
   const array = uri.split("/");
   if (array[array.length - 1] === "") return array[array.length - 2];
   return array[array.length - 1];

@@ -20,7 +20,10 @@ const FileCard = ({
   requestDirectory,
   moveFile,
   deleteFile,
-  requestRename
+  requestRename,
+  playbackInformation,
+  setPlaybackInformation,
+  requestPlayback
 }) => {
   const { uri, isDirectory } = file;
 
@@ -31,7 +34,7 @@ const FileCard = ({
     if (isDirectory) {
       requestDirectory(uri);
     } else {
-      FileController.fetchAndPlaySoundFile(uri);
+      requestPlayback(uri);
     }
   };
 

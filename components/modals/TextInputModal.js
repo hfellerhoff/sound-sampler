@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 
-import { StyleSheet, Text, TextInput, View } from "react-native";
-import { SCREEN_WIDTH } from "../../constants/Sizes";
+import { Text, TextInput, View } from "react-native";
 import ButtonOpacity from "../buttons/ButtonOpacity";
 import Modal from "./Modal";
-import Colors from "../../constants/Colors";
+import Styles from "../../constants/Styles";
 
 /*
     A modal that dismisses with the text in its input if submitted or null if exited.
@@ -25,13 +24,13 @@ const TextInputModal = props => {
   }, [isVisible]);
 
   const Title = () => {
-    if (title) return <Text style={styles.title}>{title}</Text>;
+    if (title) return <Text style={Styles.modalTitle}>{title}</Text>;
     return <></>;
   };
 
   const Description = () => {
     if (description)
-      return <Text style={styles.description}>{description}</Text>;
+      return <Text style={Styles.modalDescription}>{description}</Text>;
     return <></>;
   };
 
@@ -42,7 +41,7 @@ const TextInputModal = props => {
 
   return (
     <Modal isVisible={isVisible} onDismiss={onDismiss}>
-      <View style={styles.container}>
+      <View style={Styles.modalContainer}>
         <Title />
         <Buffer />
         <Description />
@@ -50,53 +49,11 @@ const TextInputModal = props => {
         <TextInput
           value={inputValue}
           onChangeText={text => setInputValue(text)}
-          style={styles.input}
+          style={Styles.modalTextInput}
         />
-        <ButtonOpacity
-          title={buttonTitle}
-          onPress={submitModal}
-          style={styles.onSubmit}
-        />
+        <ButtonOpacity title={buttonTitle} onPress={submitModal} />
       </View>
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: SCREEN_WIDTH / 1.5,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  title: {
-    fontSize: 24,
-    color: Colors.black,
-    textAlign: "center"
-  },
-
-  description: {
-    fontSize: 18,
-    color: Colors.gray,
-    marginBottom: 20,
-    textAlign: "center"
-  },
-
-  input: {
-    width: "100%",
-    height: 40,
-    marginBottom: 25,
-    borderColor: "gray",
-    borderBottomWidth: 3,
-    borderRadius: 10,
-    color: "#333",
-    fontSize: 20,
-    textAlign: "center"
-  },
-
-  button: {
-    width: "100%"
-  }
-});
-
 export default TextInputModal;

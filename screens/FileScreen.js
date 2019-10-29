@@ -82,16 +82,12 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
   // File playback
   const onShowPlaybackModal = async uri => {
     setShowPlaybackModal(true);
-    try {
-      const sound = await FileController.fetchSoundFile(uri);
-      setPlaybackInformation({
-        uri,
-        sound,
-        shouldPlay: false
-      });
-    } catch (error) {
-      alert(error);
-    }
+    const sound = await FileController.fetchSoundFile(uri);
+    setPlaybackInformation({
+      uri,
+      sound,
+      shouldPlay: false
+    });
   };
   const onPlaybackAttempt = () => {
     setPlaybackInformation({

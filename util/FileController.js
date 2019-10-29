@@ -63,8 +63,8 @@ const moveFile = async (oldUri, newUri) => {
 */
 const fetchSoundFile = async uri => {
   const soundObject = new Audio.Sound();
-  soundObject.setVolumeAsync(1);
   await soundObject.loadAsync({ uri });
+  await soundObject.setVolumeAsync(1);
   return soundObject;
 };
 
@@ -74,11 +74,9 @@ const fetchSoundFile = async uri => {
 */
 const fetchAndPlaySoundFile = async uri => {
   const soundObject = new Audio.Sound();
-  soundObject.setVolumeAsync(1);
-
-  await soundObject.loadAsync({ uri }).then(() => {
-    soundObject.playAsync();
-  });
+  await soundObject.loadAsync({ uri });
+  await soundObject.setVolumeAsync(1);
+  soundObject.playAsync();
 };
 
 /*

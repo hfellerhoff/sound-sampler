@@ -26,6 +26,14 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
   const [showRenameModal, setShowRenameModal] = useState(false);
   const [shouldRenameFile, setShouldRenameFile] = useState(false);
 
+  // Handle file playing
+  const [playbackInformation, setPlaybackInformation] = useState({
+    uri: null,
+    sound: null,
+    shouldPlay: null
+  });
+  const [showPlaybackModal, setShowPlaybackModal] = useState(false);
+
   // Directory creation
   const onCreateDirectoryAttempt = name => {
     setShowNewDirectoryModal(false);
@@ -68,6 +76,11 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
     setShouldRenameFile(false);
   };
 
+  // File playback
+  const onShowPlaybackModal = () => {};
+  const onPlaybackAttempt = () => {};
+  const onPlaybackComplete = () => {};
+
   // Handle moving back a directory
   const onMoveBackDirectory = () => {
     if (currentDirectory !== FileSystem.documentDirectory) {
@@ -108,6 +121,7 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
           fileRenameInformation={fileRenameInformation}
           shouldRenameFile={shouldRenameFile}
           onRenameFile={onRenameComplete}
+          playback={playbackInformation}
         />
         <TextInputModal
           title="New Directory"

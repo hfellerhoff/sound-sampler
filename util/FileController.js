@@ -110,12 +110,8 @@ const getChildren = async (uri, isDirectory) => {
     return [];
   }
 
-<<<<<<< HEAD
-  childList = await fetchFilesFrom(uri);
-=======
   const childList = await fetchFilesFrom(uri);
   // childList = null;
->>>>>>> 74541ef85a68269774e7f50f44d670bac9589d9c
 
   return childList;
 };
@@ -127,27 +123,17 @@ const fetchFilesFrom = async directoryUri => {
   console.log(data.length);
   // eslint-disable-next-line no-restricted-syntax
   for (const file of data) {
-<<<<<<< HEAD
-    const fileInfo = await FileSystem.getInfoAsync(directoryUri + file);
-
-    const tempChild = await getChildren(
-      directoryUri + file + "/",
-      fileInfo.isDirectory
-    );
-
-    console.log("The children of " + file + " are " + tempChild);
-    await tempData.push({
-=======
     // eslint-disable-next-line no-await-in-loop
     const fileInfo = await FileSystem.getInfoAsync(directoryUri + file);
 
     // eslint-disable-next-line no-await-in-loop
     const tempChild = await getChildren(
-      directoryUri + file,
+      `${directoryUri + file}/`,
       fileInfo.isDirectory
     );
+
+    console.log(`The children of ${file} are ${tempChild}`);
     tempData.push({
->>>>>>> 74541ef85a68269774e7f50f44d670bac9589d9c
       name: file,
       uri: directoryUri + file,
       isDirectory: fileInfo.isDirectory,

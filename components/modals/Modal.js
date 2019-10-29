@@ -9,11 +9,7 @@ import {
 import Animated, { Easing } from "react-native-reanimated";
 import { bInterpolate, useTransition } from "react-native-redash";
 
-import {
-  SCREEN_WIDTH,
-  SCREEN_HEIGHT,
-  KEYBOARD_HEIGHT
-} from "../../constants/Sizes";
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from "../../constants/Sizes";
 
 /*
 	Props to provide:
@@ -32,6 +28,8 @@ const Modal = props => {
   const [keyboardDidShowListener, setKeyboardDidShowListener] = useState(null);
   const [keyboardDidHideListener, setKeyboardDidHideListener] = useState(null);
 
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
   const keyboardTransition = useTransition(
     isKeyboardShown,
     isKeyboardShown ? 0 : 1,
@@ -47,7 +45,7 @@ const Modal = props => {
     Easing.inOut(Easing.ease)
   );
 
-  const marginBottom = bInterpolate(keyboardTransition, KEYBOARD_HEIGHT, 0);
+  const marginBottom = bInterpolate(keyboardTransition, keyboardHeight, 0);
   const opacity = bInterpolate(visibleTransition, 0.25, 0);
   const bottom = bInterpolate(visibleTransition, 0, -300);
 
@@ -55,8 +53,8 @@ const Modal = props => {
   const backgroundTransitionStyle = { opacity };
   const bottomTransitionStyle = { bottom };
 
-  const onKeyboardShow = () => {
-    // keyboardHeight = e.endCoordinates.height;
+  const onKeyboardShow = e => {
+    setKeyboardHeight(e.endCoordinates.height);
     setIsKeyboardShown(true);
   };
   const onKeyboardHide = () => {

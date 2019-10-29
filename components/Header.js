@@ -23,14 +23,12 @@ const Header = ({ title, onPress, onGoBack }) => {
     <View style={styles.container}>
       <View style={styles.statusBar} />
       <View style={styles.header}>
-        <View style={styles.titleContainer}>
-          <TouchableWithoutFeedback onPress={onGoBack}>
-            <>
-              {image}
-              <Text style={styles.title}>{title}</Text>
-            </>
-          </TouchableWithoutFeedback>
-        </View>
+        <TouchableWithoutFeedback onPress={onGoBack}>
+          <View style={styles.titleContainer}>
+            {image}
+            <Text style={styles.title}>{title}</Text>
+          </View>
+        </TouchableWithoutFeedback>
         <View>
           <TouchableOpacity onPress={onPress}>
             <Image source={Icons.addFolder} style={styles.image} />

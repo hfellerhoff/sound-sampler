@@ -8,20 +8,22 @@ import Colors from "../constants/Colors";
 import TextInputModal from "../components/modals/TextInputModal";
 
 const FileScreen = ({ isVisible, onDoneLoading }) => {
+  // Handle general app state
   const [isRecording, setIsRecording] = useState(false);
-
-  const [showNewDirectoryModal, setShowNewDirectoryModal] = useState(false);
-  const [shouldCreateNewDirectory, setShouldCreateNewDirectory] = useState(
-    false
-  );
-  const [newDirectoryInformation, setNewDirectoryInformation] = useState({});
-  const [showRenameModal, setShowRenameModal] = useState(false);
-
   const [currentDirectory, setCurrentDirectory] = useState(
     FileSystem.documentDirectory
   );
 
+  // Handle directory creation
+  const [newDirectoryInformation, setNewDirectoryInformation] = useState({});
+  const [showNewDirectoryModal, setShowNewDirectoryModal] = useState(false);
+  const [shouldCreateNewDirectory, setShouldCreateNewDirectory] = useState(
+    false
+  );
+
+  // Handle file renaming
   const [fileRenameInformation, setFileRenameInformation] = useState({});
+  const [showRenameModal, setShowRenameModal] = useState(false);
   const [shouldRenameFile, setShouldRenameFile] = useState(false);
 
   // Directory creation

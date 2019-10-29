@@ -110,7 +110,7 @@ const getChildren = async (uri, isDirectory) => {
     return [];
   }
 
-  childList = await fetchFilesFrom(uri);
+  const childList = await fetchFilesFrom(uri);
   // childList = null;
 
   console.log(childList);
@@ -121,12 +121,18 @@ const fetchFilesFrom = async directoryUri => {
   const tempData = [];
   const data = await FileSystem.readDirectoryAsync(directoryUri);
 
+  console.log(data.length);
   // eslint-disable-next-line no-restricted-syntax
   for (const file of data) {
-    fileInfo = await FileSystem.getInfoAsync(directoryUri + file);
+    // eslint-disable-next-line no-await-in-loop
+    const fileInfo = await FileSystem.getInfoAsync(directoryUri + file);
 
-    tempChild = await getChildren(directoryUri + file, fileInfo.isDirectory);
-    await tempData.push({
+    // eslint-disable-next-line no-await-in-loop
+    const tempChild = await getChildren(
+      directoryUri + file,
+      fileInfo.isDirectory
+    );
+    tempData.push({
       name: file,
       uri: directoryUri + file,
       isDirectory: fileInfo.isDirectory,

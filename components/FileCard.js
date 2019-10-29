@@ -13,7 +13,6 @@ import { SCREEN_WIDTH } from "../constants/Sizes";
 import Icons from "../constants/Icons";
 import Colors from "../constants/Colors";
 import FileController from "../util/FileController";
-// import { getParentDirectory } from '../util/Parser';
 
 const FileCard = ({
   file,
@@ -41,11 +40,6 @@ const FileCard = ({
   };
 
   const LeftActions = () => {
-    // const scale = interpolate(dragX, {
-    // 	inputRange: [ 0, 100 ],
-    // 	outputRange: [ 0, 1 ]
-    // 	// extrapolate: Extrapolate.CLAMP
-    // });
     return (
       <View style={styles.leftAction}>
         <Animated.Text style={styles.leftActionText}>Export</Animated.Text>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { StyleSheet, FlatList, Platform, Text } from "react-native";
+
 import { SCREEN_WIDTH, isiPhoneX } from "../constants/Sizes";
 import FileCard from "./FileCard";
 
@@ -37,21 +38,7 @@ const FileDisplay = props => {
 
   const onRequestMoveFile = async uri => {
     exportData(uri);
-    // setMovingOptions({
-    // 	areMoving: true,
-    // 	fromUri: uri,
-    // 	toUri: null
-    // });
-    // setCurrentDirectory(FileSystem.documentDirectory);
-    // alert('Transitioning into moving mode');
   };
-
-  // const onDismiss = name => {
-  //   if (name) {
-  //     changeName(selectedUri, parseFilename(name));
-  //   }
-  //   setSelectedUri(null);
-  // };
 
   const getCard = (item, index) => {
     let marginStyle = {};

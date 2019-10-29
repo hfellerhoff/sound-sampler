@@ -4,8 +4,6 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
-  Platform,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Image
@@ -22,22 +20,24 @@ const Header = ({ title, onPress, onGoBack }) => {
       <Image source={Icons.rightCaret} style={styles.caret} />
     );
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.statusBar} />
-      <View style={{ backgroundColor: Colors.primary }}>
-        <View style={styles.header}>
+      <View style={styles.header}>
+        <View style={styles.titleContainer}>
           <TouchableWithoutFeedback onPress={onGoBack}>
-            <View style={styles.titleContainer}>
+            <>
               {image}
               <Text style={styles.title}>{title}</Text>
-            </View>
+            </>
           </TouchableWithoutFeedback>
-          <TouchableOpacity style={styles.imageButton} onPress={onPress}>
+        </View>
+        <View>
+          <TouchableOpacity onPress={onPress}>
             <Image source={Icons.addFolder} style={styles.image} />
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -46,29 +46,27 @@ export default Header;
 const statusBarHeight = STATUS_BAR_HEIGHT;
 const styles = StyleSheet.create({
   statusBar: {
-    marginTop: -statusBarHeight,
-    height: statusBarHeight + (Platform.OS === "android" ? 10 : 0),
+    height: statusBarHeight,
     backgroundColor: Colors.primary
   },
   container: {
-    marginTop: Platform.OS === "android" ? 24 : 0,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 5,
     shadowOpacity: 0.26,
     elevation: 5
   },
-
   header: {
     width: SCREEN_WIDTH,
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "center",
-    flexDirection: "row"
+    flexDirection: "row",
+    backgroundColor: Colors.primary,
+    paddingHorizontal: 15,
+    paddingVertical: 5
   },
 
   titleContainer: {
-    marginLeft: 15,
-    marginBottom: 5,
     flex: 1,
     flexDirection: "row",
     alignItems: "center"
@@ -81,16 +79,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
 
-  imageButton: {
-    alignItems: "center",
-    justifyContent: "center"
-  },
-
   image: {
     height: 30,
-    width: 30,
-    marginRight: 15,
-    marginTop: Platform.OS === "android" ? 12 : 3
+    width: 30
   },
 
   caret: {

@@ -121,6 +121,7 @@ const fetchFilesFrom = async directoryUri => {
   const tempData = [];
   const data = await FileSystem.readDirectoryAsync(directoryUri);
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const file of data) {
     fileInfo = await FileSystem.getInfoAsync(directoryUri + file);
 

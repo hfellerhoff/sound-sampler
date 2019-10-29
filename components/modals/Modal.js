@@ -9,7 +9,11 @@ import {
 import Animated, { Easing } from "react-native-reanimated";
 import { bInterpolate, useTransition } from "react-native-redash";
 
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from "../../constants/Sizes";
+import {
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+  BOTTOM_BAR_HEIGHT
+} from "../../constants/Sizes";
 
 /*
 	Props to provide:
@@ -107,6 +111,7 @@ const Modal = props => {
             }}
           >
             {children}
+            <View style={{ height: BOTTOM_BAR_HEIGHT }} />
           </Animated.View>
         </View>
       </TouchableWithoutFeedback>

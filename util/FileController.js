@@ -113,9 +113,7 @@ const getChildren = async (uri, isDirectory) => {
   }
 
   childList = await fetchFilesFrom(uri);
-  // childList = null;
 
-  console.log(childList);
   return childList;
 };
 
@@ -124,9 +122,14 @@ const fetchFilesFrom = async directoryUri => {
   const data = await FileSystem.readDirectoryAsync(directoryUri);
 
   for (const file of data) {
-    fileInfo = await FileSystem.getInfoAsync(directoryUri + file);
+    const fileInfo = await FileSystem.getInfoAsync(directoryUri + file);
 
-    tempChild = await getChildren(directoryUri + file, fileInfo.isDirectory);
+    const tempChild = await getChildren(
+      directoryUri + file + "/",
+      fileInfo.isDirectory
+    );
+
+    console.log("The children of " + file + " are " + tempChild);
     await tempData.push({
       name: file,
       uri: directoryUri + file,

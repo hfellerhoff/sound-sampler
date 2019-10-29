@@ -15,7 +15,10 @@ const FileManager = props => {
     requestRename,
     fileRenameInformation,
     shouldRenameFile,
-    onRenameFile
+    onRenameFile,
+    playbackInformation,
+    setPlaybackInformation,
+    requestPlayback
   } = props;
 
   const exportData = async uri => {
@@ -87,6 +90,9 @@ const FileManager = props => {
       isRecording={isRecording}
       setIsRecording={setIsRecording}
       requestRename={requestRename}
+      playbackInformation={playbackInformation}
+      setPlaybackInformation={setPlaybackInformation}
+      requestPlayback={requestPlayback}
     />
   );
 };

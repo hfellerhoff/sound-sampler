@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, StatusBar } from "react-native";
+import { StyleSheet, View, StatusBar, Text } from "react-native";
 import * as FileSystem from "expo-file-system";
 import FileManager from "../components/FileManager";
 import Header from "../components/Header";
 import { getNameFromUri, getParentDirectory } from "../util/Parser";
 import Colors from "../constants/Colors";
 import TextInputModal from "../components/modals/TextInputModal";
+import FileController from "../util/FileController";
+import Modal from "../components/modals/Modal";
+import ButtonOpacity from "../components/buttons/ButtonOpacity";
 
 const FileScreen = ({ isVisible, onDoneLoading }) => {
   // Handle general app state
@@ -30,7 +33,7 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
   const [playbackInformation, setPlaybackInformation] = useState({
     uri: null,
     sound: null,
-    shouldPlay: null
+    shouldPlay: false
   });
   const [showPlaybackModal, setShowPlaybackModal] = useState(false);
 
@@ -77,9 +80,34 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
   };
 
   // File playback
-  const onShowPlaybackModal = () => {};
-  const onPlaybackAttempt = () => {};
-  const onPlaybackComplete = () => {};
+  const onShowPlaybackModal = async uri => {
+    setShowPlaybackModal(true);
+    try {
+      const sound = await FileController.fetchSoundFile(uri);
+      setPlaybackInformation({
+        uri,
+        sound,
+        shouldPlay: false
+      });
+    } catch (error) {
+      alert(error);
+    }
+  };
+  const onPlaybackAttempt = () => {
+    setPlaybackInformation({
+      uri: playbackInformation.uri,
+      sound: playbackInformation.sound,
+      shouldPlay: true
+    });
+  };
+  const onPlaybackModalDismiss = () => {
+    setPlaybackInformation({
+      uri: null,
+      sound: null,
+      shouldPlay: false
+    });
+    setShowPlaybackModal(false);
+  };
 
   // Handle moving back a directory
   const onMoveBackDirectory = () => {
@@ -121,7 +149,9 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
           fileRenameInformation={fileRenameInformation}
           shouldRenameFile={shouldRenameFile}
           onRenameFile={onRenameComplete}
-          playback={playbackInformation}
+          playbackInformation={playbackInformation}
+          setPlaybackInformaation={setPlaybackInformation}
+          requestPlayback={onShowPlaybackModal}
         />
         <TextInputModal
           title="New Directory"
@@ -137,6 +167,10 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
           isVisible={showRenameModal}
           onDismiss={onRenameAttempt}
         />
+        <Modal isVisible={showPlaybackModal} onDismiss={onPlaybackModalDismiss}>
+          <Text>Click to play sound:</Text>
+          <ButtonOpacity title="Play" onPress={onPlaybackAttempt} />
+        </Modal>
       </View>
     );
   }

@@ -83,7 +83,7 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
 
   // Handle the loading screen
   useEffect(() => {
-    setTimeout(() => onDoneLoading(), 1000);
+    setTimeout(() => onDoneLoading(), 500);
   }, []);
 
   if (isVisible) {

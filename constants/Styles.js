@@ -8,12 +8,6 @@ const Styles = {
     alignItems: "center",
     justifyContent: "center"
   },
-  whiteContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.white
-  },
   boxShadow: {
     elevation: 10,
     shadowColor: "black",

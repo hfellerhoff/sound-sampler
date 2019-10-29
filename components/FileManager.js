@@ -15,7 +15,10 @@ const FileManager = props => {
     requestRename,
     fileRenameInformation,
     shouldRenameFile,
-    onRenameFile
+    onRenameFile,
+    playbackInformation,
+    setPlaybackInformation,
+    requestPlayback
   } = props;
 
   const exportData = async uri => {
@@ -69,6 +72,17 @@ const FileManager = props => {
   }, [shouldRenameFile]);
 
   useEffect(() => {
+    if (playbackInformation.shouldPlay) {
+      FileController.fetchAndPlaySoundFile(playbackInformation.uri);
+      setPlaybackInformation({
+        uri: playbackInformation.uri,
+        sound: playbackInformation.sound,
+        shouldPlay: false
+      });
+    }
+  }, [playbackInformation.shouldPlay]);
+
+  useEffect(() => {
     if (!isRecording) onFinishedRecording();
   }, [isRecording]);
 
@@ -87,6 +101,9 @@ const FileManager = props => {
       isRecording={isRecording}
       setIsRecording={setIsRecording}
       requestRename={requestRename}
+      playbackInformation={playbackInformation}
+      setPlaybackInformation={setPlaybackInformation}
+      requestPlayback={requestPlayback}
     />
   );
 };

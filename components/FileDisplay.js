@@ -17,7 +17,10 @@ const FileDisplay = props => {
     requestRename,
     exportData,
     isRecording,
-    setIsRecording
+    setIsRecording,
+    playbackInformation,
+    setPlaybackInformation,
+    requestPlayback
   } = props;
   const [displayedFiles, setDisplayedFiles] = useState(files);
 
@@ -59,6 +62,9 @@ const FileDisplay = props => {
         moveFile={onRequestMoveFile}
         currentDirectory={currentDirectory}
         requestRename={requestRename}
+        playbackInformation={playbackInformation}
+        setPlaybackInformation={setPlaybackInformation}
+        requestPlayback={requestPlayback}
       />
     );
   };

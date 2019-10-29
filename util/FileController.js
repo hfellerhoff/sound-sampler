@@ -76,9 +76,8 @@ const fetchAndPlaySoundFile = async uri => {
   const soundObject = new Audio.Sound();
   soundObject.setVolumeAsync(1);
 
-  await soundObject.loadAsync({ uri }).then(() => {
-    soundObject.playAsync();
-  });
+  await soundObject.loadAsync({ uri });
+  await soundObject.playAsync();
 };
 
 /*

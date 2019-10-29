@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  StatusBar
-} from "react-native";
+import { StyleSheet, Text, StatusBar } from "react-native";
 import Animated, { Easing } from "react-native-reanimated";
 import { useTransition, bInterpolate } from "react-native-redash";
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from "../constants/Sizes";
 
-const image = require("../assets/EmptyLogo.jpg");
+const image = require("../assets/EmptyLogo.png");
 
-const LoadingScreen = ({ onPress, isLoading }) => {
+const LoadingScreen = ({ isVisible, isAnimating, onAnimateOut }) => {
   const [changeLoop, setChangeLoop] = useState(false);
 
   const keyboardTransition = useTransition(
@@ -38,32 +32,40 @@ const LoadingScreen = ({ onPress, isLoading }) => {
     height: innerImageHeight
   };
 
-  // const outerImageScale = bInterpolate(keyboardTransition, SCREEN_WIDTH / 1.25, 1.1 * SCREEN_WIDTH / 1.25);
-  // const outerTransitionStyle = {
-  // 	width: outerImageScale,
-  // 	height: outerImageScale,
-  // }
-
   useEffect(() => {
     setTimeout(() => {
       setChangeLoop(!changeLoop);
     }, 1000);
   }, [changeLoop]);
 
-  if (isLoading) {
-    return (
-      <TouchableWithoutFeedback onPress={onPress}>
-        <View style={styles.background}>
-          <StatusBar barStyle="light-content" />
-          <Animated.Image
-            style={[styles.image, innerTransitionStyle]}
-            source={image}
-          />
-          {/* <Animated.Image style={[styles.image, outerTransitionStyle]} source={require('../assets/outerpulse.jpg')} /> */}
+  // KNOWN ANDROID ISSUE: Image opacity does not fade as quickly as
+  // the background's. A simple fix may be to just get a background
+  // image that is only a PNG with no background.
+  const opacityTransitionTiming = 500;
+  const opacityTransition = useTransition(
+    isVisible,
+    isVisible ? 0 : 1,
+    isVisible ? 1 : 0,
+    opacityTransitionTiming,
+    Easing.inOut(Easing.ease)
+  );
+  const opacity = bInterpolate(opacityTransition, 1, 0);
+  const opacityStyle = { opacity };
 
-          <Text style={styles.text}>EARWORM</Text>
-        </View>
-      </TouchableWithoutFeedback>
+  useEffect(() => {
+    if (!isVisible) setTimeout(() => onAnimateOut(), opacityTransitionTiming);
+  }, [isVisible]);
+
+  if (isVisible || isAnimating) {
+    return (
+      <Animated.View style={{ ...styles.background, ...opacityStyle }}>
+        <StatusBar barStyle="light-content" />
+        <Animated.Image
+          style={[styles.image, innerTransitionStyle]}
+          source={image}
+        />
+        <Text style={styles.text}>EARWORM</Text>
+      </Animated.View>
     );
   }
   return <></>;
@@ -73,17 +75,15 @@ const imageSize = SCREEN_WIDTH / 1.25;
 const styles = StyleSheet.create({
   background: {
     position: "absolute",
-    height: SCREEN_HEIGHT,
     width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
     backgroundColor: "#000000",
     alignItems: "center",
     justifyContent: "center"
   },
   image: {
-    // position: "absolute",
     top: 0,
     left: 0,
-    // left: (SCREEN_WIDTH - imageSize * 1.1) / 2,
     width: imageSize,
     height: imageSize * 1.5
   },

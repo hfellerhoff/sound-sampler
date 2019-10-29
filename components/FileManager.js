@@ -13,8 +13,7 @@ const FileManager = props => {
     newDirectoryInformation,
     selectedUri,
     setSelectedUri,
-    onDirectoryCreate,
-    setIsLoading
+    onDirectoryCreate
   } = props;
 
   const exportData = async uri => {
@@ -46,8 +45,6 @@ const FileManager = props => {
   };
 
   useEffect(() => {
-    setIsLoading();
-
     if (shouldCreateNewDirectory) {
       FileController.createDirectory(
         newDirectoryInformation.uri,
@@ -56,7 +53,7 @@ const FileManager = props => {
       onDirectoryCreate();
     }
 
-    updateFiles();
+    updateFiles().then();
   }, [currentDirectory, shouldCreateNewDirectory]);
 
   useEffect(() => {

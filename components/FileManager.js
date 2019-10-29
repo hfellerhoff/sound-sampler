@@ -72,7 +72,14 @@ const FileManager = props => {
   }, [shouldRenameFile]);
 
   useEffect(() => {
-    if (playbackInformation.shouldPlay) playbackInformation.sound.playAsync();
+    if (playbackInformation.shouldPlay) {
+      FileController.fetchAndPlaySoundFile(playbackInformation.uri);
+      setPlaybackInformation({
+        uri: playbackInformation.uri,
+        sound: playbackInformation.sound,
+        shouldPlay: false
+      });
+    }
   }, [playbackInformation.shouldPlay]);
 
   useEffect(() => {

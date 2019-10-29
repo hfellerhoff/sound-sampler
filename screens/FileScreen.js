@@ -145,7 +145,7 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
           shouldRenameFile={shouldRenameFile}
           onRenameFile={onRenameComplete}
           playbackInformation={playbackInformation}
-          setPlaybackInformaation={setPlaybackInformation}
+          setPlaybackInformation={setPlaybackInformation}
           requestPlayback={onShowPlaybackModal}
         />
         <TextInputModal

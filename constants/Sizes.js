@@ -14,7 +14,13 @@ export const isiPhoneX = () =>
 const isIPhoneXSize = SCREEN_HEIGHT === 812 || SCREEN_WIDTH === 812;
 const isIPhoneXrSize = SCREEN_HEIGHT === 896 || SCREEN_WIDTH === 896;
 
-export const BOTTOM_BAR_HEIGHT = isiPhoneX() ? 17 : 0; // Actual Height is 34, but using 17 as it works better with styles
+const getBottomBarHeight = () => {
+  if (isiPhoneX()) return 17; // Actual Height is 34, but using 17 as it works better with styles
+  if (Platform.OS === "android") return 12; // Actual Height is 48 (maybe 24?), but using 12 as it works better with styles
+  return 0;
+};
+
+export const BOTTOM_BAR_HEIGHT = getBottomBarHeight();
 export const STATUS_BAR_HEIGHT = getStatusBarHeight();
 
 export const KEYBOARD_HEIGHT = isiPhoneX() ? 333 : 216; // Deprecated - get size off keyboard instead

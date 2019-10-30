@@ -3,7 +3,8 @@ import {
   View,
   StyleSheet,
   Keyboard,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Platform
 } from "react-native";
 
 import Animated, { Easing } from "react-native-reanimated";
@@ -23,6 +24,8 @@ import {
 */
 
 const animationTiming = 200;
+const distanceFromBottom = Platform.OS === "android" ? 48 : 0; // Android bottom bar height
+
 const Modal = props => {
   const { isVisible, onDismiss, children } = props;
 
@@ -51,7 +54,7 @@ const Modal = props => {
 
   const marginBottom = bInterpolate(keyboardTransition, keyboardHeight, 0);
   const opacity = bInterpolate(visibleTransition, 0.25, 0);
-  const bottom = bInterpolate(visibleTransition, 0, -300);
+  const bottom = bInterpolate(visibleTransition, distanceFromBottom, -300);
 
   const modalTransitionStyle = { marginBottom };
   const backgroundTransitionStyle = { opacity };

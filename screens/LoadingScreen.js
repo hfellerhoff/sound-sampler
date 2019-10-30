@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     color: "#02fffe",
     fontSize: 18,
     fontWeight: "400",
-    fontFamily: "Arial",
+    // fontFamily: "Arial", // Commented because it needs to be loaded with Font.loadAsync()
     textAlign: "center",
     letterSpacing: 5
   }

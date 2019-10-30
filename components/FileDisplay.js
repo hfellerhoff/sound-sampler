@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { StyleSheet, FlatList, Platform, Text } from "react-native";
 
@@ -10,7 +10,6 @@ import Recorder from "./Recorder";
 const FileDisplay = props => {
   const {
     files,
-    getDirectory,
     deleteFile,
     currentDirectory,
     setCurrentDirectory,
@@ -22,17 +21,9 @@ const FileDisplay = props => {
     setPlaybackInformation,
     requestPlayback
   } = props;
-  const [displayedFiles, setDisplayedFiles] = useState(files);
 
   const onRequestDirectory = async uri => {
-    const newFiles = [];
-    await getDirectory(uri).then(directoryFiles => {
-      directoryFiles.forEach(file => {
-        newFiles.push(file);
-      });
-    });
     setCurrentDirectory(`${uri}/`);
-    setDisplayedFiles(newFiles);
   };
 
   const onRequestDeleteFile = async uri => {
@@ -45,7 +36,7 @@ const FileDisplay = props => {
 
   const getCard = (item, index) => {
     let marginStyle = {};
-    if (displayedFiles.length - 1 === index) {
+    if (files.length - 1 === index) {
       if (isiPhoneX())
         marginStyle = {
           marginBottom: 214
@@ -70,11 +61,11 @@ const FileDisplay = props => {
   };
 
   const getPageContent = () => {
-    if (displayedFiles.length > 0) {
+    if (files.length > 0) {
       return (
         <FlatList
           style={styles.list}
-          data={displayedFiles}
+          data={files}
           renderItem={({ item, index }) => getCard(item, index)}
           keyExtractor={file => file.uri}
         />
@@ -86,10 +77,6 @@ const FileDisplay = props => {
       </Text>
     );
   };
-
-  useEffect(() => {
-    setDisplayedFiles(files);
-  }, [files]);
 
   /*
       ~ Not working: would love to get it working though ~

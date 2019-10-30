@@ -109,11 +109,17 @@ const getChildren = async (uri, isDirectory) => {
   if (!isDirectory) {
     return [];
   }
+<<<<<<< HEAD
   const childList = await fetchFilesFrom(uri);
 
   for (const info of childList) {
     console.log("The name of the children is" + info.name);
   }
+=======
+
+  const childList = await fetchFilesFrom(uri);
+  // childList = null;
+>>>>>>> 318ee18189296014ae03b746eced3be184ce086b
 
   return childList;
 };
@@ -122,6 +128,7 @@ const fetchFilesFrom = async directoryUri => {
   const tempData = [];
   const data = await FileSystem.readDirectoryAsync(directoryUri);
 
+<<<<<<< HEAD
   // eslint-disable-next-line no-restricted-syntax
   for (const file of data) {
     const fileInfo = await FileSystem.getInfoAsync(directoryUri + file);
@@ -132,10 +139,33 @@ const fetchFilesFrom = async directoryUri => {
     );
 
     await tempData.push({
+=======
+  console.log(
+    `Number of children of ${getNameFromUri(directoryUri)}: ${data.length}`
+  );
+  // eslint-disable-next-line no-restricted-syntax
+  for (const file of data) {
+    // eslint-disable-next-line no-await-in-loop
+    const fileInfo = await FileSystem.getInfoAsync(directoryUri + file);
+
+    // eslint-disable-next-line no-await-in-loop
+    const tempChildren = await getChildren(
+      `${directoryUri + file}/`,
+      fileInfo.isDirectory
+    );
+
+    console.log(`The children of ${file} are:`);
+    if (tempChildren.length === 0) console.log(`${file} has no children.`);
+    tempChildren.forEach(child => {
+      console.log(child);
+    });
+    console.log("-----------------------------------------");
+    tempData.push({
+>>>>>>> 318ee18189296014ae03b746eced3be184ce086b
       name: file,
       uri: directoryUri + file,
       isDirectory: fileInfo.isDirectory,
-      children: tempChild
+      children: tempChildren
     });
   }
 

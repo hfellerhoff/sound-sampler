@@ -4,8 +4,10 @@ import { StyleSheet, Text, StatusBar } from "react-native";
 import Animated, { Easing } from "react-native-reanimated";
 import { useTransition, bInterpolate } from "react-native-redash";
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from "../constants/Sizes";
+import Colors from "../constants/Colors";
 
-const image = require("../assets/EmptyLogo.png");
+// const image = require("../assets/EmptyLogo.png");
+const image = require("../assets/AlternateLogo.png"); // Alternate Logo
 
 const LoadingScreen = ({ isVisible, isAnimating, onAnimateOut }) => {
   const [changeLoop, setChangeLoop] = useState(false);
@@ -17,16 +19,22 @@ const LoadingScreen = ({ isVisible, isAnimating, onAnimateOut }) => {
     1000,
     Easing.inOut(Easing.ease)
   );
+  // const innerImageWidth = bInterpolate(
+  //   keyboardTransition,
+  //   (1.1 * SCREEN_WIDTH) / 1.25,
+  //   SCREEN_WIDTH / 1.25
+  // );
+  // const innerImageHeight = bInterpolate(
+  //   keyboardTransition,
+  //   (1.1 * 1.5 * SCREEN_WIDTH) / 1.25,
+  //   (1.5 * SCREEN_WIDTH) / 1.25
+  // );
   const innerImageWidth = bInterpolate(
     keyboardTransition,
-    (1.1 * SCREEN_WIDTH) / 1.25,
-    SCREEN_WIDTH / 1.25
+    (1.1 * SCREEN_WIDTH) / 2,
+    SCREEN_WIDTH / 2
   );
-  const innerImageHeight = bInterpolate(
-    keyboardTransition,
-    (1.1 * 1.5 * SCREEN_WIDTH) / 1.25,
-    (1.5 * SCREEN_WIDTH) / 1.25
-  );
+  const innerImageHeight = innerImageWidth;
   const innerTransitionStyle = {
     width: innerImageWidth,
     height: innerImageHeight
@@ -64,7 +72,7 @@ const LoadingScreen = ({ isVisible, isAnimating, onAnimateOut }) => {
           style={[styles.image, innerTransitionStyle]}
           source={image}
         />
-        <Text style={styles.text}>EARWORM</Text>
+        {/* <Text style={styles.text}>EARWORM</Text> */}
       </Animated.View>
     );
   }
@@ -77,7 +85,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT,
-    backgroundColor: "#000000",
+    backgroundColor: Colors.primary,
     alignItems: "center",
     justifyContent: "center"
   },

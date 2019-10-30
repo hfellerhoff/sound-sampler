@@ -134,7 +134,8 @@ const fetchFilesFrom = async directoryUri => {
       fileInfo.isDirectory
     );
 
-    console.log(`The children of ${file} are ${tempChildren}`);
+    console.log(`The children of ${file} are:`);
+    if (tempChildren.length === 0) console.log(`${file} has no children.`);
     tempChildren.forEach(child => {
       console.log(child);
     });

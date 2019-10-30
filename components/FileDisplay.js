@@ -10,16 +10,16 @@ import Recorder from "./Recorder";
 const FileDisplay = props => {
   const {
     files,
-    getDirectory,
-    deleteFile,
+    requestDelete,
+    requestRename,
+    requestExport,
+    requestPlayback,
     currentDirectory,
     setCurrentDirectory,
-    requestRename,
-    exportData,
     isRecording,
-    setIsRecording,
-    requestPlayback
+    setIsRecording
   } = props;
+
   const [displayedFiles, setDisplayedFiles] = useState(files);
   const [direction, setDirection] = useState("right");
 
@@ -28,11 +28,11 @@ const FileDisplay = props => {
   };
 
   const onSwipeLeft = async uri => {
-    deleteFile(uri);
+    requestDelete(uri);
   };
 
   const onSwipeRight = async uri => {
-    exportData(uri);
+    requestExport(uri);
   };
 
   const onPress = async (uri, isDirectory) => {

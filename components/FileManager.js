@@ -25,10 +25,6 @@ const FileManager = props => {
     FileController.exportData(uri);
   };
 
-  const getDirectory = uri => {
-    return FileController.fetchFilesFrom(uri);
-  };
-
   const deleteFile = async uri => {
     FileController.deleteFile(uri);
     setTimeout(() => updateFiles(), 250);
@@ -88,17 +84,14 @@ const FileManager = props => {
   return (
     <FileDisplay
       files={files}
-      getDirectory={getDirectory}
-      deleteFile={deleteFile}
+      requestDelete={deleteFile}
+      requestRename={requestRename}
+      requestExport={exportData}
+      requestPlayback={requestPlayback}
       currentDirectory={currentDirectory}
       setCurrentDirectory={setCurrentDirectory}
-      exportData={exportData}
       isRecording={isRecording}
       setIsRecording={setIsRecording}
-      requestRename={requestRename}
-      playbackInformation={playbackInformation}
-      setPlaybackInformation={setPlaybackInformation}
-      requestPlayback={requestPlayback}
     />
   );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { StyleSheet, Text, StatusBar } from "react-native";
+import { StyleSheet, StatusBar } from "react-native";
 import Animated, { Easing } from "react-native-reanimated";
 import { useTransition, bInterpolate } from "react-native-redash";
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from "../constants/Sizes";

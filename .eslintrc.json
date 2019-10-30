@@ -28,6 +28,10 @@
       "error",
       { "functions": true, "classes": true, "variables": false }
     ],
+    "no-unused-vars": [
+      "warn",
+      { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
+    ],
     "react/prop-types": 0
   }
 }

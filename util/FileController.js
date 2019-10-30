@@ -129,17 +129,20 @@ const fetchFilesFrom = async directoryUri => {
     const fileInfo = await FileSystem.getInfoAsync(directoryUri + file);
 
     // eslint-disable-next-line no-await-in-loop
-    const tempChild = await getChildren(
+    const tempChildren = await getChildren(
       `${directoryUri + file}/`,
       fileInfo.isDirectory
     );
 
-    console.log(`The children of ${file} are ${tempChild}`);
+    console.log(`The children of ${file} are ${tempChildren}`);
+    tempChildren.forEach(child => {
+      console.log(child);
+    });
     tempData.push({
       name: file,
       uri: directoryUri + file,
       isDirectory: fileInfo.isDirectory,
-      children: tempChild
+      children: tempChildren
     });
   }
 

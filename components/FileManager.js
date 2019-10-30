@@ -25,11 +25,6 @@ const FileManager = props => {
     FileController.exportData(uri);
   };
 
-  // const changeName = async (oldUri, newName) => {
-  //   FileController.changeFilename(oldUri, newName);
-  //   setTimeout(() => updateFiles(), 50); // This is a workaround, as await doesn't work - look into Promises
-  // };
-
   const getDirectory = uri => {
     return FileController.fetchFilesFrom(uri);
   };

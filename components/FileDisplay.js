@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { StyleSheet, FlatList, Platform, Text } from "react-native";
+import { StyleSheet, FlatList, Platform, Text, ScrollView } from "react-native";
 
 import { SCREEN_WIDTH, isiPhoneX } from "../constants/Sizes";
 import FileCard from "./FileCard";
@@ -12,6 +12,7 @@ const FileDisplay = props => {
     files,
     getDirectory,
     deleteFile,
+    currentDirectory,
     setCurrentDirectory,
     requestRename,
     exportData,
@@ -20,16 +21,10 @@ const FileDisplay = props => {
     requestPlayback
   } = props;
   const [displayedFiles, setDisplayedFiles] = useState(files);
+  const [direction, setDirection] = useState("right");
 
   const onRequestDirectory = async uri => {
-    const newFiles = [];
-    await getDirectory(uri).then(directoryFiles => {
-      directoryFiles.forEach(file => {
-        newFiles.push(file);
-      });
-    });
     setCurrentDirectory(`${uri}/`);
-    setDisplayedFiles(newFiles);
   };
 
   const onSwipeLeft = async uri => {
@@ -73,7 +68,7 @@ const FileDisplay = props => {
     );
   };
 
-  const getPageContent = () => {
+  const getContent = () => {
     if (displayedFiles.length > 0) {
       return (
         <FlatList
@@ -91,13 +86,39 @@ const FileDisplay = props => {
     );
   };
 
+  const [offset, setOffset] = useState(0);
+  const [scrollView, setScrollView] = useState(null);
+  const onScroll = event => {
+    const currentOffset = event.nativeEvent.contentOffset.x;
+    const d = currentOffset > offset ? "right" : "left";
+    setOffset(currentOffset);
+    setDirection(d);
+  };
+
+  const scrollTo = index => {
+    if (scrollView) {
+      scrollView.scrollTo({ x: index * SCREEN_WIDTH });
+    }
+  };
+
   useEffect(() => {
     setDisplayedFiles(files);
   }, [files]);
 
   return (
     <>
-      {getPageContent()}
+      <ScrollView
+        style={{ flex: 1 }}
+        horizontal
+        pagingEnabled
+        bounces={false}
+        onScroll={onScroll}
+        showsHorizontalScrollIndicator={false}
+        ref={view => setScrollView(view)}
+        scrollEventThrottle={0}
+      >
+        {getContent()}
+      </ScrollView>
       <Recorder isRecording={isRecording} setIsRecording={setIsRecording} />
     </>
   );

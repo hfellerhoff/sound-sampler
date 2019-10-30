@@ -8,6 +8,7 @@ import TextInputModal from "../components/modals/TextInputModal";
 import FileController from "../util/FileController";
 import PlaybackModal from "../components/modals/PlaybackModal";
 import Styles from "../constants/Styles";
+import Colors from "../constants/Colors";
 
 const FileScreen = ({ isVisible, onDoneLoading }) => {
   // Handle general app state
@@ -124,7 +125,9 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
 
   if (isVisible) {
     return (
-      <View style={Styles.transparentContainer}>
+      <View
+        style={[Styles.transparentContainer, { backgroundColor: Colors.white }]}
+      >
         <StatusBar barStyle="light-content" />
         <Header
           title={getHeaderTitle()}

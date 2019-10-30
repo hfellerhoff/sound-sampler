@@ -12,14 +12,11 @@ const FileDisplay = props => {
     files,
     getDirectory,
     deleteFile,
-    currentDirectory,
     setCurrentDirectory,
     requestRename,
     exportData,
     isRecording,
     setIsRecording,
-    playbackInformation,
-    setPlaybackInformation,
     requestPlayback
   } = props;
   const [displayedFiles, setDisplayedFiles] = useState(files);
@@ -35,12 +32,23 @@ const FileDisplay = props => {
     setDisplayedFiles(newFiles);
   };
 
-  const onRequestDeleteFile = async uri => {
+  const onSwipeLeft = async uri => {
     deleteFile(uri);
   };
 
-  const onRequestMoveFile = async uri => {
+  const onSwipeRight = async uri => {
     exportData(uri);
+  };
+
+  const onPress = async (uri, isDirectory) => {
+    if (isDirectory) {
+      onRequestDirectory(uri);
+    } else {
+      requestPlayback(uri);
+    }
+  };
+  const onLongPress = async uri => {
+    requestRename(uri);
   };
 
   const getCard = (item, index) => {
@@ -57,14 +65,10 @@ const FileDisplay = props => {
       <FileCard
         bottomStyle={marginStyle}
         file={item}
-        requestDirectory={onRequestDirectory}
-        deleteFile={onRequestDeleteFile}
-        moveFile={onRequestMoveFile}
-        currentDirectory={currentDirectory}
-        requestRename={requestRename}
-        playbackInformation={playbackInformation}
-        setPlaybackInformation={setPlaybackInformation}
-        requestPlayback={requestPlayback}
+        onPress={onPress}
+        onLongPress={onLongPress}
+        onSwipeLeft={onSwipeLeft}
+        onSwipeRight={onSwipeRight}
       />
     );
   };
@@ -91,13 +95,6 @@ const FileDisplay = props => {
     setDisplayedFiles(files);
   }, [files]);
 
-  /*
-      ~ Not working: would love to get it working though ~
-      
-      const modalDescription = selectedUri
-      ? `Enter a new name for ${getNameFromUri(selectedUri)}`
-      : "";
-  */
   return (
     <>
       {getPageContent()}

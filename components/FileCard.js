@@ -12,35 +12,19 @@ import Animated from "react-native-reanimated";
 import { SCREEN_WIDTH } from "../constants/Sizes";
 import Icons from "../constants/Icons";
 import Colors from "../constants/Colors";
-import FileController from "../util/FileController";
 
 const FileCard = ({
   file,
   bottomStyle,
-  requestDirectory,
-  moveFile,
-  deleteFile,
-  requestRename,
-  playbackInformation,
-  setPlaybackInformation,
-  requestPlayback
+  onPress,
+  onLongPress,
+  onSwipeRight,
+  onSwipeLeft
 }) => {
   const { uri, isDirectory } = file;
 
   const borderColor = isDirectory ? Colors.primary : Colors.gray;
   const image = isDirectory ? Icons.folder : Icons.audio;
-
-  const onFileClick = () => {
-    if (isDirectory) {
-      requestDirectory(uri);
-    } else {
-      requestPlayback(uri);
-    }
-  };
-
-  const onLongPress = () => {
-    requestRename(uri);
-  };
 
   const LeftActions = () => {
     return (
@@ -59,19 +43,19 @@ const FileCard = ({
   };
 
   return (
-    <View>
+    <>
       <View style={{ marginTop: 10 }} />
       <Swipeable
         renderLeftActions={LeftActions}
         renderRightActions={RightActions}
-        onSwipeableLeftWillOpen={() => moveFile(uri)}
-        onSwipeableRightWillOpen={() => deleteFile(uri)}
+        onSwipeableLeftWillOpen={() => onSwipeRight(uri, isDirectory)}
+        onSwipeableRightWillOpen={() => onSwipeLeft(uri)}
       >
         <View>
           <TouchableWithoutFeedback
-            onPress={onFileClick}
+            onPress={() => onPress(uri, isDirectory)}
             delayPressIn={100}
-            onLongPress={onLongPress}
+            onLongPress={() => onLongPress(uri)}
           >
             <View style={[styles.item, { borderColor }]}>
               <Image source={image} style={styles.image} />
@@ -81,7 +65,7 @@ const FileCard = ({
         </View>
       </Swipeable>
       <View style={bottomStyle} />
-    </View>
+    </>
   );
 };
 

@@ -138,6 +138,7 @@ const fetchFilesFrom = async directoryUri => {
     tempChildren.forEach(child => {
       console.log(child);
     });
+    console.log("-----------------------------------------");
     tempData.push({
       name: file,
       uri: directoryUri + file,

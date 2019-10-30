@@ -98,23 +98,23 @@ const Modal = props => {
 
   if (isVisible || isAnimating) {
     return (
-      <TouchableWithoutFeedback onPress={onBackgroundTap}>
-        <View style={styles.fullScreen}>
+      <View style={styles.fullScreen}>
+        <TouchableWithoutFeedback onPress={onBackgroundTap}>
           <Animated.View
             style={{ ...styles.background, ...backgroundTransitionStyle }}
           />
-          <Animated.View
-            style={{
-              ...styles.container,
-              ...bottomTransitionStyle,
-              ...modalTransitionStyle
-            }}
-          >
-            {children}
-            <View style={{ height: BOTTOM_BAR_HEIGHT }} />
-          </Animated.View>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+        <Animated.View
+          style={{
+            ...styles.container,
+            ...bottomTransitionStyle,
+            ...modalTransitionStyle
+          }}
+        >
+          {children}
+          <View style={{ height: BOTTOM_BAR_HEIGHT }} />
+        </Animated.View>
+      </View>
     );
   }
 

@@ -6,6 +6,7 @@ import ButtonOpacity from "../buttons/ButtonOpacity";
 import Modal from "./Modal";
 import { getNameFromUri } from "../../util/Parser";
 import Styles from "../../constants/Styles";
+import Slider from "../sliders/Slider";
 
 const PlaybackModal = props => {
   const {
@@ -17,12 +18,11 @@ const PlaybackModal = props => {
   const { uri } = playbackInformation;
   const name = getNameFromUri(uri);
 
-  //   const title = `Click to play ${name}`;
-
   return (
     <Modal isVisible={isVisible} onDismiss={onDismiss}>
       <View style={Styles.modalContainer}>
         <Text style={Styles.modalTitle}>{name}</Text>
+        <Slider lineStyle={{ marginTop: 40, marginBottom: 20 }} />
         <ButtonOpacity title="Play" onPress={onPlaybackAttempt} />
       </View>
     </Modal>

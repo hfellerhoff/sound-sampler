@@ -87,19 +87,11 @@ const getChildren = async (uri, isDirectory, stateFile) => {
   return childList;
 };
 
-const checkIfWorks = async file => {
-  console.log("Name: " + file[0].name);
-};
-
 const fetchFilesFrom = async (directoryUri, stateFile) => {
   const tempData = []; // stateFile;
   const data = await FileSystem.readDirectoryAsync(directoryUri);
 
-  if (stateFile.length != 0) {
-    console.log(stateFile);
-    await checkIfWorks(stateFile);
-  }
-
+  // eslint-disable-next-line no-restricted-syntax
   //State file is not set until the initial fetchFilesFrom is run, thus is cant compare anything from stateFiles since it will be undefined on first runTime
 
   for (const file of data) {

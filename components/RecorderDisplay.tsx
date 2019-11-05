@@ -1,12 +1,21 @@
-import React from "react";
-import Animated, { Easing } from "react-native-reanimated";
-import { bInterpolate, useTransition } from "react-native-redash";
+import React from 'react';
+import Animated, { Easing } from 'react-native-reanimated';
+import { bInterpolate, useTransition } from 'react-native-redash';
 
-import { View, TouchableWithoutFeedback, StyleSheet } from "react-native";
-import { BOTTOM_BAR_HEIGHT } from "../constants/Sizes";
-import Colors from "../constants/Colors";
+import {
+  View,
+  TouchableWithoutFeedback,
+  StyleSheet,
+  GestureResponderEvent,
+} from 'react-native';
+import { BOTTOM_BAR_HEIGHT } from '../constants/Sizes';
+import Colors from '../constants/Colors';
 
-const RecordingButton = props => {
+type Props = {
+  isRecording: boolean;
+  onPress: (event: GestureResponderEvent) => void;
+};
+const RecordingButton = (props: Props) => {
   const { isRecording, onPress } = props;
 
   const transition = useTransition(
@@ -23,7 +32,7 @@ const RecordingButton = props => {
   const buttonTransitionStyle = {
     width: size,
     height: size,
-    borderRadius
+    borderRadius,
   };
 
   return (
@@ -39,25 +48,25 @@ const RecordingButton = props => {
 
 const styles = StyleSheet.create({
   border: {
-    position: "absolute",
+    position: 'absolute',
     bottom: BOTTOM_BAR_HEIGHT + 20,
     width: 75,
     height: 75,
     borderColor: Colors.recordingButtonBorder,
     borderWidth: 3,
     borderRadius: 40,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     transform: [{ translateX: -(75 / 2) }],
-    backgroundColor: Colors.recordingButtonBackground
+    backgroundColor: Colors.recordingButtonBackground,
   },
 
   button: {
     width: 60,
     height: 60,
     backgroundColor: Colors.recordingButton,
-    borderRadius: 30
-  }
+    borderRadius: 30,
+  },
 });
 
 export default RecordingButton;

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import FileDisplay from "./FileDisplay";
-import FileController from "../util/FileController";
+import React, { useState, useEffect } from 'react';
+import FileDisplay from './FileDisplay';
+import FileController from '../util/FileController';
 
 const FileManager = props => {
   const [files, setFiles] = useState([]);
@@ -18,7 +18,7 @@ const FileManager = props => {
     onRenameFile,
     playbackInformation,
     setPlaybackInformation,
-    requestPlayback
+    requestPlayback,
   } = props;
 
   const exportData = async uri => {
@@ -68,7 +68,7 @@ const FileManager = props => {
       setPlaybackInformation({
         uri: playbackInformation.uri,
         sound: playbackInformation.sound,
-        shouldPlay: false
+        shouldPlay: false,
       });
     }
   }, [playbackInformation.shouldPlay]);

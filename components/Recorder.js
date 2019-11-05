@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Audio } from "expo-av";
-import * as Permissions from "expo-permissions";
-import RecorderDisplay from "./RecorderDisplay";
-import sendSingleButtonAlert from "../util/Alert";
+import React, { useState, useEffect } from 'react';
+import { Audio } from 'expo-av';
+import * as Permissions from 'expo-permissions';
+import RecorderDisplay from './RecorderDisplay';
+import sendSingleButtonAlert from '../util/Alert';
 
 const Recorder = props => {
   const { isRecording, setIsRecording } = props;
@@ -17,7 +17,7 @@ const Recorder = props => {
 
   const askForPermissions = async () => {
     const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
-    setHasRecordingPermissions(status === "granted");
+    setHasRecordingPermissions(status === 'granted');
   };
 
   const beginRecording = async () => {
@@ -30,7 +30,7 @@ const Recorder = props => {
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
       playThroughEarpieceAndroid: false,
-      staysActiveInBackground: true
+      staysActiveInBackground: true,
     });
 
     if (hasRecordingPermissions) {
@@ -49,8 +49,8 @@ const Recorder = props => {
       }
     } else {
       sendSingleButtonAlert(
-        "Recording Permissions Needed",
-        "Please enable Sampler to use your microphone, as the app will not work otherwise."
+        'Recording Permissions Needed',
+        'Please enable Sampler to use your microphone, as the app will not work otherwise.'
       );
     }
   };

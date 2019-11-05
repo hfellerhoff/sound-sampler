@@ -16,10 +16,9 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "parser": "babel-eslint",
-  "plugins": ["react", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react", "prettier", "@typescript-eslint"],
   "rules": {
-    "prettier/prettier": ["error"],
     "react/jsx-filename-extension": [
       "error",
       { "extensions": [".js", ".jsx"] }
@@ -28,10 +27,17 @@
       "error",
       { "functions": true, "classes": true, "variables": false }
     ],
-    "no-unused-vars": [
-      "warn",
-      { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
-    ],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "no-useless-constructor": "off",
+    "@typescript-eslint/no-useless-constructor": "error",
     "react/prop-types": 0
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   }
 }

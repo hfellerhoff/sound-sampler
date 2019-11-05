@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { View, StyleSheet, Text } from "react-native";
-import { PanGestureHandler, State } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
-import Colors from "../../constants/Colors";
-import { SCREEN_WIDTH } from "../../constants/Sizes";
-import interpolate from "../../util/Interpolater";
+import { View, StyleSheet, Text } from 'react-native';
+import { PanGestureHandler, State } from 'react-native-gesture-handler';
+import Animated from 'react-native-reanimated';
+import Colors from '../../constants/Colors';
+import { SCREEN_WIDTH } from '../../constants/Sizes';
+import interpolate from '../../util/Interpolater';
 
 const { Value, event, sub, Extrapolate, cond, eq, call } = Animated;
 
@@ -25,15 +25,15 @@ const Slider = props => {
     {
       nativeEvent: {
         absoluteX,
-        state: gestureState
-      }
-    }
+        state: gestureState,
+      },
+    },
   ]);
 
   const clampedAbsoluteX = absoluteX.interpolate({
     inputRange: [sliderLowerBound, sliderUpperBound],
     outputRange: [sliderLowerBound, sliderUpperBound],
-    extrapolate: Extrapolate.CLAMP
+    extrapolate: Extrapolate.CLAMP,
   });
 
   const onRelease = absX => {
@@ -62,8 +62,8 @@ const Slider = props => {
               styles.circle,
               circleStyle,
               {
-                left: sub(clampedAbsoluteX, sliderMargin)
-              }
+                left: sub(clampedAbsoluteX, sliderMargin),
+              },
             ]}
           />
         </PanGestureHandler>
@@ -75,18 +75,18 @@ const Slider = props => {
 const styles = StyleSheet.create({
   line: {
     height: 3,
-    alignContent: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.gray
+    alignContent: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.gray,
   },
   circle: {
     width: 30,
     height: 30,
     borderRadius: 15,
     backgroundColor: Colors.primary,
-    alignContent: "center",
-    justifyContent: "center"
-  }
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default Slider;

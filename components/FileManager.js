@@ -30,8 +30,9 @@ const FileManager = props => {
   //   setTimeout(() => updateFiles(), 50); // This is a workaround, as await doesn't work - look into Promises
   // };
 
-  const getDirectory = uri => {
-    return FileController.fetchFilesFrom(uri);
+  const getDirectory = async uri => {
+    directoryData = await FileController.fetchFilesFrom(uri, files);
+    return directoryData;
   };
 
   const deleteFile = async uri => {
@@ -40,8 +41,8 @@ const FileManager = props => {
   };
 
   const updateFiles = async () => {
-    await FileController.fetchFilesFrom(currentDirectory).then(newFiles =>
-      setFiles(newFiles)
+    await FileController.fetchFilesFrom(currentDirectory, files).then(
+      newFiles => setFiles(newFiles)
     );
   };
 

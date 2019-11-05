@@ -79,93 +79,43 @@ const fetchAndPlaySoundFile = async uri => {
   soundObject.playAsync();
 };
 
-/*
-  Returns a list of the files in the current directory.
-    @string directoryUri: The uri of the directory to fetch from.
-*/
-// const fetchFilesFrom = async directoryUri => {
-//   const tempData = [];
-//   await FileSystem.readDirectoryAsync(directoryUri).then(async data => {
-//     // eslint-disable-next-line no-restricted-syntax
-//     for (const file of data) {
-//       // eslint-disable-next-line no-await-in-loop
-//       await FileSystem.getInfoAsync(directoryUri + file).then(
-//         async fileInfo => {
-//           tempData.push({
-//             name: file,
-//             uri: directoryUri + file,
-//             isDirectory: fileInfo.isDirectory
-//           });
-//         }
-//       );
-//     }
-//   });
-//   tempData.sort((a, b) => {
-//     return a.name > b.name;
-//   });
-//   return tempData;
-// };
-const getChildren = async (uri, isDirectory) => {
+const getChildren = async (uri, isDirectory, stateFile) => {
   if (!isDirectory) {
     return [];
   }
-<<<<<<< HEAD
-  const childList = await fetchFilesFrom(uri);
-
-  for (const info of childList) {
-    console.log("The name of the children is" + info.name);
-  }
-=======
-
-  const childList = await fetchFilesFrom(uri);
-  // childList = null;
->>>>>>> 318ee18189296014ae03b746eced3be184ce086b
-
+  const childList = await fetchFilesFrom(uri, stateFile);
   return childList;
 };
 
-const fetchFilesFrom = async directoryUri => {
-  const tempData = [];
+const checkIfWorks = async file => {
+  console.log("Name: " + file[0].name);
+};
+
+const fetchFilesFrom = async (directoryUri, stateFile) => {
+  const tempData = []; // stateFile;
   const data = await FileSystem.readDirectoryAsync(directoryUri);
 
-<<<<<<< HEAD
-  // eslint-disable-next-line no-restricted-syntax
+  if (stateFile.length != 0) {
+    console.log(stateFile);
+    await checkIfWorks(stateFile);
+  }
+
+  //State file is not set until the initial fetchFilesFrom is run, thus is cant compare anything from stateFiles since it will be undefined on first runTime
+
   for (const file of data) {
     const fileInfo = await FileSystem.getInfoAsync(directoryUri + file);
 
     const tempChild = await getChildren(
       directoryUri + file + "/",
-      fileInfo.isDirectory
+      fileInfo.isDirectory,
+      stateFile
     );
 
     await tempData.push({
-=======
-  console.log(
-    `Number of children of ${getNameFromUri(directoryUri)}: ${data.length}`
-  );
-  // eslint-disable-next-line no-restricted-syntax
-  for (const file of data) {
-    // eslint-disable-next-line no-await-in-loop
-    const fileInfo = await FileSystem.getInfoAsync(directoryUri + file);
-
-    // eslint-disable-next-line no-await-in-loop
-    const tempChildren = await getChildren(
-      `${directoryUri + file}/`,
-      fileInfo.isDirectory
-    );
-
-    console.log(`The children of ${file} are:`);
-    if (tempChildren.length === 0) console.log(`${file} has no children.`);
-    tempChildren.forEach(child => {
-      console.log(child);
-    });
-    console.log("-----------------------------------------");
-    tempData.push({
->>>>>>> 318ee18189296014ae03b746eced3be184ce086b
       name: file,
       uri: directoryUri + file,
       isDirectory: fileInfo.isDirectory,
-      children: tempChildren
+      children: tempChild
     });
   }
 

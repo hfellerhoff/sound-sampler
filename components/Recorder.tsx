@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Audio } from 'expo-av';
 import * as Permissions from 'expo-permissions';
 import RecorderDisplay from './RecorderDisplay';
 import sendSingleButtonAlert from '../util/Alert';
 
-const Recorder = props => {
+type Props = {
+  isRecording: boolean;
+  setIsRecording: Dispatch<SetStateAction<boolean>>;
+};
+const Recorder = (props: Props) => {
   const { isRecording, setIsRecording } = props;
-  const [recording, setRecording] = useState(null);
+  const [recording, setRecording] = useState<Audio.Recording | null>(null);
 
   const [hasRecordingPermissions, setHasRecordingPermissions] = useState(false);
 
@@ -56,14 +60,16 @@ const Recorder = props => {
   };
 
   const stopRecording = async () => {
-    await recording
-      .stopAndUnloadAsync()
-      .then(setIsRecording(false))
-      .catch(error => {
-        // eslint-disable-next-line no-console
-        console.error(error);
-        setIsRecording(false);
-      });
+    if (recording) {
+      await recording
+        .stopAndUnloadAsync()
+        .then(() => setIsRecording(false))
+        .catch((error: Error) => {
+          // eslint-disable-next-line no-console
+          console.error(error);
+          setIsRecording(false);
+        });
+    }
   };
   // used for getRecordingTimestamp
   //   const getMMSSFromMillis = millis => {

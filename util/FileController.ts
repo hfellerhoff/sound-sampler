@@ -70,6 +70,7 @@ const fetchFilesFrom = async (directoryUri: string) => {
             name: file,
             uri: directoryUri + file,
             isDirectory: fileInfo.isDirectory,
+            children: [], // TODO
           });
         }
       );

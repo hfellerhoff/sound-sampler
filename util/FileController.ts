@@ -78,8 +78,8 @@ const fetchFilesFrom = async (directoryUri: string) => {
   tempData.sort((a, b) => {
     const upperA = a.name.toUpperCase();
     const upperB = b.name.toUpperCase();
-    if (upperA > upperB) return -1;
-    if (upperA < upperB) return 1;
+    if (upperA < upperB) return -1;
+    if (upperA > upperB) return 1;
     return 0;
   });
   return tempData;

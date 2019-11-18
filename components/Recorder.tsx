@@ -23,7 +23,6 @@ const Recorder = (props: Props) => {
     const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
     setHasRecordingPermissions(status === 'granted');
   };
-
   const beginRecording = async () => {
     setIsRecording(true);
 
@@ -42,7 +41,7 @@ const Recorder = (props: Props) => {
         if (recording !== null) setRecording(null);
         const localRecording = new Audio.Recording();
         await localRecording.prepareToRecordAsync(
-          Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
+            Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
         );
         setRecording(localRecording);
         await localRecording.startAsync();

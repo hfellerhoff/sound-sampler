@@ -33,7 +33,10 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
   const [playbackInformation, setPlaybackInformation] = useState({
     uri: null,
     sound: null,
-    shouldPlay: false
+    shouldPlay: false,
+    isLooping: false,
+    volume: 1,
+    positionMillis: 0
   });
   const [showPlaybackModal, setShowPlaybackModal] = useState(false);
 
@@ -94,6 +97,30 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
       uri: playbackInformation.uri,
       sound: playbackInformation.sound,
       shouldPlay: true
+    });
+  };
+  const onPlaybackAttemptLooping = () => {
+      setPlaybackInformation({
+        uri: playbackInformation.uri,
+        sound: playbackInformation.sound,
+        isLooping: true,
+        shouldPlay: true,
+      });
+    };
+  const onPlaybackAttemptFastForward = () => {
+    setPlaybackInformation({
+      uri: playbackInformation.uri,
+      sound: playbackInformation.sound,
+      positionMillis: playbackInformation.positionMillis += 2000,
+      shouldPlay: true,
+    });
+  };
+  const onPlaybackAttemptRewind = () => {
+    setPlaybackInformation({
+      uri: playbackInformation.uri,
+      sound: playbackInformation.sound,
+      positionMillis: playbackInformation.positionMillis -= 2000,
+      shouldPlay: true,
     });
   };
   const onPlaybackModalDismiss = () => {
@@ -168,8 +195,11 @@ const FileScreen = ({ isVisible, onDoneLoading }) => {
         <PlaybackModal
           isVisible={showPlaybackModal}
           onPlaybackAttempt={onPlaybackAttempt}
+          onPlaybackAttemptLooping={onPlaybackAttemptLooping}
           onDismiss={onPlaybackModalDismiss}
           playbackInformation={playbackInformation}
+          onPlaybackAttemptFastForward={onPlaybackAttemptFastForward}
+          onPlaybackAttemptRewind={onPlaybackAttemptRewind}
         />
       </View>
     );

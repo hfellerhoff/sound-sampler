@@ -6,12 +6,11 @@ import Animated from 'react-native-reanimated';
 import Colors from '../../constants/Colors';
 import { SCREEN_WIDTH } from '../../constants/Sizes';
 import interpolate from '../../util/Interpolater';
-
+//import PlaybackModal from "../modals/PlaybackModal";
 const { Value, event, sub, Extrapolate, cond, eq, call } = Animated;
 
 const Slider = props => {
-  const { width, lineStyle, circleStyle } = props;
-
+  const { width, lineStyle, circleStyle, playbackInformation} = props;
   const sliderWidth = width || SCREEN_WIDTH / 1.5;
   const sliderMargin = (SCREEN_WIDTH - sliderWidth) / 2;
   const sliderLowerBound = sliderMargin;
@@ -43,7 +42,7 @@ const Slider = props => {
 
   return (
     <>
-      <Text>{value}</Text>
+      <Text></Text>
       <View style={{ ...styles.line, ...lineStyle, width: sliderWidth }}>
         <Animated.Code>
           {() =>

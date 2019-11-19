@@ -25,7 +25,7 @@ const DeleteButton = (props) => {
      };
  */
 	return (
-		//needs work but hopefully work as a basic concept
+		// needs work but hopefully work as a basic concept
 		<View style={styles}>
 			<Button onPress={onPress} style={button}>
 				<Image source={ICON_TRASH} style={image} />
